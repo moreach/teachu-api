@@ -29,12 +29,21 @@ CREATE TABLE user
     active           BOOLEAN
 );
 
+DROP TABLE IF EXISTS token;
+CREATE TABLE token
+(
+    user_id BINARY(16),
+    access VARCHAR(100),
+    refresh VARCHAR(100),
+    expires TIMESTAMP
+)
+
 DROP TABLE IF EXISTS class;
 CREATE TABLE class
 (
     id      BINARY(16) PRIMARY KEY,
     name    VARCHAR(100),
-    subject BINARY(16)
+    teacher BINARY(16)
 );
 
 DROP TABLE IF EXISTS class_user;
@@ -48,7 +57,8 @@ DROP TABLE IF EXISTS subject;
 CREATE TABLE subject
 (
     id       BINARY(16) PRIMARY KEY,
-    class_id BINARY(16),   -- not strictly used could be joined by lesson (saves for schedule changes = kein deutsch)
+    class_id BINARY(16),
+    teacher BINARY(16),   -- not strictly used could be joined by lesson (saves for schedule changes = kein deutsch)
     name     VARCHAR(100),
     note     VARCHAR(100), -- unuseful but nice
     weight   FLOAT
@@ -67,7 +77,7 @@ CREATE TABLE lesson
 );
 
 DROP TABLE IF EXISTS grade;
-CREATE TABLE grade
+CREATE TABLE grade -- maybe n:m so meta data doesn't have to repeat
 (
     id          BINARY(16) PRIMARY KEY,
     user_id     BINARY(16),
