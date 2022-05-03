@@ -1,12 +1,17 @@
 package ch.teachu.teachuapi.auth;
 
 import ch.teachu.teachuapi.auth.dtos.LoginDTO;
+import ch.teachu.teachuapi.auth.dtos.LogoutDTO;
+import ch.teachu.teachuapi.auth.dtos.RefreshDTO;
 import ch.teachu.teachuapi.auth.dtos.TokenDTO;
+import ch.teachu.teachuapi.dtos.MessageDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +31,17 @@ public class AuthController {
     @PostMapping("/auth")
     private ResponseEntity<TokenDTO> login(@RequestBody LoginDTO loginDTO) {
         return authService.login(loginDTO);
+    }
+
+    @Operation(summary = "refresh")
+    @PutMapping("/auth")
+    private ResponseEntity<TokenDTO> refresh(@RequestBody RefreshDTO refreshDTO) {
+        return authService.refresh(refreshDTO);
+    }
+
+    @Operation(summary = "logout")
+    @DeleteMapping("/auth")
+    private ResponseEntity<MessageDTO> logout(@RequestBody LogoutDTO logoutDTO) {
+        return authService.logout(logoutDTO);
     }
 }

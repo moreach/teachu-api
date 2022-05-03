@@ -43,7 +43,7 @@ CREATE TABLE class
 (
     id      BINARY(16) PRIMARY KEY,
     name    VARCHAR(100),
-    teacher BINARY(16)
+    teacher_id BINARY(16)
 );
 
 DROP TABLE IF EXISTS class_user;
@@ -58,7 +58,7 @@ CREATE TABLE subject
 (
     id       BINARY(16) PRIMARY KEY,
     class_id BINARY(16),
-    teacher BINARY(16),   -- not strictly used could be joined by lesson (saves for schedule changes = kein deutsch)
+    teacher_id BINARY(16),   -- not strictly used could be joined by lesson (saves for schedule changes = kein deutsch)
     name     VARCHAR(100),
     note     VARCHAR(100), -- unuseful but nice
     weight   FLOAT
@@ -126,8 +126,8 @@ CREATE TABLE school_event
 DROP TABLE IF EXISTS parent_student;
 CREATE TABLE parent_student
 (
-    parent  BINARY(16),
-    student BINARY(16)
+    parent_id  BINARY(16),
+    student_id BINARY(16)
 );
 
 DROP TABLE IF EXISTS chat;
@@ -144,7 +144,7 @@ CREATE TABLE chat_message
     id BINARY(16) PRIMARY KEY,
     chat_id BINARY(16),
     message VARCHAR(250),
-    author BINARY(16),
+    user_id BINARY(16),
     timestamp TIMESTAMP,
     state VARCHAR(100)
 );
@@ -164,7 +164,7 @@ CREATE TABLE dashboard
     message VARCHAR(1000),
     date DATE,
     img VARCHAR(100),
-    author BINARY(16),
+    user_id BINARY(16),
     state VARCHAR(100),
     important BOOLEAN,
     pinned BOOLEAN
