@@ -4,6 +4,8 @@
 package ch.teachu.techuapi.generated.tables;
 
 
+import ch.teachu.teachuapi.enums.ChatState;
+import ch.teachu.teachuapi.sql.generation.ChatStateConverter;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
 import ch.teachu.techuapi.generated.Keys;
 import ch.teachu.techuapi.generated.Teachu;
@@ -34,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ChatMessage extends TableImpl<ChatMessageRecord> {
 
-    private static final long serialVersionUID = -1275607481;
+    private static final long serialVersionUID = -518248136;
 
     /**
      * The reference instance of <code>teachu.chat_message</code>
@@ -62,7 +64,7 @@ public class ChatMessage extends TableImpl<ChatMessageRecord> {
     /**
      * The column <code>teachu.chat_message.message</code>.
      */
-    public final TableField<ChatMessageRecord, String> MESSAGE = createField(DSL.name("message"), org.jooq.impl.SQLDataType.VARCHAR(250), this, "");
+    public final TableField<ChatMessageRecord, String> MESSAGE = createField(DSL.name("message"), org.jooq.impl.SQLDataType.VARCHAR(1000), this, "");
 
     /**
      * The column <code>teachu.chat_message.user_id</code>.
@@ -75,9 +77,9 @@ public class ChatMessage extends TableImpl<ChatMessageRecord> {
     public final TableField<ChatMessageRecord, LocalDateTime> TIMESTAMP = createField(DSL.name("timestamp"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
-     * The column <code>teachu.chat_message.state</code>.
+     * The column <code>teachu.chat_message.chat_state</code>.
      */
-    public final TableField<ChatMessageRecord, String> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
+    public final TableField<ChatMessageRecord, ChatState> CHAT_STATE = createField(DSL.name("chat_state"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new ChatStateConverter());
 
     /**
      * Create a <code>teachu.chat_message</code> table reference
@@ -158,7 +160,7 @@ public class ChatMessage extends TableImpl<ChatMessageRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<UUID, UUID, String, UUID, LocalDateTime, String> fieldsRow() {
+    public Row6<UUID, UUID, String, UUID, LocalDateTime, ChatState> fieldsRow() {
         return (Row6) super.fieldsRow();
     }
 }

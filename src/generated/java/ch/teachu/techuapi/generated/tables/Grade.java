@@ -9,7 +9,6 @@ import ch.teachu.techuapi.generated.Keys;
 import ch.teachu.techuapi.generated.Teachu;
 import ch.teachu.techuapi.generated.tables.records.GradeRecord;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Grade extends TableImpl<GradeRecord> {
 
-    private static final long serialVersionUID = 1102722934;
+    private static final long serialVersionUID = 1554111148;
 
     /**
      * The reference instance of <code>teachu.grade</code>
@@ -60,39 +59,14 @@ public class Grade extends TableImpl<GradeRecord> {
     public final TableField<GradeRecord, UUID> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
-     * The column <code>teachu.grade.subject_id</code>.
-     */
-    public final TableField<GradeRecord, UUID> SUBJECT_ID = createField(DSL.name("subject_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
-
-    /**
-     * The column <code>teachu.grade.name</code>.
-     */
-    public final TableField<GradeRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
-
-    /**
-     * The column <code>teachu.grade.description</code>.
-     */
-    public final TableField<GradeRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.VARCHAR(250), this, "");
-
-    /**
      * The column <code>teachu.grade.mark</code>.
      */
     public final TableField<GradeRecord, Double> MARK = createField(DSL.name("mark"), org.jooq.impl.SQLDataType.FLOAT, this, "");
 
     /**
-     * The column <code>teachu.grade.weight</code>.
+     * The column <code>teachu.grade.note</code>.
      */
-    public final TableField<GradeRecord, Double> WEIGHT = createField(DSL.name("weight"), org.jooq.impl.SQLDataType.FLOAT, this, "");
-
-    /**
-     * The column <code>teachu.grade.date</code>.
-     */
-    public final TableField<GradeRecord, LocalDate> DATE = createField(DSL.name("date"), org.jooq.impl.SQLDataType.LOCALDATE, this, "");
-
-    /**
-     * The column <code>teachu.grade.view_date</code>.
-     */
-    public final TableField<GradeRecord, LocalDate> VIEW_DATE = createField(DSL.name("view_date"), org.jooq.impl.SQLDataType.LOCALDATE, this, "");
+    public final TableField<GradeRecord, String> NOTE = createField(DSL.name("note"), org.jooq.impl.SQLDataType.VARCHAR(1000), this, "");
 
     /**
      * Create a <code>teachu.grade</code> table reference
@@ -169,11 +143,11 @@ public class Grade extends TableImpl<GradeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<UUID, UUID, UUID, String, String, Double, Double, LocalDate, LocalDate> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row4<UUID, UUID, Double, String> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

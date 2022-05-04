@@ -71,7 +71,7 @@ CREATE TABLE class_subject
     note     VARCHAR(100),
     start_date DATE,
     end_date DATE,
-    interval VARCHAR(100),
+    `interval` VARCHAR(100),
     active BOOLEAN
 );
 
@@ -133,7 +133,7 @@ CREATE TABLE user_event
     lesson_id BINARY(16),
     description VARCHAR(1000),
     date DATE,
-    state VARCHAR(100)
+    user_event_state VARCHAR(100)
 );
 
 DROP TABLE IF EXISTS lesson_event;
@@ -193,7 +193,7 @@ CREATE TABLE chat_message
     message VARCHAR(1000),
     user_id BINARY(16),
     timestamp TIMESTAMP,
-    state VARCHAR(100)
+    chat_state VARCHAR(100)
 );
 
 DROP TABLE IF EXISTS chat_user;
@@ -212,7 +212,7 @@ CREATE TABLE school_info
     date DATE,
     img VARCHAR(100),
     user_id BINARY(16),
-    state VARCHAR(100),
+    school_info_state VARCHAR(100),
     important BOOLEAN,
     pinned BOOLEAN
 );

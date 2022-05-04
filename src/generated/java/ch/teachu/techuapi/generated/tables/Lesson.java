@@ -9,6 +9,7 @@ import ch.teachu.techuapi.generated.Keys;
 import ch.teachu.techuapi.generated.Teachu;
 import ch.teachu.techuapi.generated.tables.records.LessonRecord;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row7;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -33,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Lesson extends TableImpl<LessonRecord> {
 
-    private static final long serialVersionUID = 1424614809;
+    private static final long serialVersionUID = -933469887;
 
     /**
      * The reference instance of <code>teachu.lesson</code>
@@ -54,24 +55,19 @@ public class Lesson extends TableImpl<LessonRecord> {
     public final TableField<LessonRecord, UUID> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BINARY(16).nullable(false), this, "", new UuidConverter());
 
     /**
-     * The column <code>teachu.lesson.class_id</code>.
+     * The column <code>teachu.lesson.class_subject_id</code>.
      */
-    public final TableField<LessonRecord, UUID> CLASS_ID = createField(DSL.name("class_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
-
-    /**
-     * The column <code>teachu.lesson.subject_id</code>.
-     */
-    public final TableField<LessonRecord, UUID> SUBJECT_ID = createField(DSL.name("subject_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
+    public final TableField<LessonRecord, UUID> CLASS_SUBJECT_ID = createField(DSL.name("class_subject_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
      * The column <code>teachu.lesson.start_time</code>.
      */
-    public final TableField<LessonRecord, String> START_TIME = createField(DSL.name("start_time"), org.jooq.impl.SQLDataType.VARCHAR(10), this, "");
+    public final TableField<LessonRecord, LocalTime> START_TIME = createField(DSL.name("start_time"), org.jooq.impl.SQLDataType.LOCALTIME, this, "");
 
     /**
      * The column <code>teachu.lesson.end_time</code>.
      */
-    public final TableField<LessonRecord, String> END_TIME = createField(DSL.name("end_time"), org.jooq.impl.SQLDataType.VARCHAR(10), this, "");
+    public final TableField<LessonRecord, LocalTime> END_TIME = createField(DSL.name("end_time"), org.jooq.impl.SQLDataType.LOCALTIME, this, "");
 
     /**
      * The column <code>teachu.lesson.weekday</code>.
@@ -81,7 +77,7 @@ public class Lesson extends TableImpl<LessonRecord> {
     /**
      * The column <code>teachu.lesson.room</code>.
      */
-    public final TableField<LessonRecord, String> ROOM = createField(DSL.name("room"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
+    public final TableField<LessonRecord, byte[]> ROOM = createField(DSL.name("room"), org.jooq.impl.SQLDataType.BINARY(16), this, "");
 
     /**
      * Create a <code>teachu.lesson</code> table reference
@@ -158,11 +154,11 @@ public class Lesson extends TableImpl<LessonRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<UUID, UUID, UUID, String, String, String, String> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row6<UUID, UUID, LocalTime, LocalTime, String, byte[]> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }

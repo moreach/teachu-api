@@ -27,10 +27,43 @@ public class TechuApiGeneration {
                             .withDatabase(new Database()
                                     .withName("org.jooq.meta.mysql.MySQLDatabase")
                                     .withInputSchema("teachu")
-                                    .withForcedTypes(new ForcedType()
+                                    .withForcedTypes(
+                                            new ForcedType()
                                             .withUserType("java.util.UUID")
                                             .withIncludeExpression(".*id")
-                                            .withConverter("ch.teachu.teachuapi.sql.generation.UuidConverter")))
+                                            .withConverter("ch.teachu.teachuapi.sql.generation.UuidConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.Role")
+                                                    .withIncludeExpression("role")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.RoleConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.ChatState")
+                                                    .withIncludeExpression("chat_state")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.ChatStateConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.ClassSubjectInterval")
+                                                    .withIncludeExpression("interval")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.ClassSubjectIntervalConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.Language")
+                                                    .withIncludeExpression("language")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.LanguageConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.LogLevel")
+                                                    .withIncludeExpression("level")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.LogLevelConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.SchoolInfoState")
+                                                    .withIncludeExpression("school_info_state")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.SchoolInfoStateConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.Sex")
+                                                    .withIncludeExpression("sex")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.SexConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.UserEventState")
+                                                    .withIncludeExpression("user_event_state")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.UserEventStateConverter")))
                             .withTarget(new Target()
                                     .withPackageName("ch.teachu.techuapi.generated")
                                     .withDirectory("src/generated/java"))));
