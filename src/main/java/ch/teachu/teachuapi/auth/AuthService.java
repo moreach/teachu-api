@@ -13,9 +13,6 @@ public class AuthService {
 
 
     public ResponseEntity<TokenDTO> login(LoginDTO loginDTO) {
-
-
-
         return ResponseEntity.ok(new TokenDTO());
     }
 

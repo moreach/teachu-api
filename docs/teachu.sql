@@ -36,10 +36,10 @@ CREATE TABLE token
     access VARCHAR(100),
     refresh VARCHAR(100),
     expires TIMESTAMP
-)
+);
 
-DROP TABLE IF EXISTS class;
-CREATE TABLE class
+DROP TABLE IF EXISTS school_class;
+CREATE TABLE school_class
 (
     id      BINARY(16) PRIMARY KEY,
     name    VARCHAR(100),
