@@ -14,7 +14,7 @@ CREATE TABLE user
     first_name       VARCHAR(100),
     last_name        VARCHAR(100),
     birthday         DATE,
-    sex              VARCHAR(100), -- useful? + gender else boolean
+    sex              VARCHAR(100),
     language         VARCHAR(100),
     dark_theme       BOOLEAN,
     city             VARCHAR(100),
@@ -57,37 +57,72 @@ DROP TABLE IF EXISTS subject;
 CREATE TABLE subject
 (
     id       BINARY(16) PRIMARY KEY,
-    class_id BINARY(16),
-    teacher_id BINARY(16),   -- not strictly used could be joined by lesson (saves for schedule changes = kein deutsch)
-    name     VARCHAR(100),
-    note     VARCHAR(100), -- unuseful but nice
+    name VARCHAR(100),
     weight   FLOAT
+);
+
+DROP TABLE IF EXISTS class_subject;
+CREATE TABLE class_subject
+(
+    id       BINARY(16) PRIMARY KEY,
+    class_id BINARY(16),
+    teacher_id BINARY(16),
+    subject_id     BINARY(16),
+    note     VARCHAR(100),
+    start_date DATE,
+    end_date DATE,
+    interval VARCHAR(100),
+    active BOOLEAN
+);
+
+DROP TABLE IF EXISTS timetable;
+CREATE TABLE timetable
+(
+    id         BINARY(16) PRIMARY KEY,
+    number     int(1),
+    start_time TIME,
+    end_time   TIME
 );
 
 DROP TABLE IF EXISTS lesson;
 CREATE TABLE lesson
 (
     id         BINARY(16) PRIMARY KEY,
-    class_id   BINARY(16),
-    subject_id BINARY(16),
-    start_time VARCHAR(10), -- better datatype
-    end_time   VARCHAR(10), -- same
+    class_subject_id BINARY(16),
+    start_time TIME,
+    end_time   TIME,
     weekday    VARCHAR(100),
-    room       VARCHAR(100)
+    room       BINARY(16)
 );
 
-DROP TABLE IF EXISTS grade;
-CREATE TABLE grade -- maybe n:m so meta data doesn't have to repeat
+DROP TABLE IF EXISTS room;
+CREATE TABLE room
+(
+    id         BINARY(16) PRIMARY KEY,
+    name    VARCHAR(100),
+    note       VARCHAR(1000)
+);
+
+DROP TABLE IF EXISTS exam;
+CREATE TABLE exam
 (
     id          BINARY(16) PRIMARY KEY,
     user_id     BINARY(16),
-    subject_id  BINARY(16),
+    class_subject_id  BINARY(16),
     name        VARCHAR(100),
     description VARCHAR(250),
-    mark        FLOAT,
     weight      FLOAT,
     date        DATE,
     view_date   DATE
+);
+
+DROP TABLE IF EXISTS grade;
+CREATE TABLE grade
+(
+    id          BINARY(16) PRIMARY KEY,
+    user_id     BINARY(16),
+    mark        FLOAT,
+    note        VARCHAR(1000)
 );
 
 DROP TABLE IF EXISTS user_event;
@@ -95,10 +130,10 @@ CREATE TABLE user_event
 (
     id BINARY(16) PRIMARY KEY,
     user_id BINARY(16),
+    lesson_id BINARY(16),
     description VARCHAR(1000),
     date DATE,
-    state VARCHAR(100),
-    lessons INT(1)
+    state VARCHAR(100)
 );
 
 DROP TABLE IF EXISTS lesson_event;
@@ -110,6 +145,17 @@ CREATE TABLE lesson_event
     description VARCHAR(1000),
     date DATE,
     isTest BOOLEAN
+);
+
+DROP TABLE IF EXISTS class_event;
+CREATE TABLE class_event
+(
+    id BINARY(16) PRIMARY KEY,
+    class_id BINARY(16),
+    title VARCHAR(100),
+    description VARCHAR(1000),
+    date DATE,
+    noSchool BOOLEAN
 );
 
 DROP TABLE IF EXISTS school_event;
@@ -135,7 +181,8 @@ CREATE TABLE chat
 (
     id BINARY(16) PRIMARY KEY,
     title VARCHAR(100),
-    description VARCHAR(250)
+    description VARCHAR(250),
+    creator_id BINARY(16)
 );
 
 DROP TABLE IF EXISTS chat_message;
@@ -143,7 +190,7 @@ CREATE TABLE chat_message
 (
     id BINARY(16) PRIMARY KEY,
     chat_id BINARY(16),
-    message VARCHAR(250),
+    message VARCHAR(1000),
     user_id BINARY(16),
     timestamp TIMESTAMP,
     state VARCHAR(100)
@@ -156,8 +203,8 @@ CREATE TABLE chat_user
     user_id BINARY(16)
 );
 
-DROP TABLE IF EXISTS dashboard;
-CREATE TABLE dashboard
+DROP TABLE IF EXISTS school_info;
+CREATE TABLE school_info
 (
     id BINARY(16) PRIMARY KEY,
     title VARCHAR(100),
