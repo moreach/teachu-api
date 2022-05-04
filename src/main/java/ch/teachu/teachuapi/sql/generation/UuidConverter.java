@@ -10,6 +10,10 @@ public class UuidConverter implements Converter<byte[], UUID> {
     // from https://stackoverflow.com/questions/17726682/read-mysql-binary16-uuid-with-java
     @Override
     public UUID from(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+
         int i = 0;
         long msl = 0;
         for (; i < 8; i++) {
@@ -25,6 +29,10 @@ public class UuidConverter implements Converter<byte[], UUID> {
     // from https://stackoverflow.com/questions/40297600/how-to-save-a-uuid-as-binary16-in-java
     @Override
     public byte[] to(UUID uuid) {
+        if (uuid == null) {
+            return null;
+        }
+
         byte[] uuidBytes = new byte[16];
         ByteBuffer.wrap(uuidBytes)
                 .order(ByteOrder.BIG_ENDIAN)
