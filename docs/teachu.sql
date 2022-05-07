@@ -47,10 +47,10 @@ CREATE TABLE school_class
     teacher_id BINARY(16)
 );
 
-DROP TABLE IF EXISTS class_user;
-CREATE TABLE class_user
+DROP TABLE IF EXISTS school_class_user;
+CREATE TABLE school_class_user
 (
-    class_id BINARY(16),
+    school_class_id BINARY(16),
     user_id  BINARY(16)
 );
 
@@ -62,11 +62,11 @@ CREATE TABLE subject
     weight   FLOAT
 );
 
-DROP TABLE IF EXISTS class_subject;
-CREATE TABLE class_subject
+DROP TABLE IF EXISTS school__subject;
+CREATE TABLE school_class_subject
 (
     id       BINARY(16) PRIMARY KEY,
-    class_id BINARY(16),
+    school_class_id BINARY(16),
     teacher_id BINARY(16),
     subject_id     BINARY(16),
     note     VARCHAR(100),
@@ -89,7 +89,7 @@ DROP TABLE IF EXISTS lesson;
 CREATE TABLE lesson
 (
     id         BINARY(16) PRIMARY KEY,
-    class_subject_id BINARY(16),
+    school_class_subject_id BINARY(16),
     start_time TIME,
     end_time   TIME,
     weekday    VARCHAR(100),
@@ -108,8 +108,7 @@ DROP TABLE IF EXISTS exam;
 CREATE TABLE exam
 (
     id          BINARY(16) PRIMARY KEY,
-    user_id     BINARY(16),
-    class_subject_id  BINARY(16),
+    school_class_subject_id  BINARY(16),
     name        VARCHAR(100),
     description VARCHAR(250),
     weight      FLOAT,
@@ -121,7 +120,7 @@ DROP TABLE IF EXISTS grade;
 CREATE TABLE grade
 (
     id          BINARY(16) PRIMARY KEY,
-    user_id     BINARY(16),
+    student_id     BINARY(16),
     mark        FLOAT,
     note        VARCHAR(1000)
 );
@@ -148,11 +147,11 @@ CREATE TABLE lesson_event
     isTest BOOLEAN
 );
 
-DROP TABLE IF EXISTS class_event;
-CREATE TABLE class_event
+DROP TABLE IF EXISTS school_class_event;
+CREATE TABLE school_class_event
 (
     id BINARY(16) PRIMARY KEY,
-    class_id BINARY(16),
+    school_class_id BINARY(16),
     title VARCHAR(100),
     description VARCHAR(1000),
     date DATE,
