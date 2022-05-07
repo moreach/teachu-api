@@ -7,16 +7,21 @@ package ch.teachu.techuapi.generated;
 import ch.teachu.techuapi.generated.tables.Chat;
 import ch.teachu.techuapi.generated.tables.ChatMessage;
 import ch.teachu.techuapi.generated.tables.ChatUser;
+import ch.teachu.techuapi.generated.tables.ClassEvent;
+import ch.teachu.techuapi.generated.tables.ClassSubject;
 import ch.teachu.techuapi.generated.tables.ClassUser;
-import ch.teachu.techuapi.generated.tables.Dashboard;
+import ch.teachu.techuapi.generated.tables.Exam;
 import ch.teachu.techuapi.generated.tables.Grade;
 import ch.teachu.techuapi.generated.tables.Lesson;
 import ch.teachu.techuapi.generated.tables.LessonEvent;
 import ch.teachu.techuapi.generated.tables.Log;
 import ch.teachu.techuapi.generated.tables.ParentStudent;
+import ch.teachu.techuapi.generated.tables.Room;
 import ch.teachu.techuapi.generated.tables.SchoolClass;
 import ch.teachu.techuapi.generated.tables.SchoolEvent;
+import ch.teachu.techuapi.generated.tables.SchoolInfo;
 import ch.teachu.techuapi.generated.tables.Subject;
+import ch.teachu.techuapi.generated.tables.Timetable;
 import ch.teachu.techuapi.generated.tables.Token;
 import ch.teachu.techuapi.generated.tables.User;
 import ch.teachu.techuapi.generated.tables.UserEvent;
@@ -35,7 +40,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Teachu extends SchemaImpl {
 
-    private static final long serialVersionUID = 1393652007;
+    private static final long serialVersionUID = -616131368;
 
     /**
      * The reference instance of <code>teachu</code>
@@ -58,14 +63,24 @@ public class Teachu extends SchemaImpl {
     public final ChatUser CHAT_USER = ChatUser.CHAT_USER;
 
     /**
+     * The table <code>teachu.class_event</code>.
+     */
+    public final ClassEvent CLASS_EVENT = ClassEvent.CLASS_EVENT;
+
+    /**
+     * The table <code>teachu.class_subject</code>.
+     */
+    public final ClassSubject CLASS_SUBJECT = ClassSubject.CLASS_SUBJECT;
+
+    /**
      * The table <code>teachu.class_user</code>.
      */
     public final ClassUser CLASS_USER = ClassUser.CLASS_USER;
 
     /**
-     * The table <code>teachu.dashboard</code>.
+     * The table <code>teachu.exam</code>.
      */
-    public final Dashboard DASHBOARD = Dashboard.DASHBOARD;
+    public final Exam EXAM = Exam.EXAM;
 
     /**
      * The table <code>teachu.grade</code>.
@@ -93,6 +108,11 @@ public class Teachu extends SchemaImpl {
     public final ParentStudent PARENT_STUDENT = ParentStudent.PARENT_STUDENT;
 
     /**
+     * The table <code>teachu.room</code>.
+     */
+    public final Room ROOM = Room.ROOM;
+
+    /**
      * The table <code>teachu.school_class</code>.
      */
     public final SchoolClass SCHOOL_CLASS = SchoolClass.SCHOOL_CLASS;
@@ -103,9 +123,19 @@ public class Teachu extends SchemaImpl {
     public final SchoolEvent SCHOOL_EVENT = SchoolEvent.SCHOOL_EVENT;
 
     /**
+     * The table <code>teachu.school_info</code>.
+     */
+    public final SchoolInfo SCHOOL_INFO = SchoolInfo.SCHOOL_INFO;
+
+    /**
      * The table <code>teachu.subject</code>.
      */
     public final Subject SUBJECT = Subject.SUBJECT;
+
+    /**
+     * The table <code>teachu.timetable</code>.
+     */
+    public final Timetable TIMETABLE = Timetable.TIMETABLE;
 
     /**
      * The table <code>teachu.token</code>.
@@ -141,16 +171,21 @@ public class Teachu extends SchemaImpl {
             Chat.CHAT,
             ChatMessage.CHAT_MESSAGE,
             ChatUser.CHAT_USER,
+            ClassEvent.CLASS_EVENT,
+            ClassSubject.CLASS_SUBJECT,
             ClassUser.CLASS_USER,
-            Dashboard.DASHBOARD,
+            Exam.EXAM,
             Grade.GRADE,
             Lesson.LESSON,
             LessonEvent.LESSON_EVENT,
             Log.LOG,
             ParentStudent.PARENT_STUDENT,
+            Room.ROOM,
             SchoolClass.SCHOOL_CLASS,
             SchoolEvent.SCHOOL_EVENT,
+            SchoolInfo.SCHOOL_INFO,
             Subject.SUBJECT,
+            Timetable.TIMETABLE,
             Token.TOKEN,
             User.USER,
             UserEvent.USER_EVENT);

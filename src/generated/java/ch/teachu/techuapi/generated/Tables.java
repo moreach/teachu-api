@@ -7,16 +7,21 @@ package ch.teachu.techuapi.generated;
 import ch.teachu.techuapi.generated.tables.Chat;
 import ch.teachu.techuapi.generated.tables.ChatMessage;
 import ch.teachu.techuapi.generated.tables.ChatUser;
+import ch.teachu.techuapi.generated.tables.ClassEvent;
+import ch.teachu.techuapi.generated.tables.ClassSubject;
 import ch.teachu.techuapi.generated.tables.ClassUser;
-import ch.teachu.techuapi.generated.tables.Dashboard;
+import ch.teachu.techuapi.generated.tables.Exam;
 import ch.teachu.techuapi.generated.tables.Grade;
 import ch.teachu.techuapi.generated.tables.Lesson;
 import ch.teachu.techuapi.generated.tables.LessonEvent;
 import ch.teachu.techuapi.generated.tables.Log;
 import ch.teachu.techuapi.generated.tables.ParentStudent;
+import ch.teachu.techuapi.generated.tables.Room;
 import ch.teachu.techuapi.generated.tables.SchoolClass;
 import ch.teachu.techuapi.generated.tables.SchoolEvent;
+import ch.teachu.techuapi.generated.tables.SchoolInfo;
 import ch.teachu.techuapi.generated.tables.Subject;
+import ch.teachu.techuapi.generated.tables.Timetable;
 import ch.teachu.techuapi.generated.tables.Token;
 import ch.teachu.techuapi.generated.tables.User;
 import ch.teachu.techuapi.generated.tables.UserEvent;
@@ -44,14 +49,24 @@ public class Tables {
     public static final ChatUser CHAT_USER = ChatUser.CHAT_USER;
 
     /**
+     * The table <code>teachu.class_event</code>.
+     */
+    public static final ClassEvent CLASS_EVENT = ClassEvent.CLASS_EVENT;
+
+    /**
+     * The table <code>teachu.class_subject</code>.
+     */
+    public static final ClassSubject CLASS_SUBJECT = ClassSubject.CLASS_SUBJECT;
+
+    /**
      * The table <code>teachu.class_user</code>.
      */
     public static final ClassUser CLASS_USER = ClassUser.CLASS_USER;
 
     /**
-     * The table <code>teachu.dashboard</code>.
+     * The table <code>teachu.exam</code>.
      */
-    public static final Dashboard DASHBOARD = Dashboard.DASHBOARD;
+    public static final Exam EXAM = Exam.EXAM;
 
     /**
      * The table <code>teachu.grade</code>.
@@ -79,6 +94,11 @@ public class Tables {
     public static final ParentStudent PARENT_STUDENT = ParentStudent.PARENT_STUDENT;
 
     /**
+     * The table <code>teachu.room</code>.
+     */
+    public static final Room ROOM = Room.ROOM;
+
+    /**
      * The table <code>teachu.school_class</code>.
      */
     public static final SchoolClass SCHOOL_CLASS = SchoolClass.SCHOOL_CLASS;
@@ -89,9 +109,19 @@ public class Tables {
     public static final SchoolEvent SCHOOL_EVENT = SchoolEvent.SCHOOL_EVENT;
 
     /**
+     * The table <code>teachu.school_info</code>.
+     */
+    public static final SchoolInfo SCHOOL_INFO = SchoolInfo.SCHOOL_INFO;
+
+    /**
      * The table <code>teachu.subject</code>.
      */
     public static final Subject SUBJECT = Subject.SUBJECT;
+
+    /**
+     * The table <code>teachu.timetable</code>.
+     */
+    public static final Timetable TIMETABLE = Timetable.TIMETABLE;
 
     /**
      * The table <code>teachu.token</code>.

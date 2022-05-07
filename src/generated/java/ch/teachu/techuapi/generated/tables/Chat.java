@@ -17,7 +17,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Chat extends TableImpl<ChatRecord> {
 
-    private static final long serialVersionUID = -1051212155;
+    private static final long serialVersionUID = -1794097179;
 
     /**
      * The reference instance of <code>teachu.chat</code>
@@ -62,6 +62,11 @@ public class Chat extends TableImpl<ChatRecord> {
      * The column <code>teachu.chat.description</code>.
      */
     public final TableField<ChatRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.VARCHAR(250), this, "");
+
+    /**
+     * The column <code>teachu.chat.creator_id</code>.
+     */
+    public final TableField<ChatRecord, UUID> CREATOR_ID = createField(DSL.name("creator_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
      * Create a <code>teachu.chat</code> table reference
@@ -138,11 +143,11 @@ public class Chat extends TableImpl<ChatRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<UUID, String, String> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<UUID, String, String, UUID> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

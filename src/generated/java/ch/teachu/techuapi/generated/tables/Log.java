@@ -4,6 +4,8 @@
 package ch.teachu.techuapi.generated.tables;
 
 
+import ch.teachu.teachuapi.enums.LogLevel;
+import ch.teachu.teachuapi.sql.generation.LogLevelConverter;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
 import ch.teachu.techuapi.generated.Keys;
 import ch.teachu.techuapi.generated.Teachu;
@@ -34,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Log extends TableImpl<LogRecord> {
 
-    private static final long serialVersionUID = -1024218226;
+    private static final long serialVersionUID = 274751297;
 
     /**
      * The reference instance of <code>teachu.log</code>
@@ -67,7 +69,7 @@ public class Log extends TableImpl<LogRecord> {
     /**
      * The column <code>teachu.log.level</code>.
      */
-    public final TableField<LogRecord, String> LEVEL = createField(DSL.name("level"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
+    public final TableField<LogRecord, LogLevel> LEVEL = createField(DSL.name("level"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new LogLevelConverter());
 
     /**
      * The column <code>teachu.log.timestamp</code>.
@@ -153,7 +155,7 @@ public class Log extends TableImpl<LogRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<UUID, String, String, String, LocalDateTime> fieldsRow() {
+    public Row5<UUID, String, String, LogLevel, LocalDateTime> fieldsRow() {
         return (Row5) super.fieldsRow();
     }
 }

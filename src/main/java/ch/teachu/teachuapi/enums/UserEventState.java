@@ -4,10 +4,5 @@ public enum UserEventState {
     PENDING, // for user made absences
     EXCUSED,
     UNEXCUSED,
-    HOLIDAY;
-
-    @Override
-    public String toString() {
-        return name().toLowerCase();
-    }
+    HOLIDAY
 }

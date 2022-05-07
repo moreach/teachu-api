@@ -4,6 +4,8 @@
 package ch.teachu.techuapi.generated.tables;
 
 
+import ch.teachu.teachuapi.enums.UserEventState;
+import ch.teachu.teachuapi.sql.generation.UserEventStateConverter;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
 import ch.teachu.techuapi.generated.Keys;
 import ch.teachu.techuapi.generated.Teachu;
@@ -34,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEvent extends TableImpl<UserEventRecord> {
 
-    private static final long serialVersionUID = -488020822;
+    private static final long serialVersionUID = 1160291980;
 
     /**
      * The reference instance of <code>teachu.user_event</code>
@@ -60,6 +62,11 @@ public class UserEvent extends TableImpl<UserEventRecord> {
     public final TableField<UserEventRecord, UUID> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
+     * The column <code>teachu.user_event.lesson_id</code>.
+     */
+    public final TableField<UserEventRecord, UUID> LESSON_ID = createField(DSL.name("lesson_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
+
+    /**
      * The column <code>teachu.user_event.description</code>.
      */
     public final TableField<UserEventRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.VARCHAR(1000), this, "");
@@ -70,14 +77,9 @@ public class UserEvent extends TableImpl<UserEventRecord> {
     public final TableField<UserEventRecord, LocalDate> DATE = createField(DSL.name("date"), org.jooq.impl.SQLDataType.LOCALDATE, this, "");
 
     /**
-     * The column <code>teachu.user_event.state</code>.
+     * The column <code>teachu.user_event.user_event_state</code>.
      */
-    public final TableField<UserEventRecord, String> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
-
-    /**
-     * The column <code>teachu.user_event.lessons</code>.
-     */
-    public final TableField<UserEventRecord, Integer> LESSONS = createField(DSL.name("lessons"), org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserEventRecord, UserEventState> USER_EVENT_STATE = createField(DSL.name("user_event_state"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new UserEventStateConverter());
 
     /**
      * Create a <code>teachu.user_event</code> table reference
@@ -158,7 +160,7 @@ public class UserEvent extends TableImpl<UserEventRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<UUID, UUID, String, LocalDate, String, Integer> fieldsRow() {
+    public Row6<UUID, UUID, UUID, String, LocalDate, UserEventState> fieldsRow() {
         return (Row6) super.fieldsRow();
     }
 }

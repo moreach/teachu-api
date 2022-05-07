@@ -17,7 +17,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row6;
+import org.jooq.Row3;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Subject extends TableImpl<SubjectRecord> {
 
-    private static final long serialVersionUID = -795559977;
+    private static final long serialVersionUID = 2105889299;
 
     /**
      * The reference instance of <code>teachu.subject</code>
@@ -54,24 +54,9 @@ public class Subject extends TableImpl<SubjectRecord> {
     public final TableField<SubjectRecord, UUID> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BINARY(16).nullable(false), this, "", new UuidConverter());
 
     /**
-     * The column <code>teachu.subject.class_id</code>.
-     */
-    public final TableField<SubjectRecord, UUID> CLASS_ID = createField(DSL.name("class_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
-
-    /**
-     * The column <code>teachu.subject.teacher_id</code>.
-     */
-    public final TableField<SubjectRecord, UUID> TEACHER_ID = createField(DSL.name("teacher_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
-
-    /**
      * The column <code>teachu.subject.name</code>.
      */
     public final TableField<SubjectRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
-
-    /**
-     * The column <code>teachu.subject.note</code>.
-     */
-    public final TableField<SubjectRecord, String> NOTE = createField(DSL.name("note"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
      * The column <code>teachu.subject.weight</code>.
@@ -153,11 +138,11 @@ public class Subject extends TableImpl<SubjectRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<UUID, UUID, UUID, String, String, Double> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row3<UUID, String, Double> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 }
