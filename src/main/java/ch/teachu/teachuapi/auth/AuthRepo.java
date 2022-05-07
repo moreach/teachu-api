@@ -1,7 +1,6 @@
 package ch.teachu.teachuapi.auth;
 
 import ch.teachu.teachuapi.auth.daos.AuthUserDao;
-import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.parent.AbstractRepo;
 import ch.teachu.techuapi.generated.tables.Token;
 import ch.teachu.techuapi.generated.tables.User;

@@ -1,16 +1,14 @@
 package ch.teachu.teachuapi.auth.jobs;
 
 import ch.teachu.teachuapi.auth.AuthRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ch.teachu.teachuapi.enums.LogLevel;
+import ch.teachu.teachuapi.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TokenJob {
-
-    public static final Logger logger = LoggerFactory.getLogger(TokenJob.class);
 
     private final AuthRepo authRepo;
 
@@ -21,7 +19,7 @@ public class TokenJob {
 
     @Scheduled(cron = "0 0/10 * * * ?")
     public void deleteOldTokens() {
-        int changed = authRepo.deleteExpiredTokens();
-        logger.info("Deleted " + changed + " tokens that expired.");
+        int count = authRepo.deleteExpiredTokens();
+        LogUtil.log("Deleted " + count + " tokens that expired", getClass(), LogLevel.INFO);
     }
 }
