@@ -4,12 +4,12 @@
 package ch.teachu.techuapi.generated.tables;
 
 
-import ch.teachu.teachuapi.enums.Language;
-import ch.teachu.teachuapi.enums.Role;
-import ch.teachu.teachuapi.enums.Sex;
-import ch.teachu.teachuapi.sql.generation.LanguageConverter;
-import ch.teachu.teachuapi.sql.generation.RoleConverter;
-import ch.teachu.teachuapi.sql.generation.SexConverter;
+import ch.teachu.teachuapi.enums.UserLanguage;
+import ch.teachu.teachuapi.enums.UserRole;
+import ch.teachu.teachuapi.enums.UserSex;
+import ch.teachu.teachuapi.sql.generation.UserLanguageConverter;
+import ch.teachu.teachuapi.sql.generation.UserRoleConverter;
+import ch.teachu.teachuapi.sql.generation.UserSexConverter;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
 import ch.teachu.techuapi.generated.Keys;
 import ch.teachu.techuapi.generated.Teachu;
@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-    private static final long serialVersionUID = 831371466;
+    private static final long serialVersionUID = 233996181;
 
     /**
      * The reference instance of <code>teachu.user</code>
@@ -74,7 +74,7 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>teachu.user.role</code>.
      */
-    public final TableField<UserRecord, Role> ROLE = createField(DSL.name("role"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new RoleConverter());
+    public final TableField<UserRecord, UserRole> ROLE = createField(DSL.name("role"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new UserRoleConverter());
 
     /**
      * The column <code>teachu.user.first_name</code>.
@@ -94,12 +94,12 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>teachu.user.sex</code>.
      */
-    public final TableField<UserRecord, Sex> SEX = createField(DSL.name("sex"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new SexConverter());
+    public final TableField<UserRecord, UserSex> SEX = createField(DSL.name("sex"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new UserSexConverter());
 
     /**
      * The column <code>teachu.user.language</code>.
      */
-    public final TableField<UserRecord, Language> LANGUAGE = createField(DSL.name("language"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new LanguageConverter());
+    public final TableField<UserRecord, UserLanguage> LANGUAGE = createField(DSL.name("language"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new UserLanguageConverter());
 
     /**
      * The column <code>teachu.user.dark_theme</code>.
@@ -235,7 +235,7 @@ public class User extends TableImpl<UserRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<UUID, String, String, Role, String, String, LocalDate, Sex, Language, Byte, String, String, String, String, String, String, LocalDateTime, LocalDate, LocalDate, Byte> fieldsRow() {
+    public Row20<UUID, String, String, UserRole, String, String, LocalDate, UserSex, UserLanguage, Byte, String, String, String, String, String, String, LocalDateTime, LocalDate, LocalDate, Byte> fieldsRow() {
         return (Row20) super.fieldsRow();
     }
 }

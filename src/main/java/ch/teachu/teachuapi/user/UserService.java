@@ -1,7 +1,7 @@
 package ch.teachu.teachuapi.user;
 
 import ch.teachu.teachuapi.dtos.MessageDTO;
-import ch.teachu.teachuapi.enums.Role;
+import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.InvalidException;
 import ch.teachu.teachuapi.parent.AbstractService;
 import ch.teachu.teachuapi.user.dto.CreateUserDTO;
@@ -29,7 +29,7 @@ public class UserService extends AbstractService {
             throw new InvalidException(createUserDTO.getEmail());
         }
 
-        userRepo.createUser(createUserDTO.getEmail(), passwordEncoder.encode(createUserDTO.getPassword()), Role.ADMIN);
+        userRepo.createUser(createUserDTO.getEmail(), passwordEncoder.encode(createUserDTO.getPassword()), UserRole.ADMIN);
         return ResponseEntity.ok().body(new MessageDTO("Successfully created account"));
     }
 }

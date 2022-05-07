@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.daos;
 
-import ch.teachu.teachuapi.enums.Role;
+import ch.teachu.teachuapi.enums.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +15,5 @@ public class AuthDao {
 
     private LocalDateTime accessExpires;
     private LocalDateTime refreshExpires;
-    private Role role;
+    private UserRole role;
 }

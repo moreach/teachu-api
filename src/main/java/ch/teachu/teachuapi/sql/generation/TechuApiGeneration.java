@@ -37,9 +37,9 @@ public class TechuApiGeneration {
                                                     .withIncludeTypes("weekday")
                                                     .withConverter("ch.teachu.teachuapi.sql.generation.WeekdayConverter"),
                                             new ForcedType()
-                                                    .withUserType("ch.teachu.teachuapi.enums.Role")
+                                                    .withUserType("ch.teachu.teachuapi.enums.UserRole")
                                                     .withIncludeExpression("role")
-                                                    .withConverter("ch.teachu.teachuapi.sql.generation.RoleConverter"),
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.UserRoleConverter"),
                                             new ForcedType()
                                                     .withUserType("ch.teachu.teachuapi.enums.ChatState")
                                                     .withIncludeExpression("chat_state")
@@ -49,9 +49,9 @@ public class TechuApiGeneration {
                                                     .withIncludeExpression("interval")
                                                     .withConverter("ch.teachu.teachuapi.sql.generation.ClassSubjectIntervalConverter"),
                                             new ForcedType()
-                                                    .withUserType("ch.teachu.teachuapi.enums.Language")
+                                                    .withUserType("ch.teachu.teachuapi.enums.UserLanguage")
                                                     .withIncludeExpression("language")
-                                                    .withConverter("ch.teachu.teachuapi.sql.generation.LanguageConverter"),
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.UserLanguageConverter"),
                                             new ForcedType()
                                                     .withUserType("ch.teachu.teachuapi.enums.LogLevel")
                                                     .withIncludeExpression("level")
@@ -61,9 +61,9 @@ public class TechuApiGeneration {
                                                     .withIncludeExpression("school_info_state")
                                                     .withConverter("ch.teachu.teachuapi.sql.generation.SchoolInfoStateConverter"),
                                             new ForcedType()
-                                                    .withUserType("ch.teachu.teachuapi.enums.Sex")
+                                                    .withUserType("ch.teachu.teachuapi.enums.UserSex")
                                                     .withIncludeExpression("sex")
-                                                    .withConverter("ch.teachu.teachuapi.sql.generation.SexConverter"),
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.UserSexConverter"),
                                             new ForcedType()
                                                     .withUserType("ch.teachu.teachuapi.enums.UserEventState")
                                                     .withIncludeExpression("user_event_state")

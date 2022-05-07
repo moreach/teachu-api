@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.enums;
 
-public enum Role {
+public enum UserRole {
     PARENT(0),
     STUDENT(1),
     TEACHER(2),
@@ -8,7 +8,7 @@ public enum Role {
 
     private final int level;
 
-    Role(int level) {
+    UserRole(int level) {
         this.level = level;
     }
 

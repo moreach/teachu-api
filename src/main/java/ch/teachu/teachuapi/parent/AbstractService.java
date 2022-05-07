@@ -1,7 +1,7 @@
 package ch.teachu.teachuapi.parent;
 
 import ch.teachu.teachuapi.daos.AuthDao;
-import ch.teachu.teachuapi.enums.Role;
+import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.UnauthorizedException;
 import ch.teachu.techuapi.generated.tables.Token;
 import ch.teachu.techuapi.generated.tables.User;
@@ -13,7 +13,7 @@ import static ch.teachu.teachuapi.sql.Sql.SQL;
 
 public abstract class AbstractService {
 	
-	protected void authenticate(String tokenAccess, Role requiredRole) {
+	protected void authenticate(String tokenAccess, UserRole requiredRole) {
 		AuthDao auth = loadAuth(tokenAccess)
 				.orElseThrow(() -> new UnauthorizedException("Token not found: " + tokenAccess));
 
@@ -41,7 +41,7 @@ public abstract class AbstractService {
 		}
 	}
 
-	protected void ensureRolePermitted(AuthDao auth, Role requiredRole) {
+	protected void ensureRolePermitted(AuthDao auth, UserRole requiredRole) {
 		if (auth.getRole().getLevel() < requiredRole.getLevel()) {
 			throw new UnauthorizedException("Not permitted to perform this action. Required at least role: " + requiredRole + ". Your role: " + auth.getRole());
 		}

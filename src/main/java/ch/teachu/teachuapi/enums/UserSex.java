@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.enums;
 
-public enum Sex {
+public enum UserSex {
     MALE,
     FEMALE,
     OTHER

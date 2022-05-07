@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.enums;
 
-public enum Language {
+public enum UserLanguage {
     GERMAN,
     FRENCH,
     ENGLISH
