@@ -32,10 +32,11 @@ CREATE TABLE user
 DROP TABLE IF EXISTS token;
 CREATE TABLE token
 (
-    user_id BINARY(16),
+    user_id BINARY(16) PRIMARY KEY,
     access VARCHAR(100),
     refresh VARCHAR(100),
-    expires TIMESTAMP
+    access_expires TIMESTAMP,
+    refresh_expires TIMESTAMP
 );
 
 DROP TABLE IF EXISTS school_class;

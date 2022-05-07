@@ -19,13 +19,6 @@ public class ExceptionHandling {
     }
 
     @ResponseBody
-    @ExceptionHandler(FailedToFetchException.class)
-    @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    public ErrorDTO exceptionHandler(FailedToFetchException exception) {
-        return new ErrorDTO(exception.getMessage());
-    }
-
-    @ResponseBody
     @ExceptionHandler(InvalidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO exceptionHandler(InvalidException exception) {

@@ -19,6 +19,7 @@ import ch.teachu.techuapi.generated.tables.SchoolEvent;
 import ch.teachu.techuapi.generated.tables.SchoolInfo;
 import ch.teachu.techuapi.generated.tables.Subject;
 import ch.teachu.techuapi.generated.tables.Timetable;
+import ch.teachu.techuapi.generated.tables.Token;
 import ch.teachu.techuapi.generated.tables.User;
 import ch.teachu.techuapi.generated.tables.UserEvent;
 import ch.teachu.techuapi.generated.tables.records.ChatMessageRecord;
@@ -36,6 +37,7 @@ import ch.teachu.techuapi.generated.tables.records.SchoolEventRecord;
 import ch.teachu.techuapi.generated.tables.records.SchoolInfoRecord;
 import ch.teachu.techuapi.generated.tables.records.SubjectRecord;
 import ch.teachu.techuapi.generated.tables.records.TimetableRecord;
+import ch.teachu.techuapi.generated.tables.records.TokenRecord;
 import ch.teachu.techuapi.generated.tables.records.UserEventRecord;
 import ch.teachu.techuapi.generated.tables.records.UserRecord;
 
@@ -75,6 +77,7 @@ public class Keys {
     public static final UniqueKey<SchoolInfoRecord> KEY_SCHOOL_INFO_PRIMARY = UniqueKeys0.KEY_SCHOOL_INFO_PRIMARY;
     public static final UniqueKey<SubjectRecord> KEY_SUBJECT_PRIMARY = UniqueKeys0.KEY_SUBJECT_PRIMARY;
     public static final UniqueKey<TimetableRecord> KEY_TIMETABLE_PRIMARY = UniqueKeys0.KEY_TIMETABLE_PRIMARY;
+    public static final UniqueKey<TokenRecord> KEY_TOKEN_PRIMARY = UniqueKeys0.KEY_TOKEN_PRIMARY;
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = UniqueKeys0.KEY_USER_PRIMARY;
     public static final UniqueKey<UserEventRecord> KEY_USER_EVENT_PRIMARY = UniqueKeys0.KEY_USER_EVENT_PRIMARY;
 
@@ -103,6 +106,7 @@ public class Keys {
         public static final UniqueKey<SchoolInfoRecord> KEY_SCHOOL_INFO_PRIMARY = Internal.createUniqueKey(SchoolInfo.SCHOOL_INFO, "KEY_school_info_PRIMARY", new TableField[] { SchoolInfo.SCHOOL_INFO.ID }, true);
         public static final UniqueKey<SubjectRecord> KEY_SUBJECT_PRIMARY = Internal.createUniqueKey(Subject.SUBJECT, "KEY_subject_PRIMARY", new TableField[] { Subject.SUBJECT.ID }, true);
         public static final UniqueKey<TimetableRecord> KEY_TIMETABLE_PRIMARY = Internal.createUniqueKey(Timetable.TIMETABLE, "KEY_timetable_PRIMARY", new TableField[] { Timetable.TIMETABLE.ID }, true);
+        public static final UniqueKey<TokenRecord> KEY_TOKEN_PRIMARY = Internal.createUniqueKey(Token.TOKEN, "KEY_token_PRIMARY", new TableField[] { Token.TOKEN.USER_ID }, true);
         public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, "KEY_user_PRIMARY", new TableField[] { User.USER.ID }, true);
         public static final UniqueKey<UserEventRecord> KEY_USER_EVENT_PRIMARY = Internal.createUniqueKey(UserEvent.USER_EVENT, "KEY_user_event_PRIMARY", new TableField[] { UserEvent.USER_EVENT.ID }, true);
     }

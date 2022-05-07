@@ -10,10 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "auth")
+@Tag(name = "Auth")
 @RestController
 public class AuthController {
-
 
     private final AuthService authService;
 

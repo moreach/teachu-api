@@ -7,12 +7,12 @@ public class SchoolInfoStateConverter implements Converter<String, SchoolInfoSta
 
     @Override
     public SchoolInfoState from(String databaseObject) {
-        return SchoolInfoState.valueOf(databaseObject);
+        return SchoolInfoState.valueOf(databaseObject.toUpperCase());
     }
 
     @Override
     public String to(SchoolInfoState userObject) {
-        return userObject.name();
+        return userObject.name().toLowerCase();
     }
 
     @Override

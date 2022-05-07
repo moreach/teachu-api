@@ -29,9 +29,13 @@ public class TechuApiGeneration {
                                     .withInputSchema("teachu")
                                     .withForcedTypes(
                                             new ForcedType()
-                                            .withUserType("java.util.UUID")
-                                            .withIncludeExpression(".*id")
-                                            .withConverter("ch.teachu.teachuapi.sql.generation.UuidConverter"),
+                                                .withUserType("java.util.UUID")
+                                                .withIncludeExpression(".*id")
+                                                .withConverter("ch.teachu.teachuapi.sql.generation.UuidConverter"),
+                                            new ForcedType()
+                                                    .withUserType("ch.teachu.teachuapi.enums.Weekday")
+                                                    .withIncludeTypes("weekday")
+                                                    .withConverter("ch.teachu.teachuapi.sql.generation.WeekdayConverter"),
                                             new ForcedType()
                                                     .withUserType("ch.teachu.teachuapi.enums.Role")
                                                     .withIncludeExpression("role")

@@ -7,12 +7,12 @@ public class RoleConverter implements Converter<String, Role> {
 
     @Override
     public Role from(String databaseObject) {
-        return Role.valueOf(databaseObject);
+        return Role.valueOf(databaseObject.toUpperCase());
     }
 
     @Override
     public String to(Role userObject) {
-        return userObject.name();
+        return userObject.name().toLowerCase();
     }
 
     @Override

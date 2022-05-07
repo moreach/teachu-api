@@ -5,21 +5,25 @@ package ch.teachu.techuapi.generated.tables;
 
 
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
+import ch.teachu.techuapi.generated.Keys;
 import ch.teachu.techuapi.generated.Teachu;
 import ch.teachu.techuapi.generated.tables.records.TokenRecord;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row5;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 
@@ -30,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Token extends TableImpl<TokenRecord> {
 
-    private static final long serialVersionUID = 1703890897;
+    private static final long serialVersionUID = 1364114542;
 
     /**
      * The reference instance of <code>teachu.token</code>
@@ -48,7 +52,7 @@ public class Token extends TableImpl<TokenRecord> {
     /**
      * The column <code>teachu.token.user_id</code>.
      */
-    public final TableField<TokenRecord, UUID> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
+    public final TableField<TokenRecord, UUID> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BINARY(16).nullable(false), this, "", new UuidConverter());
 
     /**
      * The column <code>teachu.token.access</code>.
@@ -61,9 +65,14 @@ public class Token extends TableImpl<TokenRecord> {
     public final TableField<TokenRecord, String> REFRESH = createField(DSL.name("refresh"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>teachu.token.expires</code>.
+     * The column <code>teachu.token.access_expires</code>.
      */
-    public final TableField<TokenRecord, LocalDateTime> EXPIRES = createField(DSL.name("expires"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
+    public final TableField<TokenRecord, LocalDateTime> ACCESS_EXPIRES = createField(DSL.name("access_expires"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
+
+    /**
+     * The column <code>teachu.token.refresh_expires</code>.
+     */
+    public final TableField<TokenRecord, LocalDateTime> REFRESH_EXPIRES = createField(DSL.name("refresh_expires"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * Create a <code>teachu.token</code> table reference
@@ -104,6 +113,16 @@ public class Token extends TableImpl<TokenRecord> {
     }
 
     @Override
+    public UniqueKey<TokenRecord> getPrimaryKey() {
+        return Keys.KEY_TOKEN_PRIMARY;
+    }
+
+    @Override
+    public List<UniqueKey<TokenRecord>> getKeys() {
+        return Arrays.<UniqueKey<TokenRecord>>asList(Keys.KEY_TOKEN_PRIMARY);
+    }
+
+    @Override
     public Token as(String alias) {
         return new Token(DSL.name(alias), this);
     }
@@ -130,11 +149,11 @@ public class Token extends TableImpl<TokenRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<UUID, String, String, LocalDateTime> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<UUID, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 }

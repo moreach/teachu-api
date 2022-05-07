@@ -7,12 +7,12 @@ public class UserEventStateConverter implements Converter<String, UserEventState
 
     @Override
     public UserEventState from(String databaseObject) {
-        return UserEventState.valueOf(databaseObject);
+        return UserEventState.valueOf(databaseObject.toUpperCase());
     }
 
     @Override
     public String to(UserEventState userObject) {
-        return userObject.name();
+        return userObject.name().toLowerCase();
     }
 
     @Override

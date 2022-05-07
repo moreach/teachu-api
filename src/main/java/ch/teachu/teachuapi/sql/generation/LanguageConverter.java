@@ -7,12 +7,12 @@ public class LanguageConverter implements Converter<String, Language> {
 
     @Override
     public Language from(String databaseObject) {
-        return Language.valueOf(databaseObject);
+        return Language.valueOf(databaseObject.toUpperCase());
     }
 
     @Override
     public String to(Language userObject) {
-        return userObject.name();
+        return userObject.name().toLowerCase();
     }
 
     @Override

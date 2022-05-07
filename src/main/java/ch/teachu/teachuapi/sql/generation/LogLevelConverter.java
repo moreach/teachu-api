@@ -7,12 +7,12 @@ public class LogLevelConverter implements Converter<String, LogLevel> {
 
     @Override
     public LogLevel from(String databaseObject) {
-        return LogLevel.valueOf(databaseObject);
+        return LogLevel.valueOf(databaseObject.toUpperCase());
     }
 
     @Override
     public String to(LogLevel userObject) {
-        return userObject.name();
+        return userObject.name().toLowerCase();
     }
 
     @Override

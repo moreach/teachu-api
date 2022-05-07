@@ -7,12 +7,12 @@ public class SexConverter implements Converter<String, Sex> {
 
     @Override
     public Sex from(String databaseObject) {
-        return Sex.valueOf(databaseObject);
+        return Sex.valueOf(databaseObject.toUpperCase());
     }
 
     @Override
     public String to(Sex userObject) {
-        return userObject.name();
+        return userObject.name().toLowerCase();
     }
 
     @Override

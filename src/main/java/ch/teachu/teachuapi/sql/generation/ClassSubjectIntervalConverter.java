@@ -7,12 +7,12 @@ public class ClassSubjectIntervalConverter implements Converter<String, ClassSub
     
     @Override
     public ClassSubjectInterval from(String databaseObject) {
-        return ClassSubjectInterval.valueOf(databaseObject);
+        return ClassSubjectInterval.valueOf(databaseObject.toUpperCase());
     }
 
     @Override
     public String to(ClassSubjectInterval userObject) {
-        return userObject.name();
+        return userObject.name().toLowerCase();
     }
 
     @Override
