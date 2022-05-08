@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class AuthDao {
+public class AuthDAO {
     public final static String ACCESS_EXPIRES = "accessExpires";
     public final static String REFRESH_EXPIRES = "refreshExpires";
     public final static String USER_ID = "userId";
