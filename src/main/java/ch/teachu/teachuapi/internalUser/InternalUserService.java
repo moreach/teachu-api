@@ -1,13 +1,13 @@
-package ch.teachu.teachuapi.personalUser;
+package ch.teachu.teachuapi.internalUser;
 
 import ch.teachu.teachuapi.dtos.MessageDTO;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.InvalidException;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
+import ch.teachu.teachuapi.internalUser.dto.ChangeProfileDTO;
+import ch.teachu.teachuapi.internalUser.dto.CreateUserDTO;
+import ch.teachu.teachuapi.internalUser.dto.PersonalUserDTO;
 import ch.teachu.teachuapi.parent.AbstractService;
-import ch.teachu.teachuapi.personalUser.dto.ChangeProfileDTO;
-import ch.teachu.teachuapi.personalUser.dto.CreateUserDTO;
-import ch.teachu.teachuapi.personalUser.dto.PersonalUserDTO;
 import ch.teachu.teachuapi.util.ValidationUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class PersonalUserService extends AbstractService {
+public class InternalUserService extends AbstractService {
 
-    private final PersonalUserRepo personalUserRepo;
+    private final InternalUserRepo internalUserRepo;
     private final PasswordEncoder passwordEncoder;
 
-    public PersonalUserService(PersonalUserRepo personalUserRepo, PasswordEncoder passwordEncoder) {
-        this.personalUserRepo = personalUserRepo;
+    public InternalUserService(InternalUserRepo internalUserRepo, PasswordEncoder passwordEncoder) {
+        this.internalUserRepo = internalUserRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -30,23 +30,23 @@ public class PersonalUserService extends AbstractService {
         ValidationUtil.checkIfEmailIsValid(createUserDTO.getEmail());
         ValidationUtil.checkIfPasswordIsValid(createUserDTO.getPassword());
 
-        if (personalUserRepo.existsByEmail(createUserDTO.getEmail())) {
+        if (internalUserRepo.existsByEmail(createUserDTO.getEmail())) {
             throw new InvalidException(createUserDTO.getEmail());
         }
 
-        personalUserRepo.createUser(createUserDTO.getEmail(), passwordEncoder.encode(createUserDTO.getPassword()), UserRole.ADMIN);
+        internalUserRepo.createUser(createUserDTO.getEmail(), passwordEncoder.encode(createUserDTO.getPassword()), UserRole.ADMIN);
         return ResponseEntity.ok().body(new MessageDTO("Successfully created user"));
     }
 
     public ResponseEntity<PersonalUserDTO> getUser(String auth) {
         UUID userId = authenticate(auth, UserRole.PARENT).getUserId();
-        return ResponseEntity.ok(personalUserRepo.findById(userId)
+        return ResponseEntity.ok(internalUserRepo.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User " + userId)));
     }
 
     public ResponseEntity<MessageDTO> changeProfile(String auth, ChangeProfileDTO changeProfileDTO) {
         UUID userId = authenticate(auth, UserRole.PARENT).getUserId();
-        personalUserRepo.changeProfile(userId, changeProfileDTO);
+        internalUserRepo.changeProfile(userId, changeProfileDTO);
         return ResponseEntity.ok(new MessageDTO("Successfully changed profile"));
     }
 

@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.personalUser.dto;
+package ch.teachu.teachuapi.internalUser.dto;
 
 import ch.teachu.teachuapi.enums.UserLanguage;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.personalUser.dto;
+package ch.teachu.teachuapi.internalUser.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

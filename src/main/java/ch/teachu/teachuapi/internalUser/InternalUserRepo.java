@@ -1,10 +1,10 @@
-package ch.teachu.teachuapi.personalUser;
+package ch.teachu.teachuapi.internalUser;
 
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.generated.tables.records.UserRecord;
+import ch.teachu.teachuapi.internalUser.dto.ChangeProfileDTO;
+import ch.teachu.teachuapi.internalUser.dto.PersonalUserDTO;
 import ch.teachu.teachuapi.parent.AbstractRepo;
-import ch.teachu.teachuapi.personalUser.dto.ChangeProfileDTO;
-import ch.teachu.teachuapi.personalUser.dto.PersonalUserDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.UUID;
 import static ch.teachu.teachuapi.generated.tables.User.USER;
 
 @Repository
-public class PersonalUserRepo extends AbstractRepo {
+public class InternalUserRepo extends AbstractRepo {
 
     public boolean existsByEmail(String email) {
         Integer matchCount = sql().selectCount()

@@ -4,7 +4,6 @@ import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.externalUser.dto.ExternalUserDTO;
 import ch.teachu.teachuapi.parent.AbstractService;
-import ch.teachu.teachuapi.personalUser.ExternalUserRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

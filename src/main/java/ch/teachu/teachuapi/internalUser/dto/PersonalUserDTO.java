@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.personalUser.dto;
+package ch.teachu.teachuapi.internalUser.dto;
 
 import ch.teachu.teachuapi.enums.UserLanguage;
 import ch.teachu.teachuapi.enums.UserRole;
@@ -29,11 +29,6 @@ public class PersonalUserDTO {
     public static final String STREET = "street";
     public static final String PHONE = "phone";
     public static final String PROFILE_IMAGE = "profileImage";
-    public static final String NOTES = "notes";
-    public static final String LAST_LOGIN = "lastLogin";
-    public static final String CREATION_DATE = "creationDate";
-    public static final String TERMINATE_DATE = "terminateDate";
-    public static final String ACTIVE = "active";
 
     private String email;
     private UserRole role;
@@ -48,9 +43,4 @@ public class PersonalUserDTO {
     private String street;
     private String phone;
     private String profileImage;
-    private String notes;
-    private Date lastLogin;
-    private Date creationDate;
-    private Date terminationDate;
-    private boolean active;
 }

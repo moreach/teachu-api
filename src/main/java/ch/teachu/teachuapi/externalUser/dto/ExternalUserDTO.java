@@ -22,15 +22,7 @@ public class ExternalUserDTO {
     public static final String BIRTHDAY = "birthday";
     public static final String SEX = "sex";
     public static final String CITY = "city";
-    public static final String POSTAL_CODE = "postalCode";
-    public static final String STREET = "street";
-    public static final String PHONE = "phone";
     public static final String PROFILE_IMAGE = "profileImage";
-    public static final String NOTES = "notes";
-    public static final String LAST_LOGIN = "lastLogin";
-    public static final String CREATION_DATE = "creationDate";
-    public static final String TERMINATE_DATE = "terminateDate";
-    public static final String ACTIVE = "active";
 
     private String email;
     private UserRole role;
@@ -39,13 +31,5 @@ public class ExternalUserDTO {
     private Date birthday;
     private UserSex sex;
     private String city;
-    private String postalCode;
-    private String street;
-    private String phone;
     private String profileImage;
-    private String notes;
-    private Date lastLogin;
-    private Date creationDate;
-    private Date terminationDate;
-    private boolean active;
 }

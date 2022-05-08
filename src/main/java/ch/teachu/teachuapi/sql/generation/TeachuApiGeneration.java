@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class TechuApiGeneration {
+public class TeachuApiGeneration {
 
     public static void main(String[] args) throws Exception {
-        try (InputStream input = TechuApiGeneration.class.getClassLoader().getResourceAsStream("application.properties")) {
+        try (InputStream input = TeachuApiGeneration.class.getClassLoader().getResourceAsStream("application.properties")) {
             Properties prop = new Properties();
             prop.load(input);
 
