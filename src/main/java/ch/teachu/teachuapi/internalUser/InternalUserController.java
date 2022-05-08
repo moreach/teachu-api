@@ -1,7 +1,6 @@
 package ch.teachu.teachuapi.internalUser;
 
 import ch.teachu.teachuapi.dtos.MessageDTO;
-import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.internalUser.dto.ChangeProfileDTO;
 import ch.teachu.teachuapi.internalUser.dto.CreateUserDTO;
 import ch.teachu.teachuapi.internalUser.dto.PersonalUserDTO;
@@ -30,11 +29,6 @@ public class InternalUserController {
     @GetMapping("/user")
     private ResponseEntity<PersonalUserDTO> getUser(@RequestHeader("auth") String auth) {
         return internalUserService.getUser(auth);
-    }
-
-    @GetMapping("/user/role")
-    private ResponseEntity<UserRole> getUserRole(@RequestHeader("auth") String auth) {
-        return internalUserService.getUserRole(auth);
     }
 
     @PutMapping("/user/profile")

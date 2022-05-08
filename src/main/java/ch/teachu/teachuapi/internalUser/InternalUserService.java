@@ -49,8 +49,4 @@ public class InternalUserService extends AbstractService {
         internalUserRepo.changeProfile(userId, changeProfileDTO);
         return ResponseEntity.ok(new MessageDTO("Successfully changed profile"));
     }
-
-    public ResponseEntity<UserRole> getUserRole(String auth) {
-        return ResponseEntity.ok(authenticate(auth, UserRole.PARENT).getRole());
-    }
 }
