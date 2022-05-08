@@ -20,4 +20,14 @@ public class LogUtil {
         logRecord.setTimestamp(LocalDateTime.now());
         logRecord.store();
     }
+
+    public static void log(String message, String origin, LogLevel level) {
+        LogRecord logRecord = SQL.newRecord(Log.LOG);
+        logRecord.setId(UUID.randomUUID());
+        logRecord.setMessage(message);
+        logRecord.setOrigin(origin);
+        logRecord.setLevel(level);
+        logRecord.setTimestamp(LocalDateTime.now());
+        logRecord.store();
+    }
 }
