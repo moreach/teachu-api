@@ -1,8 +1,8 @@
 package ch.teachu.teachuapi.util;
 
 import ch.teachu.teachuapi.enums.LogLevel;
-import ch.teachu.techuapi.generated.tables.Log;
-import ch.teachu.techuapi.generated.tables.records.LogRecord;
+import ch.teachu.teachuapi.generated.tables.Log;
+import ch.teachu.teachuapi.generated.tables.records.LogRecord;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
