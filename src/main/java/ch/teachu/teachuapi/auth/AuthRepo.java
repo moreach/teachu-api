@@ -1,10 +1,10 @@
 package ch.teachu.teachuapi.auth;
 
 import ch.teachu.teachuapi.auth.daos.AuthUserDao;
+import ch.teachu.teachuapi.generated.tables.Token;
+import ch.teachu.teachuapi.generated.tables.User;
+import ch.teachu.teachuapi.generated.tables.records.TokenRecord;
 import ch.teachu.teachuapi.parent.AbstractRepo;
-import ch.teachu.techuapi.generated.tables.Token;
-import ch.teachu.techuapi.generated.tables.User;
-import ch.teachu.techuapi.generated.tables.records.TokenRecord;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;

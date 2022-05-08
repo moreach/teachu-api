@@ -8,9 +8,8 @@ import ch.teachu.teachuapi.auth.dtos.TokenDTO;
 import ch.teachu.teachuapi.configs.SecurityProperties;
 import ch.teachu.teachuapi.dtos.MessageDTO;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
+import ch.teachu.teachuapi.generated.tables.records.TokenRecord;
 import ch.teachu.teachuapi.util.DateUtil;
-import ch.teachu.techuapi.generated.tables.records.TokenRecord;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 @Service
 public class AuthService extends AbstractSecurityService {

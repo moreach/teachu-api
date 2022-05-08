@@ -1,12 +1,10 @@
 package ch.teachu.teachuapi.parent;
 
 import ch.teachu.teachuapi.sql.Sql;
-import ch.teachu.techuapi.generated.tables.SchoolClass;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Record;
 import org.jooq.impl.TableImpl;
-import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
