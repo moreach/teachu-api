@@ -49,4 +49,8 @@ public class PersonalUserService extends AbstractService {
         personalUserRepo.changeProfile(userId, changeProfileDTO);
         return ResponseEntity.ok(new MessageDTO("Successfully changed profile"));
     }
+
+    public ResponseEntity<UserRole> getUserRole(String auth) {
+        return ResponseEntity.ok(authenticate(auth, UserRole.PARENT).getRole());
+    }
 }

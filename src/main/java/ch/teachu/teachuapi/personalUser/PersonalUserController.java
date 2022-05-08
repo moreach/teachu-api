@@ -1,6 +1,7 @@
 package ch.teachu.teachuapi.personalUser;
 
 import ch.teachu.teachuapi.dtos.MessageDTO;
+import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.personalUser.dto.ChangeProfileDTO;
 import ch.teachu.teachuapi.personalUser.dto.CreateUserDTO;
 import ch.teachu.teachuapi.personalUser.dto.PersonalUserDTO;
@@ -31,8 +32,14 @@ public class PersonalUserController {
         return personalUserService.getUser(auth);
     }
 
+    @GetMapping("/user/role")
+    private ResponseEntity<UserRole> getUserRole(@RequestHeader("auth") String auth) {
+        return personalUserService.getUserRole(auth);
+    }
+
     @PutMapping("/user/profile")
     private ResponseEntity<MessageDTO> changeProfile(@RequestHeader("auth") String auth, ChangeProfileDTO changeProfileDTO) {
         return personalUserService.changeProfile(auth, changeProfileDTO);
     }
+
 }
