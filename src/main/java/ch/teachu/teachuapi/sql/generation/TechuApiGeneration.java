@@ -3,7 +3,8 @@ package ch.teachu.teachuapi.sql.generation;
 import org.jooq.codegen.GenerationTool;
 import org.jooq.meta.jaxb.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class TechuApiGeneration {
@@ -32,6 +33,9 @@ public class TechuApiGeneration {
                                                 .withUserType("java.util.UUID")
                                                 .withIncludeExpression(".*id")
                                                 .withConverter("ch.teachu.teachuapi.sql.generation.UuidConverter"),
+                                            new ForcedType()
+                                                    .withName("BOOLEAN")
+                                                    .withIncludeTypes("(?i:TINYINT\\(1\\))"),
                                             new ForcedType()
                                                     .withUserType("ch.teachu.teachuapi.enums.Weekday")
                                                     .withIncludeTypes("weekday")
@@ -69,7 +73,7 @@ public class TechuApiGeneration {
                                                     .withIncludeExpression("user_event_state")
                                                     .withConverter("ch.teachu.teachuapi.sql.generation.UserEventStateConverter")))
                             .withTarget(new Target()
-                                    .withPackageName("ch.teachu.techuapi.generated")
+                                    .withPackageName("ch.teachu.teachuapi.generated")
                                     .withDirectory("src/generated/java"))));
         } catch (IOException io) {
             throw new RuntimeException(io);

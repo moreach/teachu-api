@@ -3,8 +3,8 @@ package ch.teachu.teachuapi.parent;
 import ch.teachu.teachuapi.daos.AuthDao;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.UnauthorizedException;
-import ch.teachu.techuapi.generated.tables.Token;
-import ch.teachu.techuapi.generated.tables.User;
+import ch.teachu.teachuapi.generated.tables.Token;
+import ch.teachu.teachuapi.generated.tables.User;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -13,19 +13,21 @@ import static ch.teachu.teachuapi.sql.Sql.SQL;
 
 public abstract class AbstractService {
 	
-	protected void authenticate(String tokenAccess, UserRole requiredRole) {
+	protected AuthDao authenticate(String tokenAccess, UserRole requiredRole) {
 		AuthDao auth = loadAuth(tokenAccess)
 				.orElseThrow(() -> new UnauthorizedException("Token not found: " + tokenAccess));
 
 		ensureExpired(auth.getRefreshExpires());
 		ensureExpired(auth.getAccessExpires());
 		ensureRolePermitted(auth, requiredRole);
+		return auth;
 	}
 
 	protected Optional<AuthDao> loadAuth(String tokenAccess) {
 		return Optional.ofNullable(
 				SQL.select(Token.TOKEN.ACCESS_EXPIRES.as(AuthDao.ACCESS_EXPIRES),
 								Token.TOKEN.REFRESH_EXPIRES.as(AuthDao.REFRESH_EXPIRES),
+								User.USER.ID.as(AuthDao.USER_ID),
 								User.USER.ROLE.as(AuthDao.ROLE))
 						.from(Token.TOKEN)
 						.join(User.USER)
