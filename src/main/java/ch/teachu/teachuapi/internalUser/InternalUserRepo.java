@@ -43,12 +43,7 @@ public class InternalUserRepo extends AbstractRepo {
                 USER.POSTAL_CODE.as(PersonalUserDTO.POSTAL_CODE),
                 USER.STREET.as(PersonalUserDTO.STREET),
                 USER.PHONE.as(PersonalUserDTO.PHONE),
-                USER.PROFILE_IMG.as(PersonalUserDTO.PROFILE_IMAGE),
-                USER.NOTES.as(PersonalUserDTO.NOTES),
-                USER.LAST_LOGIN.as(PersonalUserDTO.LAST_LOGIN),
-                USER.CREATION_DATE.as(PersonalUserDTO.CREATION_DATE),
-                USER.TERMINATION_DATE.as(PersonalUserDTO.TERMINATE_DATE),
-                USER.ACTIVE.as(PersonalUserDTO.ACTIVE))
+                USER.PROFILE_IMG.as(PersonalUserDTO.PROFILE_IMAGE))
                 .from(USER)
                 .where(USER.ID.eq(userId))
                 .fetchOptionalInto(PersonalUserDTO.class);
