@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+
+  teachu-db:
+    container_name: teachu-mysql-db
+    build: 
+      context: ./../
+      dockerfile: docker/mysql/Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=''
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true # change when using as prod
+      - MYSQL_RANDOM_ROOT_PASSWORD=false
+      # custom user
+      - MYSQL_USER='dev'
+      - MYSQL_PASS='dev'
+    networks:
+      - teachu-backend  
+    ports: 
+      - "3306:3306"  
+    volumes: 
+      - teachu-data:/var/lib/mysql  
+
+networks:
+  teachu-backend:
+
+volumes: 
+  teachu-data:
+  local-maven-repo:
