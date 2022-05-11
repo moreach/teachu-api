@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
 
-  teachu-db:
+  teachu-mysql-db:
     container_name: teachu-mysql-db
     build: 
       context: ./../
@@ -15,11 +15,23 @@ services:
       - MYSQL_USER='dev'
       - MYSQL_PASS='dev'
     networks:
-      - teachu-backend  
+      - teachu-backend
     ports: 
       - "3306:3306"  
     volumes: 
-      - teachu-data:/var/lib/mysql  
+      - teachu-data:/var/lib/mysql
+
+  teachu-api:
+    container_name: teachu-api
+    build: ../
+    depends_on:
+      - teachu-mysql-db
+    networks:
+      - teachu-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - local-maven-repo:/var/local/.m2
 
 networks:
   teachu-backend:
