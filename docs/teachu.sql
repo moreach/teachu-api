@@ -3,6 +3,10 @@ DROP DATABASE IF EXISTS teachu;
 CREATE DATABASE teachu;
 USE teachu;
 
+-- user
+CREATE USER IF NOT EXISTS 'dev'@'%'IDENTIFIED WITH caching_sha2_password BY 'dev';
+GRANT ALL PRIVILEGES ON *.* TO 'dev'@'%' WITH GRANT OPTION;
+
 -- tables
 DROP TABLE IF EXISTS user;
 CREATE TABLE user
