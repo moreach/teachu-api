@@ -24,7 +24,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Exam extends TableImpl<ExamRecord> {
 
-    private static final long serialVersionUID = 1091743481;
+    private static final long serialVersionUID = 857469805;
 
     /**
      * The reference instance of <code>teachu.exam</code>
@@ -73,6 +73,11 @@ public class Exam extends TableImpl<ExamRecord> {
      * The column <code>teachu.exam.view_date</code>.
      */
     public final TableField<ExamRecord, LocalDate> VIEW_DATE = createField(DSL.name("view_date"), org.jooq.impl.SQLDataType.LOCALDATE, this, "");
+
+    /**
+     * The column <code>teachu.exam.semester_id</code>.
+     */
+    public final TableField<ExamRecord, UUID> SEMESTER_ID = createField(DSL.name("semester_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
      * Create a <code>teachu.exam</code> table reference
@@ -149,11 +154,11 @@ public class Exam extends TableImpl<ExamRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<UUID, UUID, String, String, Double, LocalDate, LocalDate> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row8<UUID, UUID, String, String, Double, LocalDate, LocalDate, UUID> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 }

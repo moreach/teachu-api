@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.dtos;
+package ch.teachu.teachuapi.auth.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageDTO {
-    private String message;
+public class LogoutRequest {
+  private String refresh;
 }

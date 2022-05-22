@@ -13,13 +13,24 @@ import static ch.teachu.teachuapi.sql.Sql.SQL;
 
 public abstract class AbstractService {
 	
-	protected AuthDAO authenticate(String tokenAccess, UserRole requiredRole) {
+	protected AuthDAO authMinRole(String tokenAccess, UserRole requiredRole) {
+		AuthDAO auth = loadAndCheckAuth(tokenAccess);
+		ensureRolePermittedMin(auth, requiredRole);
+		return auth;
+	}
+
+	protected AuthDAO authExactRole(String tokenAccess, UserRole requiredRole) {
+		AuthDAO auth = loadAndCheckAuth(tokenAccess);
+		ensureRolePermittedExact(auth, requiredRole);
+		return auth;
+	}
+
+	protected AuthDAO loadAndCheckAuth(String tokenAccess) {
 		AuthDAO auth = loadAuth(tokenAccess)
 				.orElseThrow(() -> new UnauthorizedException("Token not found: " + tokenAccess));
 
 		ensureExpired(auth.getRefreshExpires());
 		ensureExpired(auth.getAccessExpires());
-		ensureRolePermitted(auth, requiredRole);
 		return auth;
 	}
 
@@ -43,9 +54,15 @@ public abstract class AbstractService {
 		}
 	}
 
-	protected void ensureRolePermitted(AuthDAO auth, UserRole requiredRole) {
+	protected void ensureRolePermittedMin(AuthDAO auth, UserRole requiredRole) {
 		if (auth.getRole().getLevel() < requiredRole.getLevel()) {
 			throw new UnauthorizedException("Not permitted to perform this action. Required at least role: " + requiredRole + ". Your role: " + auth.getRole());
+		}
+	}
+
+	protected void ensureRolePermittedExact(AuthDAO auth, UserRole requiredRole) {
+		if (auth.getRole() != requiredRole) {
+			throw new UnauthorizedException("Not permitted to perform this action. Required role: " + requiredRole + ". Your role: " + auth.getRole());
 		}
 	}
 }

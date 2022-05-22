@@ -21,7 +21,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TimetableRecord extends UpdatableRecordImpl<TimetableRecord> implements Record4<UUID, Integer, LocalTime, LocalTime> {
 
-    private static final long serialVersionUID = -1843349425;
+    private static final long serialVersionUID = -1172491360;
 
     /**
      * Setter for <code>teachu.timetable.id</code>.
@@ -38,16 +38,16 @@ public class TimetableRecord extends UpdatableRecordImpl<TimetableRecord> implem
     }
 
     /**
-     * Setter for <code>teachu.timetable.number</code>.
+     * Setter for <code>teachu.timetable.lesson_index</code>.
      */
-    public void setNumber(Integer value) {
+    public void setLessonIndex(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>teachu.timetable.number</code>.
+     * Getter for <code>teachu.timetable.lesson_index</code>.
      */
-    public Integer getNumber() {
+    public Integer getLessonIndex() {
         return (Integer) get(1);
     }
 
@@ -109,7 +109,7 @@ public class TimetableRecord extends UpdatableRecordImpl<TimetableRecord> implem
 
     @Override
     public Field<Integer> field2() {
-        return Timetable.TIMETABLE.NUMBER;
+        return Timetable.TIMETABLE.LESSON_INDEX;
     }
 
     @Override
@@ -129,7 +129,7 @@ public class TimetableRecord extends UpdatableRecordImpl<TimetableRecord> implem
 
     @Override
     public Integer component2() {
-        return getNumber();
+        return getLessonIndex();
     }
 
     @Override
@@ -149,7 +149,7 @@ public class TimetableRecord extends UpdatableRecordImpl<TimetableRecord> implem
 
     @Override
     public Integer value2() {
-        return getNumber();
+        return getLessonIndex();
     }
 
     @Override
@@ -170,7 +170,7 @@ public class TimetableRecord extends UpdatableRecordImpl<TimetableRecord> implem
 
     @Override
     public TimetableRecord value2(Integer value) {
-        setNumber(value);
+        setLessonIndex(value);
         return this;
     }
 
@@ -209,11 +209,11 @@ public class TimetableRecord extends UpdatableRecordImpl<TimetableRecord> implem
     /**
      * Create a detached, initialised TimetableRecord
      */
-    public TimetableRecord(UUID id, Integer number, LocalTime startTime, LocalTime endTime) {
+    public TimetableRecord(UUID id, Integer lessonIndex, LocalTime startTime, LocalTime endTime) {
         super(Timetable.TIMETABLE);
 
         set(0, id);
-        set(1, number);
+        set(1, lessonIndex);
         set(2, startTime);
         set(3, endTime);
     }

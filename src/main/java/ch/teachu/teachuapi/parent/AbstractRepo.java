@@ -30,6 +30,10 @@ public class AbstractRepo {
         return sql().selectFrom(table).where(getIdField(table).eq(id)).fetchOneInto(table);
     }
 
+    public boolean existsById(TableImpl<?> table, UUID id) {
+        return sql().fetchExists(sql().selectFrom(table).where(getIdField(table).eq(id)));
+    }
+
     public void deleteById(TableImpl<?> table, UUID id) {
         sql().delete(table).where(getIdField(table).eq(id)).execute();
     }

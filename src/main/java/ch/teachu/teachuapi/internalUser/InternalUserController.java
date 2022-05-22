@@ -1,15 +1,18 @@
 package ch.teachu.teachuapi.internalUser;
 
-import ch.teachu.teachuapi.dtos.MessageDTO;
-import ch.teachu.teachuapi.internalUser.dto.ChangeProfileDTO;
-import ch.teachu.teachuapi.internalUser.dto.CreateUserDTO;
-import ch.teachu.teachuapi.internalUser.dto.PersonalUserDTO;
+import ch.teachu.teachuapi.auth.dtos.TokenResponse;
+import ch.teachu.teachuapi.dtos.MessageResponse;
+import ch.teachu.teachuapi.internalUser.dto.ChangePasswordRequest;
+import ch.teachu.teachuapi.internalUser.dto.ChangeProfileRequest;
+import ch.teachu.teachuapi.internalUser.dto.CreateUserRequest;
+import ch.teachu.teachuapi.internalUser.dto.InternalUserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "User")
+@RequestMapping("/user")
 @RestController
 public class InternalUserController {
 
@@ -21,19 +24,26 @@ public class InternalUserController {
 
     // TODO remove
     @Operation(summary = "Create user for testing purposes")
-    @PostMapping("/user")
-    private ResponseEntity<MessageDTO> createUser(@RequestBody CreateUserDTO createUserDTO) {
-        return internalUserService.create(createUserDTO);
+    @PostMapping
+    private ResponseEntity<MessageResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
+        return internalUserService.create(createUserRequest);
     }
 
-    @GetMapping("/user")
-    private ResponseEntity<PersonalUserDTO> getUser(@RequestHeader("auth") String auth) {
+    @Operation(summary = "User data and settings of logged in user")
+    @GetMapping
+    private ResponseEntity<InternalUserResponse> getUser(@RequestHeader("auth") String auth) {
         return internalUserService.getUser(auth);
     }
 
-    @PutMapping("/user/profile")
-    private ResponseEntity<MessageDTO> changeProfile(@RequestHeader("auth") String auth, ChangeProfileDTO changeProfileDTO) {
-        return internalUserService.changeProfile(auth, changeProfileDTO);
+    @Operation(summary = "Change user data and settings of logged in user")
+    @PutMapping("/profile")
+    private ResponseEntity<MessageResponse> changeProfile(@RequestHeader("auth") String auth, @RequestBody ChangeProfileRequest changeProfileRequest) {
+        return internalUserService.changeProfile(auth, changeProfileRequest);
     }
 
+    @Operation(summary = "Change password and log out all sessions of this user. The response contains a new token valid token.")
+    @PutMapping("/password")
+    private ResponseEntity<TokenResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        return internalUserService.changePassword(changePasswordRequest);
+    }
 }

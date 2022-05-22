@@ -3,10 +3,14 @@ Api for TeachU
 
 ## Test data
 User: teacher@test.ch
-Password: test
+Password: test  
 User: student@test.ch
-Password: test
+Password: test  
 User: parent@test.ch
+Password: test  
+User: parent2@test.ch
+Password: test  
+User: student2@test.ch
 Password: test
 
 ## Docker

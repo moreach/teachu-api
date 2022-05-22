@@ -2,7 +2,6 @@
 DROP DATABASE IF EXISTS teachu;
 CREATE DATABASE teachu;
 USE teachu;
-
 -- user
 CREATE USER IF NOT EXISTS 'dev'@'%'IDENTIFIED WITH caching_sha2_password BY 'dev';
 GRANT ALL PRIVILEGES ON *.* TO 'dev'@'%' WITH GRANT OPTION;
@@ -36,8 +35,8 @@ CREATE TABLE user
 DROP TABLE IF EXISTS token;
 CREATE TABLE token
 (
-    user_id BINARY(16) PRIMARY KEY,
-    access VARCHAR(100),
+    user_id BINARY(16),
+    access VARCHAR(100) PRIMARY KEY,
     refresh VARCHAR(100),
     access_expires TIMESTAMP,
     refresh_expires TIMESTAMP
@@ -84,7 +83,7 @@ DROP TABLE IF EXISTS timetable;
 CREATE TABLE timetable
 (
     id         BINARY(16) PRIMARY KEY,
-    number     int(1),
+    lesson_index     int(1),
     start_time TIME,
     end_time   TIME
 );
@@ -117,7 +116,8 @@ CREATE TABLE exam
     description VARCHAR(250),
     weight      FLOAT,
     date        DATE,
-    view_date   DATE
+    view_date   DATE,
+    semester_id BINARY(16)
 );
 
 DROP TABLE IF EXISTS grade;
@@ -126,7 +126,8 @@ CREATE TABLE grade
     id          BINARY(16) PRIMARY KEY,
     student_id     BINARY(16),
     mark        FLOAT,
-    note        VARCHAR(1000)
+    note        VARCHAR(1000),
+    exam_id     BINARY(16)
 );
 
 DROP TABLE IF EXISTS user_event;
@@ -231,4 +232,18 @@ CREATE TABLE log
     timestamp TIMESTAMP
 );
 
--- data
+DROP TABLE IF EXISTS semester;
+CREATE TABLE semester
+(
+    id        BINARY(16) PRIMARY KEY,
+    name      VARCHAR(250),
+    `from`    TIMESTAMP,
+    `to`      TIMESTAMP
+);
+
+DROP TABLE IF EXISTS school_class_semester;
+CREATE TABLE school_class_semester
+(
+    school_class_id BINARY(16),
+    semester_id BINARY(16)
+);

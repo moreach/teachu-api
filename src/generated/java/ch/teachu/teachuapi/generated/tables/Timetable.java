@@ -24,7 +24,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Timetable extends TableImpl<TimetableRecord> {
 
-    private static final long serialVersionUID = -2096750207;
+    private static final long serialVersionUID = -434552733;
 
     /**
      * The reference instance of <code>teachu.timetable</code>
@@ -45,9 +45,9 @@ public class Timetable extends TableImpl<TimetableRecord> {
     public final TableField<TimetableRecord, UUID> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BINARY(16).nullable(false), this, "", new UuidConverter());
 
     /**
-     * The column <code>teachu.timetable.number</code>.
+     * The column <code>teachu.timetable.lesson_index</code>.
      */
-    public final TableField<TimetableRecord, Integer> NUMBER = createField(DSL.name("number"), org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<TimetableRecord, Integer> LESSON_INDEX = createField(DSL.name("lesson_index"), org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>teachu.timetable.start_time</code>.

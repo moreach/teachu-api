@@ -4,10 +4,12 @@
 package ch.teachu.teachuapi.generated.tables;
 
 
+import ch.teachu.teachuapi.enums.Weekday;
 import ch.teachu.teachuapi.generated.Keys;
 import ch.teachu.teachuapi.generated.Teachu;
 import ch.teachu.teachuapi.generated.tables.records.LessonRecord;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
+import ch.teachu.teachuapi.sql.generation.WeekdayConverter;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
@@ -24,7 +26,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Lesson extends TableImpl<LessonRecord> {
 
-    private static final long serialVersionUID = -228815114;
+    private static final long serialVersionUID = -357249419;
 
     /**
      * The reference instance of <code>teachu.lesson</code>
@@ -62,7 +64,7 @@ public class Lesson extends TableImpl<LessonRecord> {
     /**
      * The column <code>teachu.lesson.weekday</code>.
      */
-    public final TableField<LessonRecord, String> WEEKDAY = createField(DSL.name("weekday"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
+    public final TableField<LessonRecord, Weekday> WEEKDAY = createField(DSL.name("weekday"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "", new WeekdayConverter());
 
     /**
      * The column <code>teachu.lesson.room</code>.
@@ -148,7 +150,7 @@ public class Lesson extends TableImpl<LessonRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<UUID, UUID, LocalTime, LocalTime, String, byte[]> fieldsRow() {
+    public Row6<UUID, UUID, LocalTime, LocalTime, Weekday, byte[]> fieldsRow() {
         return (Row6) super.fieldsRow();
     }
 }
