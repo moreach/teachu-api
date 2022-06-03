@@ -85,7 +85,7 @@ VALUES (UUID_TO_BIN(UUID()),
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
          AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Informatik')),
-        'Prüfung IDPA', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - 1, CURRENT_DATE,
+        'Prüfung IDPA', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 1 DAY, CURRENT_DATE,
         (SELECT id
          FROM semester
          WHERE semester.name = 'Semester 1')),
@@ -94,7 +94,7 @@ VALUES (UUID_TO_BIN(UUID()),
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Mathe')),
-        'Algebra I', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - 3, CURRENT_DATE,
+        'Algebra I', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 2 DAY, CURRENT_DATE,
         (SELECT id
          FROM semester
          WHERE semester.name = 'Semester 1')),
@@ -103,7 +103,7 @@ VALUES (UUID_TO_BIN(UUID()),
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Mathe')),
-        'Logarithmus', 'Prüfungs beschreibung', 0.5, CURRENT_DATE - 4, CURRENT_DATE,
+        'Logarithmus', 'Prüfungs beschreibung', 0.5, CURRENT_DATE - INTERVAL 4 DAY, CURRENT_DATE,
         (SELECT id
          FROM semester
          WHERE semester.name = 'Semester 1')),
@@ -112,7 +112,7 @@ VALUES (UUID_TO_BIN(UUID()),
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Informatik')),
-        'Prüfung IDPA II', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - 2, CURRENT_DATE,
+        'Prüfung IDPA II', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 3 DAY, CURRENT_DATE,
         (SELECT id
          FROM semester
          WHERE semester.name = 'Semester 2')),
@@ -121,7 +121,7 @@ VALUES (UUID_TO_BIN(UUID()),
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Mathe')),
-        'Geometrie', 'Prüfungs beschreibung', 1.0, CURRENT_DATE, CURRENT_DATE,
+        'Geometrie', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 1 DAY, CURRENT_DATE,
         (SELECT id
          FROM semester
          WHERE semester.name = 'Semester 2')),
@@ -199,3 +199,11 @@ VALUES ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT  id FROM sem
        ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT  id FROM semester WHERE name = 'Semester 2')),
        ((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT  id FROM semester WHERE name = 'Semester 1')),
        ((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT  id FROM semester WHERE name = 'Semester 2'));
+
+INSERT INTO token(user_id, access, refresh, access_expires, refresh_expires)
+VALUES ((SELECT id FROM user WHERE email = 'teacher@test.ch'), 'teacher', 'teacher', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'student@test.ch'), 'student', 'student', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'parent@test.ch'), 'parent', 'parent', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'teacher2@test.ch'), 'teacher2', 'teacher2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'student2@test.ch'), 'student2', 'student2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'parent2@test.ch'), 'parent2', 'parent2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR)

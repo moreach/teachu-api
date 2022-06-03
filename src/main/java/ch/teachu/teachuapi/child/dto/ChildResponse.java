@@ -1,7 +1,7 @@
 package ch.teachu.teachuapi.child.dto;
 
 import ch.teachu.teachuapi.enums.UserSex;
-import ch.teachu.teachuapi.student.dto.StudentSemesterDTO;
+import ch.teachu.teachuapi.grade.dto.SemesterGradesDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +37,6 @@ public class ChildResponse {
     private String street;
     private String phone;
     private String profileImage;
-    private List<StudentSemesterDTO> marks;
+    private List<SemesterGradesDTO> marks;
     // TODO timetable
 }

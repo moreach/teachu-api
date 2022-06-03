@@ -21,7 +21,7 @@ public class ExceptionHandling {
     }
 
     @ResponseBody
-    @ExceptionHandler(InvalidException.class)
+    @ExceptionHandler({InvalidException.class, IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO exceptionHandler(InvalidException exception) {
         LogUtil.log(exception.getMessage(), exception.getStackTrace()[0].getClassName(), LogLevel.ERROR);

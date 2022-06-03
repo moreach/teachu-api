@@ -3,7 +3,7 @@ package ch.teachu.teachuapi.child;
 import ch.teachu.teachuapi.child.dto.ChildResponse;
 import ch.teachu.teachuapi.child.dto.OutlineChildDTO;
 import ch.teachu.teachuapi.parent.AbstractRepo;
-import ch.teachu.teachuapi.student.StudentRepo;
+import ch.teachu.teachuapi.grade.GradeRepo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,10 +16,10 @@ import static ch.teachu.teachuapi.generated.tables.User.USER;
 @Repository
 public class ChildRepo extends AbstractRepo {
 
-    protected final StudentRepo studentRepo;
+    protected final GradeRepo gradeRepo;
 
-    public ChildRepo(StudentRepo studentRepo) {
-        this.studentRepo = studentRepo;
+    public ChildRepo(GradeRepo gradeRepo) {
+        this.gradeRepo = gradeRepo;
     }
 
     public List<OutlineChildDTO> findChildren(UUID parentId) {
@@ -39,7 +39,7 @@ public class ChildRepo extends AbstractRepo {
         }
 
         ChildResponse childResponse = loadBaseData(parentId, studentId);
-        childResponse.setMarks(studentRepo.loadMarks(studentId));
+        childResponse.setMarks(gradeRepo.loadStudentGrades(studentId));
         return Optional.of(childResponse);
     }
 

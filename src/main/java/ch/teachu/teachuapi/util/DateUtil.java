@@ -18,6 +18,10 @@ public class DateUtil {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
+    public LocalDate toLocalDate(Date date) {
+        return LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+
     public static Date toDate(LocalDate localDate) {
         return toDate(LocalDateTime.from(localDate.atStartOfDay()));
     }

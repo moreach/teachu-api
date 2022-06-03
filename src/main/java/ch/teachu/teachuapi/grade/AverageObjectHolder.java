@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.student;
+package ch.teachu.teachuapi.grade;
 
 import java.util.UUID;
 

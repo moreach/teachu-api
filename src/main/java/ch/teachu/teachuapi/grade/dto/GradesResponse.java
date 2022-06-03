@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.student.dto;
+package ch.teachu.teachuapi.grade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentSemestersReponse {
-    private List<StudentSemesterDTO> studentSemesters;
+public class GradesResponse {
+    private List<GradeDTO> grades;
 }

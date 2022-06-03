@@ -7,15 +7,16 @@ import ch.teachu.teachuapi.generated.tables.Token;
 import ch.teachu.teachuapi.generated.tables.User;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static ch.teachu.teachuapi.sql.Sql.SQL;
 
 public abstract class AbstractService {
 	
-	protected AuthDAO authMinRole(String tokenAccess, UserRole requiredRole) {
+	protected AuthDAO authMinRole(String tokenAccess, UserRole minRole) {
 		AuthDAO auth = loadAndCheckAuth(tokenAccess);
-		ensureRolePermittedMin(auth, requiredRole);
+		ensureRolePermittedMin(auth, minRole);
 		return auth;
 	}
 
@@ -54,15 +55,26 @@ public abstract class AbstractService {
 		}
 	}
 
-	protected void ensureRolePermittedMin(AuthDAO auth, UserRole requiredRole) {
-		if (auth.getRole().getLevel() < requiredRole.getLevel()) {
-			throw new UnauthorizedException("Not permitted to perform this action. Required at least role: " + requiredRole + ". Your role: " + auth.getRole());
+	protected void ensureRolePermittedMin(AuthDAO auth, UserRole minRole) {
+		if (auth.getRole().getLevel() < minRole.getLevel()) {
+			throwUnauthorizedMin(auth.getRole(), minRole);
 		}
+	}
+
+	protected void throwUnauthorizedMin(UserRole actualRole, UserRole minRole) {
+		throw new UnauthorizedException("Not permitted to perform this action. Required at least role: " + minRole + ". Your role: " + actualRole);
 	}
 
 	protected void ensureRolePermittedExact(AuthDAO auth, UserRole requiredRole) {
 		if (auth.getRole() != requiredRole) {
-			throw new UnauthorizedException("Not permitted to perform this action. Required role: " + requiredRole + ". Your role: " + auth.getRole());
+			throwUnauthorizedExact(auth.getRole(), requiredRole);
 		}
+	}
+
+	protected void throwUnauthorizedExact(UserRole actualRole, UserRole... requiredRoles) {
+		if (requiredRoles.length == 1) {
+			throw new UnauthorizedException("Not permitted to perform this action. Required role: " + requiredRoles[0] + ". Your role: " + actualRole);
+		}
+		throw new UnauthorizedException("Not permitted to perform this action. You should be one of: " + Arrays.toString(requiredRoles) + ". Your role: " + actualRole);
 	}
 }

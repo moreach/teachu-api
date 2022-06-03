@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.student.dto;
+package ch.teachu.teachuapi.exam.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentSemesterDTO {
-    private String semesterName;
-    private List<StudentSchoolClassDTO> schoolClasses;
+public class ExamsResponse {
+    private List<ExamDTO> exams;
 }

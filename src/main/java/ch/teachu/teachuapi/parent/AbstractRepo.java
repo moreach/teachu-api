@@ -34,8 +34,8 @@ public class AbstractRepo {
         return sql().fetchExists(sql().selectFrom(table).where(getIdField(table).eq(id)));
     }
 
-    public void deleteById(TableImpl<?> table, UUID id) {
-        sql().delete(table).where(getIdField(table).eq(id)).execute();
+    public int deleteById(TableImpl<?> table, UUID id) {
+        return sql().delete(table).where(getIdField(table).eq(id)).execute();
     }
 
     @SuppressWarnings("unchecked")

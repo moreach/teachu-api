@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.student.dto;
+package ch.teachu.teachuapi.grade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentSubjectDTO {
-    private String subjectName;
+public class SchoolClassGradesDTO {
+    private String schoolClass;
     private String teacherFirstName;
     private String teacherLastName;
-    private double weight;
     private double averageMark;
-    private List<GradeDTO> grades;
+    private List<SubjectGradesDTO> subjects;
 }
+
