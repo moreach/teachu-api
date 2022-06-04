@@ -1,11 +1,13 @@
 package ch.teachu.teachuapi.grade;
 
+import ch.teachu.teachuapi.errorhandling.InvalidException;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.generated.tables.User;
 import ch.teachu.teachuapi.generated.tables.records.GradeRecord;
 import ch.teachu.teachuapi.grade.dto.*;
 import ch.teachu.teachuapi.parent.AbstractRepo;
 import ch.teachu.teachuapi.util.DateUtil;
+import ch.teachu.teachuapi.util.DoubleHolder;
 import org.jooq.Condition;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +20,7 @@ import static ch.teachu.teachuapi.generated.tables.Exam.EXAM;
 import static ch.teachu.teachuapi.generated.tables.Grade.GRADE;
 import static ch.teachu.teachuapi.generated.tables.SchoolClass.SCHOOL_CLASS;
 import static ch.teachu.teachuapi.generated.tables.SchoolClassSubject.SCHOOL_CLASS_SUBJECT;
+import static ch.teachu.teachuapi.generated.tables.SchoolClassUser.SCHOOL_CLASS_USER;
 import static ch.teachu.teachuapi.generated.tables.Semester.SEMESTER;
 import static ch.teachu.teachuapi.generated.tables.Subject.SUBJECT;
 import static ch.teachu.teachuapi.generated.tables.User.USER;
@@ -29,26 +32,15 @@ public class GradeRepo extends AbstractRepo {
     private static final String SUBJECT_TEACHER = "subject_teacher";
     private static final String STUDENT = "student";
 
-    public List<SemesterGradesDTO> loadStudentGrades(UUID studentId) {
-        User subjectTeacher = USER.as(SUBJECT_TEACHER);
-        User student = USER.as(STUDENT);
-        return loadGrades(subjectTeacher, student, student.ID.eq(studentId));
-    }
-
-    public List<SemesterGradesDTO> loadTeacherGrades(UUID teacherId) {
-        User subjectTeacher = USER.as(SUBJECT_TEACHER);
-        User student = USER.as(STUDENT);
-        return loadGrades(subjectTeacher, student, subjectTeacher.ID.eq(teacherId));
-    }
-
-    private List<SemesterGradesDTO> loadGrades(User subjectTeacher, User student, Condition condition) {
+    public List<SemesterGradesDTO> loadGrades(UUID studentId) {
         final List<SemesterGradesDTO> semesterDTOS = new ArrayList<>();
-        final AverageObjectHolder<SemesterGradesDTO> currentSemester = new AverageObjectHolder<>();
-        final AverageObjectHolder<SchoolClassGradesDTO> currentSchoolClass = new AverageObjectHolder<>();
-        final AverageObjectHolder<SubjectGradesDTO> currentSubject = new AverageObjectHolder<>();
-        final AverageObjectHolder<StudentGradesDTO> currentStudent = new AverageObjectHolder<>();
+        final AverageObjectIdHolder<SemesterGradesDTO> currentSemester = new AverageObjectIdHolder<>();
+        final AverageObjectIdHolder<SchoolClassGradesDTO> currentSchoolClass = new AverageObjectIdHolder<>();
+        final AverageObjectIdHolder<SubjectGradesDTO> currentSubject = new AverageObjectIdHolder<>();
 
         User classTeacher = USER.as(CLASS_TEACHER);
+        User subjectTeacher = USER.as(SUBJECT_TEACHER);
+        User student = USER.as(STUDENT);
 
         sql().select(SEMESTER.ID,
                         SEMESTER.NAME,
@@ -69,7 +61,6 @@ public class GradeRepo extends AbstractRepo {
                         EXAM.WEIGHT,
                         EXAM.DATE,
                         EXAM.VIEW_DATE,
-                        student.ID,
                         student.FIRST_NAME,
                         student.LAST_NAME)
                 .from(GRADE)
@@ -81,18 +72,17 @@ public class GradeRepo extends AbstractRepo {
                 .join(SCHOOL_CLASS).on(SCHOOL_CLASS_SUBJECT.SCHOOL_CLASS_ID.eq(SCHOOL_CLASS.ID))
                 .join(classTeacher).on(SCHOOL_CLASS.TEACHER_ID.eq(classTeacher.ID))
                 .join(SEMESTER).on(EXAM.SEMESTER_ID.eq(SEMESTER.ID))
-                .where(condition)
+                .where(student.ID.eq(studentId))
                 .orderBy(SEMESTER.FROM.desc(), SCHOOL_CLASS.NAME, SUBJECT.NAME, EXAM.DATE.desc())
                 .forEach(grade -> {
-                    ExamGradeDTO examGradeDTO = new ExamGradeDTO(grade.value12(), grade.value15(), grade.value16(), grade.value17(),
-                            DateUtil.toDate(grade.value18()),
-                            DateUtil.toDate(grade.value19()),
-                            grade.value13(), grade.value14());
+                    ExamGradeDTO gradeDTO = new ExamGradeDTO(grade.value12(), grade.value15(), grade.value16(),
+                            grade.value17(), DateUtil.toDate(grade.value18()), DateUtil.toDate(grade.value19()),
+                            grade.value13(), grade.value14(), grade.value20(), grade.value21());
 
                     if (currentSemester.isNewId(grade.value1())) {
-                        SemesterGradesDTO semesterGradesDTO = new SemesterGradesDTO(grade.value2(), new ArrayList<>());
-                        semesterDTOS.add(semesterGradesDTO);
-                        currentSemester.newObject(semesterGradesDTO, grade.value1());
+                        SemesterGradesDTO studentSemesterDTO = new SemesterGradesDTO(grade.value2(), new ArrayList<>());
+                        semesterDTOS.add(studentSemesterDTO);
+                        currentSemester.newObject(studentSemesterDTO, grade.value1());
                         currentSchoolClass.forceNew();
                         currentSubject.forceNew();
                     }
@@ -111,15 +101,11 @@ public class GradeRepo extends AbstractRepo {
                         currentSemester.get().getSchoolClasses().add(currentSchoolClass.get());
                     }
 
-                    boolean newSubject = false;
                     if (currentSubject.isNewId(grade.value7())) {
                         if (currentSubject.get() != null) {
-                            currentStudent.get().setAverageMark(currentStudent.getAverage());
-                            currentSubject.add(currentStudent.getAverage(), 1);
                             currentSubject.get().setAverageMark(currentSubject.getAverage());
-                            newSubject = true;
                             if (!newSchoolClass) {
-                                currentSubject.add(currentStudent.getAverage(), 1);
+                                currentSchoolClass.add(currentSubject.getAverage(), currentSubject.get().getWeight());
                             }
                         }
                         SubjectGradesDTO subjectDTO = new SubjectGradesDTO(grade.value8(), grade.value10(),
@@ -128,21 +114,8 @@ public class GradeRepo extends AbstractRepo {
                         currentSchoolClass.get().getSubjects().add(currentSubject.get());
                     }
 
-                    if (currentStudent.isNewId(grade.value20())) {
-                        if (currentStudent.get() != null) {
-                            currentStudent.get().setAverageMark(currentStudent.getAverage());
-                            if (!newSubject) {
-                                currentStudent.add(currentStudent.getAverage(), 1);
-                            }
-                        }
-                        StudentGradesDTO gradesDTO = new StudentGradesDTO(grade.value20(), grade.value21(),
-                                grade.value22(), 0, new ArrayList<>());
-                        currentStudent.newObject(gradesDTO, grade.value20());
-                        currentSubject.get().getStudents().add(currentStudent.get());
-                    }
-
-                    currentStudent.add(examGradeDTO.getMark(), examGradeDTO.getWeight());
-                    currentStudent.get().getGrades().add(examGradeDTO);
+                    currentSubject.add(gradeDTO.getMark(), gradeDTO.getWeight());
+                    currentSubject.get().getGrades().add(gradeDTO);
                 });
 
         if (currentSubject.get() != null) {
@@ -156,11 +129,24 @@ public class GradeRepo extends AbstractRepo {
 
     public void createGrade(CreateGradeRequest request) {
         GradeRecord grade = sql().newRecord(GRADE);
+        grade.setId(UUID.randomUUID());
         grade.setStudentId(request.getStudentId());
         grade.setMark(request.getMark());
         grade.setNote(request.getNote());
         grade.setExamId(request.getExamId());
         grade.store();
+    }
+
+    public boolean studentHasGrade(UUID studentId, UUID examId) {
+        return sql().fetchExists(sql().select().from(GRADE)
+                .where(GRADE.STUDENT_ID.eq(studentId), GRADE.EXAM_ID.eq(examId)));
+    }
+
+    public boolean studentCanTakeExam(UUID studentId, UUID examId) {
+        return sql().fetchExists(sql().select().from(EXAM)
+                .join(SCHOOL_CLASS_SUBJECT).on(EXAM.SCHOOL_CLASS_SUBJECT_ID.eq(SCHOOL_CLASS_SUBJECT.ID))
+                .join(SCHOOL_CLASS_USER).on(SCHOOL_CLASS_SUBJECT.SCHOOL_CLASS_ID.eq(SCHOOL_CLASS_USER.SCHOOL_CLASS_ID))
+                .where(EXAM.ID.eq(examId), SCHOOL_CLASS_USER.USER_ID.eq(studentId)));
     }
 
     public void changeGrade(ChangeGradeRequest request) {
@@ -173,12 +159,28 @@ public class GradeRepo extends AbstractRepo {
         grade.store();
     }
 
-    public List<GradeDTO> loadByExam(UUID examId) {
-        return sql().select(GRADE.ID, USER.FIRST_NAME, USER.LAST_NAME, GRADE.MARK, GRADE.NOTE)
+    public GradesResponse loadWithRestriction(LoadGradeRequest request) {
+        List<Condition> conditions = new ArrayList<>();
+        addCondition(conditions, EXAM.ID.eq(request.getExamId()), request.getExamId());
+        addCondition(conditions, USER.ID.eq(request.getStudentId()), request.getStudentId());
+
+        DoubleHolder sum = new DoubleHolder();
+        DoubleHolder weightSum = new DoubleHolder();
+        List<ExamGradeDTO> examGrades = sql().select(GRADE.ID, USER.FIRST_NAME, USER.LAST_NAME, GRADE.MARK, GRADE.NOTE, EXAM.WEIGHT,
+                        EXAM.NAME, EXAM.DESCRIPTION, EXAM.DATE, EXAM.VIEW_DATE)
                 .from(GRADE)
                 .join(USER).on(GRADE.STUDENT_ID.eq(USER.ID))
-                .where(GRADE.EXAM_ID.eq(examId))
-                .stream().map(record -> new GradeDTO(record.value1(), record.value2(), record.value3(), record.value4(), record.value5()))
+                .join(EXAM).on(GRADE.EXAM_ID.eq(EXAM.ID))
+                .where(conditions)
+                .stream().map(record -> {
+                    sum.plusSet(record.value6() * record.value4());
+                    weightSum.plusSet(record.value6());
+                    return new ExamGradeDTO(record.value1(), record.value7(), record.value8(), record.value6(),
+                            DateUtil.toDate(record.value9()), DateUtil.toDate(record.value10()), record.value4(),
+                            record.value5(), record.value2(), record.value3());
+                })
                 .collect(Collectors.toList());
+
+        return new GradesResponse(sum.divide(weightSum), examGrades);
     }
 }

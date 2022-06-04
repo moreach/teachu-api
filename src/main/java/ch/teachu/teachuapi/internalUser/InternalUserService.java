@@ -9,10 +9,7 @@ import ch.teachu.teachuapi.dtos.MessageResponse;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.InvalidException;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
-import ch.teachu.teachuapi.internalUser.dto.ChangePasswordRequest;
-import ch.teachu.teachuapi.internalUser.dto.ChangeProfileRequest;
-import ch.teachu.teachuapi.internalUser.dto.CreateUserRequest;
-import ch.teachu.teachuapi.internalUser.dto.InternalUserResponse;
+import ch.teachu.teachuapi.internalUser.dto.*;
 import ch.teachu.teachuapi.util.ValidationUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,5 +63,11 @@ public class InternalUserService extends AbstractSecurityService {
         internalUserRepo.changePassword(userId, passwordEncoder.encode(changePasswordRequest.getNewPassword()));
         authRepo.deleteTokensByUserId(userId);
         return authService.login(new LoginRequest(changePasswordRequest.getEmail(), changePasswordRequest.getNewPassword()));
+    }
+
+    public ResponseEntity<MessageResponse> changeDarkTheme(String auth, ChangeDarkThemeRequest request) {
+        UUID userId = authMinRole(auth, UserRole.PARENT).getUserId();
+        internalUserRepo.changeDarkTheme(userId, request);
+        return ResponseEntity.ok(new MessageResponse("Successfully changed dark theme"));
     }
 }

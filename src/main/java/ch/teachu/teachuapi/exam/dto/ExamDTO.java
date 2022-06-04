@@ -19,7 +19,4 @@ public class ExamDTO {
     private double weight;
     private Date date;
     private Date viewDate;
-    private UUID schoolClassId;
-    private UUID subjectId;
-    private UUID semesterId;
 }

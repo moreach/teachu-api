@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.grade;
 
-import ch.teachu.teachuapi.daos.AuthDAO;
+import ch.teachu.teachuapi.configs.GradeProperties;
 import ch.teachu.teachuapi.dtos.MessageResponse;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.InvalidException;
@@ -11,47 +11,53 @@ import ch.teachu.teachuapi.parent.AbstractService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class GradeService extends AbstractService {
 
     private final GradeRepo gradeRepo;
+    private final GradeProperties gradeProperties;
 
-    public GradeService(GradeRepo gradeRepo) {
+    public GradeService(GradeRepo gradeRepo, GradeProperties gradeProperties) {
         this.gradeRepo = gradeRepo;
+        this.gradeProperties = gradeProperties;
     }
 
     public ResponseEntity<SemestersGradesResponse> loadGrades(String auth) {
-        AuthDAO authDAO = authMinRole(auth, UserRole.STUDENT);
-        List<SemesterGradesDTO> result = null;
-        switch (authDAO.getRole()) {
-            case STUDENT:
-                result = gradeRepo.loadStudentGrades(authDAO.getUserId());
-                break;
-            case TEACHER:
-                result = gradeRepo.loadTeacherGrades(authDAO.getUserId());
-                break;
-            default:
-                throwUnauthorizedExact(authDAO.getRole(), UserRole.STUDENT, UserRole.TEACHER);
-        }
-        return ResponseEntity.ok(new SemestersGradesResponse(result));
+        UUID userId = authExactRole(auth, UserRole.STUDENT).getUserId();
+        return ResponseEntity.ok(new SemestersGradesResponse(gradeRepo.loadGrades(userId)));
     }
 
-    public ResponseEntity<GradesResponse> loadGrades(String auth, UUID examId) {
+    public ResponseEntity<GradesResponse> loadWithRestriction(String auth, LoadGradeRequest request) {
         authMinRole(auth, UserRole.TEACHER);
-        return ResponseEntity.ok(new GradesResponse(gradeRepo.loadByExam(examId)));
+        return ResponseEntity.ok(gradeRepo.loadWithRestriction(request));
     }
 
     public ResponseEntity<MessageResponse> createGrade(String auth, CreateGradeRequest request) {
         authMinRole(auth, UserRole.TEACHER);
+
+        if (request.getMark() > gradeProperties.getMaxMark() || request.getMark() < gradeProperties.getMinMark()) {
+            throw new InvalidException("Mark not in range.");
+        }
+        if (gradeRepo.studentHasGrade(request.getStudentId(), request.getExamId())) {
+            throw new InvalidException("Grade already registered");
+        }
+        if (gradeRepo.studentCanTakeExam(request.getStudentId(), request.getExamId())) {
+            throw new InvalidException("Student is not in the right class for this exam");
+        }
+
         gradeRepo.createGrade(request);
         return ResponseEntity.ok(new MessageResponse("Successfully created grade"));
     }
 
     public ResponseEntity<MessageResponse> changeGrade(String auth, ChangeGradeRequest request) {
         authMinRole(auth, UserRole.TEACHER);
+
+        if (request.getMark() > gradeProperties.getMaxMark() || request.getMark() < gradeProperties.getMinMark()) {
+            throw new InvalidException("Mark not in range.");
+        }
+
         gradeRepo.changeGrade(request);
         return ResponseEntity.ok(new MessageResponse("Successfully changed grade"));
     }

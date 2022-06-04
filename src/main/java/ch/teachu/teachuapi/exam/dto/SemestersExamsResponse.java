@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.child.dto;
+package ch.teachu.teachuapi.exam.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OutlineChildrenResponse {
-    private List<OutlineChildDTO> children;
+public class SemestersExamsResponse {
+    private List<SemesterExamsDTO> exams;
 }

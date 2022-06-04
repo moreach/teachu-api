@@ -39,7 +39,7 @@ public class ChildRepo extends AbstractRepo {
         }
 
         ChildResponse childResponse = loadBaseData(parentId, studentId);
-        childResponse.setMarks(gradeRepo.loadStudentGrades(studentId));
+        childResponse.setMarks(gradeRepo.loadGrades(studentId));
         return Optional.of(childResponse);
     }
 

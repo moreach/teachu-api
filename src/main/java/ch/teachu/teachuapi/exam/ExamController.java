@@ -4,7 +4,7 @@ import ch.teachu.teachuapi.dtos.MessageResponse;
 import ch.teachu.teachuapi.exam.dto.ChangeExamRequest;
 import ch.teachu.teachuapi.exam.dto.CreateExamRequest;
 import ch.teachu.teachuapi.exam.dto.ExamHasGradesResponse;
-import ch.teachu.teachuapi.exam.dto.ExamsResponse;
+import ch.teachu.teachuapi.exam.dto.SemestersExamsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,9 @@ public class ExamController {
         this.examService = examService;
     }
 
-    // TODO exams per semester and school class
-    @Operation(summary = "Load exams of teacher. TODO categorize per semester.")
+    @Operation(summary = "Load exams of teacher.")
     @GetMapping
-    private ResponseEntity<ExamsResponse> loadExams(@RequestHeader("auth") String auth) {
+    private ResponseEntity<SemestersExamsResponse> loadExams(@RequestHeader("auth") String auth) {
         return examService.loadExams(auth);
     }
 

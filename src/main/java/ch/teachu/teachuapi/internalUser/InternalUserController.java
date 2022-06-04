@@ -2,10 +2,7 @@ package ch.teachu.teachuapi.internalUser;
 
 import ch.teachu.teachuapi.auth.dtos.TokenResponse;
 import ch.teachu.teachuapi.dtos.MessageResponse;
-import ch.teachu.teachuapi.internalUser.dto.ChangePasswordRequest;
-import ch.teachu.teachuapi.internalUser.dto.ChangeProfileRequest;
-import ch.teachu.teachuapi.internalUser.dto.CreateUserRequest;
-import ch.teachu.teachuapi.internalUser.dto.InternalUserResponse;
+import ch.teachu.teachuapi.internalUser.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +42,11 @@ public class InternalUserController {
     @PutMapping("/password")
     private ResponseEntity<TokenResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         return internalUserService.changePassword(changePasswordRequest);
+    }
+
+    @Operation(summary = "Change the dark theme")
+    @PutMapping("/darkTheme")
+    private ResponseEntity<MessageResponse> changeDarkTheme(@RequestHeader("auth") String auth, ChangeDarkThemeRequest request) {
+        return internalUserService.changeDarkTheme(auth, request);
     }
 }

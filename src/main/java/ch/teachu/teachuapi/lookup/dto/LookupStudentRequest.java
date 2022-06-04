@@ -12,5 +12,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LookupStudentRequest extends LookupRequest {
-    UUID schoolClassId;
+    private UUID schoolClassId;
+    private UUID notTakenExamId;
 }

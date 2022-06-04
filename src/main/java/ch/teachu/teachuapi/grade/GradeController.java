@@ -1,10 +1,7 @@
 package ch.teachu.teachuapi.grade;
 
 import ch.teachu.teachuapi.dtos.MessageResponse;
-import ch.teachu.teachuapi.grade.dto.ChangeGradeRequest;
-import ch.teachu.teachuapi.grade.dto.CreateGradeRequest;
-import ch.teachu.teachuapi.grade.dto.GradesResponse;
-import ch.teachu.teachuapi.grade.dto.SemestersGradesResponse;
+import ch.teachu.teachuapi.grade.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +20,16 @@ public class GradeController {
         this.gradeService = gradeService;
     }
 
-    @Operation(summary = "Load grades. Can be called by student and teacher. The response will be sorted.")
-    @GetMapping
+    @Operation(summary = "Load grades as a student. The response will be sorted.")
+    @GetMapping("/student")
     private ResponseEntity<SemestersGradesResponse> loadGrades(@RequestHeader("auth") String auth) {
         return gradeService.loadGrades(auth);
     }
 
-    @Operation(summary = "Load grades by exam")
-    @GetMapping("/exam/{examId}")
-    private ResponseEntity<GradesResponse> loadGradesByExam(@RequestHeader("auth") String auth, @PathVariable UUID examId) {
-        return gradeService.loadGrades(auth, examId);
+    @Operation(summary = "Load grades with restriction")
+    @GetMapping("/restriction")
+    private ResponseEntity<GradesResponse> loadGradesWithRestriction(@RequestHeader("auth") String auth, LoadGradeRequest request) {
+        return gradeService.loadWithRestriction(auth, request);
     }
 
     @Operation(summary = "Create grade")

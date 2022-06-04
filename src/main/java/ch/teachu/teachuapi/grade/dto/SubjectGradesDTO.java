@@ -17,5 +17,5 @@ public class SubjectGradesDTO {
     private String teacherLastName;
     private double weight;
     private double averageMark;
-    private List<StudentGradesDTO> students;
+    private List<ExamGradeDTO> grades;
 }

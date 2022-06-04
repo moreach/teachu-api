@@ -1,16 +1,17 @@
-package ch.teachu.teachuapi.exam.dto;
+package ch.teachu.teachuapi.grade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExamsResponse {
-    private List<ExamDTO> exams;
+public class LoadGradeRequest {
+    private UUID examId;
+    private UUID studentId;
 }

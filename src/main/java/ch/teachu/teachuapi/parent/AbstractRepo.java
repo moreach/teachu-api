@@ -1,6 +1,7 @@
 package ch.teachu.teachuapi.parent;
 
 import ch.teachu.teachuapi.sql.Sql;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Record;
@@ -44,6 +45,12 @@ public class AbstractRepo {
             return (Field<UUID>) table.getClass().getField("ID").get(table);
         } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected void addCondition(List<Condition> conditionList, Condition conditionToAdd, Object binding) {
+        if (binding != null) {
+            conditionList.add(conditionToAdd);
         }
     }
 }

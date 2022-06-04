@@ -3,10 +3,7 @@ package ch.teachu.teachuapi.lookup;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.lookup.dto.*;
 import ch.teachu.teachuapi.parent.AbstractRepo;
-import org.jooq.Condition;
-import org.jooq.Field;
-import org.jooq.Record2;
-import org.jooq.TableField;
+import org.jooq.*;
 import org.jooq.impl.TableImpl;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +13,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static ch.teachu.teachuapi.generated.tables.Exam.EXAM;
+import static ch.teachu.teachuapi.generated.tables.Grade.GRADE;
 import static ch.teachu.teachuapi.generated.tables.SchoolClass.SCHOOL_CLASS;
 import static ch.teachu.teachuapi.generated.tables.SchoolClassSubject.SCHOOL_CLASS_SUBJECT;
 import static ch.teachu.teachuapi.generated.tables.SchoolClassUser.SCHOOL_CLASS_USER;
@@ -72,6 +71,7 @@ public class LookupRepo extends AbstractRepo {
         List<Condition> conditions = new ArrayList<>(List.of(USER.ROLE.eq(UserRole.STUDENT)));
         conditions.addAll(defaultLookupConditions(request, USER.ID, concat(USER.FIRST_NAME, val(" "), USER.LAST_NAME)));
         addCondition(conditions, SCHOOL_CLASS_USER.SCHOOL_CLASS_ID.eq(request.getSchoolClassId()), request.getSchoolClassId());
+        addCondition(conditions, notTakenExamCondition(request.getNotTakenExamId()), request.getNotTakenExamId());
         return new LookupResponse(
                 sql().selectDistinct(USER.ID, concat(USER.FIRST_NAME, val(" "), USER.LAST_NAME))
                         .from(USER)
@@ -79,6 +79,12 @@ public class LookupRepo extends AbstractRepo {
                         .where(conditions)
                         .stream().map(this::mapLookup)
                         .collect(Collectors.toList()));
+    }
+
+    private Condition notTakenExamCondition(UUID notTakenExamId) {
+        return sql().select(count())
+                .from(GRADE)
+                .where(GRADE.STUDENT_ID.eq(USER.ID).and(GRADE.EXAM_ID.eq(notTakenExamId))).eq(sql().select(val(0)));
     }
 
     private List<Condition> defaultLookupConditions(LookupRequest request, Field<UUID> idField, Field<String> nameField) {
@@ -90,11 +96,5 @@ public class LookupRepo extends AbstractRepo {
 
     private LookupDTO mapLookup(Record2<UUID, String> result) {
         return new LookupDTO(result.value1(), result.value2());
-    }
-
-    private void addCondition(List<Condition> conditionList, Condition conditionToAdd, Object binding) {
-        if (binding != null) {
-            conditionList.add(conditionToAdd);
-        }
     }
 }

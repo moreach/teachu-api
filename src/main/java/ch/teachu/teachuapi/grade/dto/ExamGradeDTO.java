@@ -21,4 +21,6 @@ public class ExamGradeDTO {
     private Date viewDate;
     private double mark;
     private String note;
+    private String studentFirstName;
+    private String studentLastName;
 }

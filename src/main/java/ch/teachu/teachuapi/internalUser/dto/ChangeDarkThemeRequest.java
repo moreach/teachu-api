@@ -1,6 +1,5 @@
 package ch.teachu.teachuapi.internalUser.dto;
 
-import ch.teachu.teachuapi.enums.UserLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChangeProfileRequest {
-    private UserLanguage language;
+public class ChangeDarkThemeRequest {
     private boolean darkTheme;
-    private String phone;
-    private String profileImage;
 }
