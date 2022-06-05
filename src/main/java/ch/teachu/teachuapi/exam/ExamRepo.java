@@ -3,6 +3,7 @@ package ch.teachu.teachuapi.exam;
 import ch.teachu.teachuapi.errorhandling.InvalidException;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.exam.dto.*;
+import ch.teachu.teachuapi.generated.tables.records.ExamRecord;
 import ch.teachu.teachuapi.parent.AbstractRepo;
 import ch.teachu.teachuapi.util.DateUtil;
 
@@ -83,26 +84,25 @@ public class ExamRepo extends AbstractRepo {
         return exams;
     }
 
-    // TODO does not work
     public void createExam(CreateExamRequest request) {
-        sql().insertInto(EXAM,
-                EXAM.ID,
-                EXAM.NAME,
-                EXAM.DESCRIPTION,
-                EXAM.WEIGHT,
-                EXAM.DATE,
-                EXAM.VIEW_DATE,
-                EXAM.SCHOOL_CLASS_SUBJECT_ID,
-                EXAM.SEMESTER_ID)
-                .values(val(UUID.randomUUID()),
-                        val(request.getName()),
-                        val(request.getDescription()),
-                        val(request.getWeight()),
-                        val(DateUtil.toLocalDate(request.getDate())),
-                        val(DateUtil.toLocalDate(request.getViewDate())),
-                        schoolClassSubjectField(request.getSubjectId(), request.getSchoolClassId()),
-                        val(request.getSemesterId()))
-                .execute();
+        ExamRecord examRecord = sql().newRecord(EXAM);
+        examRecord.setId(UUID.randomUUID());
+        examRecord.setName(request.getName());
+        examRecord.setDescription(request.getDescription());
+        examRecord.setWeight(request.getWeight());
+        examRecord.setDate(DateUtil.toLocalDate(request.getDate()));
+        examRecord.setViewDate(DateUtil.toLocalDate(request.getViewDate()));
+        examRecord.setSemesterId(request.getSemesterId());
+        examRecord.setSchoolClassSubjectId(computeSchoolClassSubjectId(request.getSubjectId(), request.getSchoolClassId()));
+        examRecord.store();
+    }
+
+    private UUID computeSchoolClassSubjectId(UUID subjectId, UUID schoolClassId) {
+        return sql().select(SCHOOL_CLASS_SUBJECT.ID)
+                .from(SCHOOL_CLASS_SUBJECT)
+                .where(SCHOOL_CLASS_SUBJECT.SUBJECT_ID.eq(subjectId),
+                        SCHOOL_CLASS_SUBJECT.SCHOOL_CLASS_ID.eq(schoolClassId))
+                .fetchOneInto(UUID.class);
     }
 
     public boolean hasSchoolClassSubjectAndSemester(UUID schoolClassId, UUID subjectId, UUID semesterId) {
@@ -110,14 +110,6 @@ public class ExamRepo extends AbstractRepo {
                 .join(SCHOOL_CLASS_SEMESTER).on(SCHOOL_CLASS.ID.eq(SCHOOL_CLASS_SEMESTER.SCHOOL_CLASS_ID))
                 .join(SCHOOL_CLASS_SUBJECT).on(SCHOOL_CLASS.ID.eq(SCHOOL_CLASS_SUBJECT.SCHOOL_CLASS_ID))
                 .where(SCHOOL_CLASS.ID.eq(schoolClassId), SCHOOL_CLASS_SUBJECT.SUBJECT_ID.eq(subjectId), SCHOOL_CLASS_SEMESTER.SEMESTER_ID.eq(semesterId)));
-    }
-
-    private Field<UUID> schoolClassSubjectField(UUID subjectId, UUID schoolClassId) {
-        return sql().select(SCHOOL_CLASS_SUBJECT.ID)
-                .from(SCHOOL_CLASS_SUBJECT)
-                .where(SCHOOL_CLASS_SUBJECT.SUBJECT_ID.eq(subjectId),
-                        SCHOOL_CLASS_SUBJECT.SCHOOL_CLASS_ID.eq(schoolClassId))
-                .asField();
     }
 
     public boolean examUsed(UUID examId) {
