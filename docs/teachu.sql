@@ -66,7 +66,7 @@ CREATE TABLE subject
     weight   FLOAT
 );
 
-DROP TABLE IF EXISTS school__subject;
+DROP TABLE IF EXISTS school_class_subject;
 CREATE TABLE school_class_subject
 (
     id       BINARY(16) PRIMARY KEY,
