@@ -48,6 +48,12 @@ public class AbstractRepo {
         }
     }
 
+    /**
+     * Adds a condition to a list if the given binding is not null.
+     * @param conditionList The list to add the condition to.
+     * @param conditionToAdd The condition which should be added to the list.
+     * @param binding The value used in the condition which will determine whether the condition should be added or not.
+     */
     protected void addCondition(List<Condition> conditionList, Condition conditionToAdd, Object binding) {
         if (binding != null) {
             conditionList.add(conditionToAdd);

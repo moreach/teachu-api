@@ -3,7 +3,6 @@ package ch.teachu.teachuapi.exam;
 import ch.teachu.teachuapi.dtos.MessageResponse;
 import ch.teachu.teachuapi.exam.dto.ChangeExamRequest;
 import ch.teachu.teachuapi.exam.dto.CreateExamRequest;
-import ch.teachu.teachuapi.exam.dto.ExamHasGradesResponse;
 import ch.teachu.teachuapi.exam.dto.SemestersExamsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,11 +44,5 @@ public class ExamController {
     @DeleteMapping("/{examId}")
     private ResponseEntity<MessageResponse> deleteExam(@RequestHeader("auth") String auth, @PathVariable UUID examId) {
         return examService.deleteExam(auth, examId);
-    }
-
-    @Operation(summary = "Checks if the exam has grades. If it has then the exam is not deleteable.")
-    @GetMapping("/{examId}/hasGrades")
-    private ResponseEntity<ExamHasGradesResponse> hasGrades(@RequestHeader("auth") String auth, @PathVariable UUID examId) {
-        return examService.hasGrades(auth, examId);
     }
 }

@@ -34,6 +34,6 @@ public class ChildService extends AbstractService {
             throw new NotFoundException("Student " + studentId);
         }
         return ResponseEntity.ok(childRepo.findChild(parentId, studentId)
-                .orElseThrow(() -> new UnauthorizedException("Invalid child requested")));
+                .orElseThrow(() -> new NotFoundException("Student " + studentId)));
     }
 }

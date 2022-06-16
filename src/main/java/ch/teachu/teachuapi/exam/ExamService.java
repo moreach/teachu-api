@@ -6,7 +6,6 @@ import ch.teachu.teachuapi.errorhandling.InvalidException;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.exam.dto.ChangeExamRequest;
 import ch.teachu.teachuapi.exam.dto.CreateExamRequest;
-import ch.teachu.teachuapi.exam.dto.ExamHasGradesResponse;
 import ch.teachu.teachuapi.exam.dto.SemestersExamsResponse;
 import ch.teachu.teachuapi.parent.AbstractService;
 import org.springframework.http.ResponseEntity;
@@ -64,13 +63,5 @@ public class ExamService extends AbstractService {
             throw new NotFoundException("Exam");
         }
         return ResponseEntity.ok(new MessageResponse("Successfully deleted exam"));
-    }
-
-    public ResponseEntity<ExamHasGradesResponse> hasGrades(String auth, UUID examId) {
-        authMinRole(auth, UserRole.TEACHER);
-        if (examRepo.findById(EXAM, examId) == null) {
-            throw new NotFoundException("Exam");
-        }
-        return ResponseEntity.ok(new ExamHasGradesResponse(examRepo.examUsed(examId)));
     }
 }

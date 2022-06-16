@@ -4,9 +4,9 @@ import ch.teachu.teachuapi.daos.AuthDAO;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.lookup.dto.*;
 import ch.teachu.teachuapi.parent.AbstractService;
+import ch.teachu.teachuapi.util.Assert;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 @Service
 public class LookupService extends AbstractService {
@@ -24,7 +24,7 @@ public class LookupService extends AbstractService {
 
     public ResponseEntity<LookupResponse> lookupSubjects(String auth, SubjectLookupRequest lookupRequest) {
         AuthDAO authDAO = authMinRole(auth, UserRole.PARENT);
-        Assert.isTrue(!lookupRequest.isOnlyLoadOwnSubjects() || authDAO.getRole() == UserRole.TEACHER, "Can only load own subjects as a teacher.");
+        Assert.ensureTrue(!lookupRequest.isOnlyLoadOwnSubjects() || authDAO.getRole() == UserRole.TEACHER, "Can only load own subjects as a teacher.");
         return ResponseEntity.ok(lookupRepo.lookupSubjects(lookupRequest, authDAO.getUserId()));
     }
 

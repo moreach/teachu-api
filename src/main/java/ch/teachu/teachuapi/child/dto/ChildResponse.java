@@ -38,5 +38,4 @@ public class ChildResponse {
     private String phone;
     private String profileImage;
     private List<SemesterGradesDTO> marks;
-    // TODO timetable
 }
