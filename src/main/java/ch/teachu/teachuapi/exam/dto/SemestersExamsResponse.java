@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SemestersExamsResponse {
-    private List<SemesterExamsDTO> exams;
+    private List<SemesterExamsResponse> semesters;
 }

@@ -21,15 +21,11 @@ import java.util.UUID;
 public class InternalUserService extends AbstractSecurityService {
 
     private final InternalUserRepo internalUserRepo;
-    private final AuthRepo authRepo;
-    private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
 
-    public InternalUserService(PasswordEncoder passwordEncoder, AuthRepo authRepo, InternalUserRepo internalUserRepo, AuthService authService) {
+    public InternalUserService(PasswordEncoder passwordEncoder, AuthRepo authRepo, InternalUserRepo internalUserRepo) {
         super(passwordEncoder, authRepo);
         this.internalUserRepo = internalUserRepo;
-        this.authRepo = authRepo;
-        this.authService = authService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -55,19 +51,5 @@ public class InternalUserService extends AbstractSecurityService {
         UUID userId = authMinRole(auth, UserRole.PARENT).getUserId();
         internalUserRepo.changeProfile(userId, changeProfileRequest);
         return ResponseEntity.ok(new MessageResponse("Successfully changed profile"));
-    }
-
-    public ResponseEntity<TokenResponse> changePassword(ChangePasswordRequest changePasswordRequest) {
-        UUID userId = login(changePasswordRequest.getEmail(), changePasswordRequest.getOldPassword()).getId();
-        ValidationUtil.checkIfPasswordIsValid(changePasswordRequest.getNewPassword());
-        internalUserRepo.changePassword(userId, passwordEncoder.encode(changePasswordRequest.getNewPassword()));
-        authRepo.deleteTokensByUserId(userId);
-        return authService.login(new LoginRequest(changePasswordRequest.getEmail(), changePasswordRequest.getNewPassword()));
-    }
-
-    public ResponseEntity<MessageResponse> changeDarkTheme(String auth, ChangeDarkThemeRequest request) {
-        UUID userId = authMinRole(auth, UserRole.PARENT).getUserId();
-        internalUserRepo.changeDarkTheme(userId, request);
-        return ResponseEntity.ok(new MessageResponse("Successfully changed dark theme"));
     }
 }

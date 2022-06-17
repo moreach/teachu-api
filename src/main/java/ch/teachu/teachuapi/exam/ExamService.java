@@ -1,16 +1,16 @@
 package ch.teachu.teachuapi.exam;
 
+import ch.teachu.teachuapi.daos.AuthDAO;
 import ch.teachu.teachuapi.dtos.MessageResponse;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.InvalidException;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
-import ch.teachu.teachuapi.exam.dto.ChangeExamRequest;
-import ch.teachu.teachuapi.exam.dto.CreateExamRequest;
-import ch.teachu.teachuapi.exam.dto.SemestersExamsResponse;
+import ch.teachu.teachuapi.exam.dto.*;
 import ch.teachu.teachuapi.parent.AbstractService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 import static ch.teachu.teachuapi.generated.tables.Exam.EXAM;
@@ -25,8 +25,61 @@ public class ExamService extends AbstractService {
     }
 
     public ResponseEntity<SemestersExamsResponse> loadExams(String auth) {
-        UUID teacherId = authExactRole(auth, UserRole.TEACHER).getUserId();
-        return ResponseEntity.ok(new SemestersExamsResponse(examRepo.loadExams(teacherId)));
+        AuthDAO authDAO = authMinRole(auth, UserRole.STUDENT);
+        List<SemesterExamsResponse> semesters = loadExamsWithoutAverages(authDAO);
+        calculateAverages(semesters);
+        return ResponseEntity.ok(new SemestersExamsResponse(semesters));
+    }
+
+    public void calculateAverages(List<SemesterExamsResponse> semesters) {
+        for (SemesterExamsResponse semester : semesters) {
+            for (SchoolClassExamsResponse schoolClass : semester.getSchoolClasses()) {
+                calculateAverages(schoolClass);
+            }
+        }
+    }
+
+    private void calculateAverages(SchoolClassExamsResponse schoolClass) {
+        double sum = 0;
+        double weight = 0;
+        for (SubjectExamsResponse subject : schoolClass.getSubjects()) {
+            calculateAverages(subject);
+            sum += subject.getAverageMark() * subject.getWeight();
+            weight += subject.getWeight();
+        }
+        schoolClass.setAverageMark(sum / weight);
+    }
+
+    private void calculateAverages(SubjectExamsResponse subject) {
+        double sum = 0;
+        double weight = 0;
+        for (ExamResponse exam : subject.getExams()) {
+            calculateAverages(exam);
+            sum += exam.getAverageMark() * exam.getWeight();
+            weight += exam.getWeight();
+        }
+        subject.setAverageMark(sum / weight);
+    }
+
+    private void calculateAverages(ExamResponse exam) {
+        double sum = 0;
+        double weight = 0;
+        for (GradeResponse grade : exam.getGrades()) {
+            sum += grade.getMark();
+            weight++;
+        }
+        exam.setAverageMark(sum / weight);
+    }
+
+    private List<SemesterExamsResponse> loadExamsWithoutAverages(AuthDAO authDAO) {
+        switch (authDAO.getRole()) {
+            case STUDENT:
+                return examRepo.loadExamsByStudent(authDAO.getUserId());
+            case TEACHER:
+                return examRepo.loadExamsByTeacher(authDAO.getUserId());
+            default:
+                throw new InvalidException("Role " + authDAO.getRole());
+        }
     }
 
     public ResponseEntity<MessageResponse> createExam(String auth, CreateExamRequest request) {

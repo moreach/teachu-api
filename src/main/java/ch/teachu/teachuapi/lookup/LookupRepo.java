@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static ch.teachu.teachuapi.generated.tables.Exam.EXAM;
 import static ch.teachu.teachuapi.generated.tables.Grade.GRADE;
 import static ch.teachu.teachuapi.generated.tables.SchoolClass.SCHOOL_CLASS;
 import static ch.teachu.teachuapi.generated.tables.SchoolClassSubject.SCHOOL_CLASS_SUBJECT;
@@ -94,7 +93,7 @@ public class LookupRepo extends AbstractRepo {
         return conditionList;
     }
 
-    private LookupDTO mapLookup(Record2<UUID, String> result) {
-        return new LookupDTO(result.value1(), result.value2());
+    private LookupEntryResponse mapLookup(Record2<UUID, String> result) {
+        return new LookupEntryResponse(result.value1(), result.value2());
     }
 }

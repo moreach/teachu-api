@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class GradesResponse {
     private double average;
-    private List<ExamGradeDTO> grades;
+    private List<ExamGradeResponse> grades;
 }

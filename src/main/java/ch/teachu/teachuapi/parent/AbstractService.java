@@ -26,7 +26,7 @@ public abstract class AbstractService {
 		return auth;
 	}
 
-	protected AuthDAO loadAndCheckAuth(String tokenAccess) {
+	private AuthDAO loadAndCheckAuth(String tokenAccess) {
 		AuthDAO auth = loadAuth(tokenAccess)
 				.orElseThrow(() -> new UnauthorizedException("Token not found: " + tokenAccess));
 
@@ -35,7 +35,7 @@ public abstract class AbstractService {
 		return auth;
 	}
 
-	protected Optional<AuthDAO> loadAuth(String tokenAccess) {
+	private Optional<AuthDAO> loadAuth(String tokenAccess) {
 		return Optional.ofNullable(
 				SQL.select(Token.TOKEN.ACCESS_EXPIRES.as(AuthDAO.ACCESS_EXPIRES),
 								Token.TOKEN.REFRESH_EXPIRES.as(AuthDAO.REFRESH_EXPIRES),
@@ -49,29 +49,29 @@ public abstract class AbstractService {
 		);
 	}
 
-	protected void ensureExpired(LocalDateTime expires) {
+	private void ensureExpired(LocalDateTime expires) {
 		if (expires.isBefore(LocalDateTime.now())) {
 			throw new UnauthorizedException("Token expired");
 		}
 	}
 
-	protected void ensureRolePermittedMin(AuthDAO auth, UserRole minRole) {
+	private void ensureRolePermittedMin(AuthDAO auth, UserRole minRole) {
 		if (auth.getRole().getLevel() < minRole.getLevel()) {
 			throwUnauthorizedMin(auth.getRole(), minRole);
 		}
 	}
 
-	protected void throwUnauthorizedMin(UserRole actualRole, UserRole minRole) {
+	private void throwUnauthorizedMin(UserRole actualRole, UserRole minRole) {
 		throw new UnauthorizedException("Not permitted to perform this action. Required at least role: " + minRole + ". Your role: " + actualRole);
 	}
 
-	protected void ensureRolePermittedExact(AuthDAO auth, UserRole requiredRole) {
+	private void ensureRolePermittedExact(AuthDAO auth, UserRole requiredRole) {
 		if (auth.getRole() != requiredRole) {
 			throwUnauthorizedExact(auth.getRole(), requiredRole);
 		}
 	}
 
-	protected void throwUnauthorizedExact(UserRole actualRole, UserRole... requiredRoles) {
+	private void throwUnauthorizedExact(UserRole actualRole, UserRole... requiredRoles) {
 		if (requiredRoles.length == 1) {
 			throw new UnauthorizedException("Not permitted to perform this action. Required role: " + requiredRoles[0] + ". Your role: " + actualRole);
 		}

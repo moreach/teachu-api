@@ -21,4 +21,13 @@ public class Holder<T> implements Supplier<T> {
     public void set(Supplier<T> s) {
         t = s.get();
     }
+
+    public void clear() {
+        t = null;
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean exists() {
+        return t != null;
+    }
 }

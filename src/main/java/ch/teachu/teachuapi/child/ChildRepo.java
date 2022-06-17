@@ -1,13 +1,12 @@
 package ch.teachu.teachuapi.child;
 
 import ch.teachu.teachuapi.child.dto.ChildResponse;
-import ch.teachu.teachuapi.child.dto.OutlineChildDTO;
+import ch.teachu.teachuapi.child.dto.OutlineChildResponse;
+import ch.teachu.teachuapi.exam.ExamRepo;
 import ch.teachu.teachuapi.parent.AbstractRepo;
-import ch.teachu.teachuapi.grade.GradeRepo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static ch.teachu.teachuapi.generated.tables.ParentStudent.PARENT_STUDENT;
@@ -16,41 +15,24 @@ import static ch.teachu.teachuapi.generated.tables.User.USER;
 @Repository
 public class ChildRepo extends AbstractRepo {
 
-    protected final GradeRepo gradeRepo;
+    protected final ExamRepo gradeRepo;
 
-    public ChildRepo(GradeRepo gradeRepo) {
+    public ChildRepo(ExamRepo gradeRepo) {
         this.gradeRepo = gradeRepo;
     }
 
-    public List<OutlineChildDTO> findChildren(UUID parentId) {
-        return sql().select(USER.ID.as(OutlineChildDTO.ID),
-                USER.FIRST_NAME.as(OutlineChildDTO.FIRST_NAME),
-                USER.LAST_NAME.as(OutlineChildDTO.LAST_NAME))
+    public List<OutlineChildResponse> findChildren(UUID parentId) {
+        return sql().select(USER.ID.as(OutlineChildResponse.ID),
+                USER.FIRST_NAME.as(OutlineChildResponse.FIRST_NAME),
+                USER.LAST_NAME.as(OutlineChildResponse.LAST_NAME))
                 .from(USER)
                 .join(PARENT_STUDENT)
                 .on(USER.ID.eq(PARENT_STUDENT.STUDENT_ID))
                 .where(PARENT_STUDENT.PARENT_ID.eq(parentId))
-                .fetchInto(OutlineChildDTO.class);
+                .fetchInto(OutlineChildResponse.class);
     }
 
-    public Optional<ChildResponse> findChild(UUID parentId, UUID studentId) {
-        if (!isParentOfChild(parentId, studentId)) {
-            return Optional.empty();
-        }
-
-        ChildResponse childResponse = loadBaseData(parentId, studentId);
-        childResponse.setMarks(gradeRepo.loadGrades(studentId));
-        return Optional.of(childResponse);
-    }
-
-    protected boolean isParentOfChild(UUID parentId, UUID childId) {
-        return sql().fetchExists(sql().select()
-                .from(PARENT_STUDENT)
-                .where(PARENT_STUDENT.STUDENT_ID.eq(childId)
-                        .and(PARENT_STUDENT.PARENT_ID.eq(parentId))));
-    }
-
-    protected ChildResponse loadBaseData(UUID parentId, UUID childId) {
+    public ChildResponse loadBaseData(UUID parentId, UUID childId) {
         return sql().select(USER.EMAIL.as(ChildResponse.EMAIL),
                         USER.FIRST_NAME.as(ChildResponse.FIRST_NAME),
                         USER.LAST_NAME.as(ChildResponse.LAST_NAME),
@@ -67,5 +49,12 @@ public class ChildRepo extends AbstractRepo {
                 .where(USER.ID.eq(childId)
                         .and(PARENT_STUDENT.PARENT_ID.eq(parentId)))
                 .fetchOneInto(ChildResponse.class);
+    }
+
+    public boolean isParentOfChild(UUID parentId, UUID childId) {
+        return sql().fetchExists(sql().select()
+                .from(PARENT_STUDENT)
+                .where(PARENT_STUDENT.STUDENT_ID.eq(childId)
+                        .and(PARENT_STUDENT.PARENT_ID.eq(parentId))));
     }
 }

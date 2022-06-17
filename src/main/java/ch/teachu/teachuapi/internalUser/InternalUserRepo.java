@@ -3,7 +3,6 @@ package ch.teachu.teachuapi.internalUser;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.generated.tables.records.UserRecord;
-import ch.teachu.teachuapi.internalUser.dto.ChangeDarkThemeRequest;
 import ch.teachu.teachuapi.internalUser.dto.ChangeProfileRequest;
 import ch.teachu.teachuapi.internalUser.dto.InternalUserResponse;
 import ch.teachu.teachuapi.parent.AbstractRepo;
@@ -61,13 +60,6 @@ public class InternalUserRepo extends AbstractRepo {
         UserRecord user = sql().fetchOptional(USER, USER.ID.eq(userId))
                 .orElseThrow(() -> new NotFoundException("User " + userId));
         user.setPassword(password);
-        user.store();
-    }
-
-    public void changeDarkTheme(UUID userId, ChangeDarkThemeRequest request) {
-        UserRecord user = sql().fetchOptional(USER, USER.ID.eq(userId))
-                .orElseThrow(() -> new NotFoundException("User " + userId));
-        user.setDarkTheme(request.isDarkTheme());
         user.store();
     }
 }

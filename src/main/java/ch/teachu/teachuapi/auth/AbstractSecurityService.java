@@ -13,7 +13,7 @@ public abstract class AbstractSecurityService extends AbstractService {
 	protected final PasswordEncoder passwordEncoder;
 	protected final AuthRepo authRepo;
 
-	public AbstractSecurityService (PasswordEncoder passwordEncoder, AuthRepo authRepo) {
+	public AbstractSecurityService(PasswordEncoder passwordEncoder, AuthRepo authRepo) {
 		this.passwordEncoder = passwordEncoder;
 		this.authRepo = authRepo;
 	}
@@ -25,7 +25,7 @@ public abstract class AbstractSecurityService extends AbstractService {
 		return user;
 	}
 
-	protected void ensurePasswordMatches(String email, AuthUserDAO user, String password) {
+	private void ensurePasswordMatches(String email, AuthUserDAO user, String password) {
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new InvalidException("password for email " + email);
 		}

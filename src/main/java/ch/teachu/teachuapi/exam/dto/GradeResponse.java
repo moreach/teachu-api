@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.grade.dto;
+package ch.teachu.teachuapi.exam.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,11 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateGradeRequest {
+public class GradeResponse {
+    private UUID id;
+    private UUID studentId;
     private double mark;
     private String note;
-    private UUID examId;
+    private String studentFirstName;
+    private String studentLastName;
 }

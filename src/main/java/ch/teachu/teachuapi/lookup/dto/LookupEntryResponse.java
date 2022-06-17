@@ -1,17 +1,17 @@
-package ch.teachu.teachuapi.exam.dto;
+package ch.teachu.teachuapi.lookup.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubjectExamsDTO {
-    private String subjectName;
-    private List<ExamDTO> exams;
+public class LookupEntryResponse {
+    private UUID id;
+    private String name;
 }

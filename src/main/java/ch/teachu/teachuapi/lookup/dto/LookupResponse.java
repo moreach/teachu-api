@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LookupResponse {
-    private List<LookupDTO> lookups;
+    private List<LookupEntryResponse> lookups;
 }

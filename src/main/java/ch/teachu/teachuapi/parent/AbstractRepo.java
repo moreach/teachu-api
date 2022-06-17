@@ -40,7 +40,7 @@ public class AbstractRepo {
     }
 
     @SuppressWarnings("unchecked")
-    protected Field<UUID> getIdField(TableImpl<?> table) {
+    private Field<UUID> getIdField(TableImpl<?> table) {
         try {
             return (Field<UUID>) table.getClass().getField("ID").get(table);
         } catch (IllegalAccessException | NoSuchFieldException e) {

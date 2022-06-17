@@ -13,7 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ChangeGradeRequest {
     private UUID id;
-    private UUID studentId;
     private double mark;
     private String note;
     private UUID examId;

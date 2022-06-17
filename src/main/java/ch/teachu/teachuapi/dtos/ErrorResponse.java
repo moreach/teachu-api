@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.internalUser.dto;
+package ch.teachu.teachuapi.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class ChangeDarkThemeRequest {
-    private boolean darkTheme;
+@NoArgsConstructor
+public class ErrorResponse {
+    private String error;
 }

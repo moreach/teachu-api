@@ -20,12 +20,6 @@ public class GradeController {
         this.gradeService = gradeService;
     }
 
-    @Operation(summary = "Load grades as a student. The response will be sorted.")
-    @GetMapping("/student")
-    private ResponseEntity<SemestersGradesResponse> loadGrades(@RequestHeader("auth") String auth) {
-        return gradeService.loadGrades(auth);
-    }
-
     @Operation(summary = "Load grades with restriction")
     @GetMapping("/restriction")
     private ResponseEntity<GradesResponse> loadGradesWithRestriction(@RequestHeader("auth") String auth, LoadGradeRequest request) {
@@ -33,15 +27,15 @@ public class GradeController {
     }
 
     @Operation(summary = "Create grade")
-    @PostMapping
-    private ResponseEntity<MessageResponse> createGrade(@RequestHeader("auth") String auth, CreateGradeRequest request) {
-        return gradeService.createGrade(auth, request);
+    @PostMapping("/{studentId}")
+    private ResponseEntity<CreateGradeResponse> createGrade(@RequestHeader("auth") String auth, CreateGradeRequest request, @PathVariable UUID studentId) {
+        return gradeService.createGrade(auth, request, studentId);
     }
 
     @Operation(summary = "Change grade")
-    @PutMapping
-    private ResponseEntity<MessageResponse> changeGrade(@RequestHeader("auth") String auth, ChangeGradeRequest request) {
-        return gradeService.changeGrade(auth, request);
+    @PutMapping("/{studentId}")
+    private ResponseEntity<MessageResponse> changeGrade(@RequestHeader("auth") String auth, ChangeGradeRequest request, @PathVariable UUID studentId) {
+        return gradeService.changeGrade(auth, request, studentId);
     }
 
     @Operation(summary = "Delete grade")

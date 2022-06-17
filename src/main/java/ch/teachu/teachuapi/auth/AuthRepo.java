@@ -29,7 +29,7 @@ public class AuthRepo extends AbstractRepo {
     }
 
 
-    protected TokenRecord storeTokenInternal(String access, String refresh, LocalDateTime accessExpires, LocalDateTime refreshExpires, UUID userId) {
+    private TokenRecord storeTokenInternal(String access, String refresh, LocalDateTime accessExpires, LocalDateTime refreshExpires, UUID userId) {
         TokenRecord token = sql().newRecord(TOKEN);
         token.setAccess(access);
         token.setRefresh(refresh);

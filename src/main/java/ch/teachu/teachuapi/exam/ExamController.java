@@ -22,7 +22,7 @@ public class ExamController {
         this.examService = examService;
     }
 
-    @Operation(summary = "Load exams of teacher.")
+    @Operation(summary = "Load exams")
     @GetMapping
     private ResponseEntity<SemestersExamsResponse> loadExams(@RequestHeader("auth") String auth) {
         return examService.loadExams(auth);

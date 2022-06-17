@@ -19,6 +19,12 @@ public class InternalUserController {
         this.internalUserService = internalUserService;
     }
 
+    @Operation(summary = "User data and settings of logged in user")
+    @GetMapping
+    private ResponseEntity<InternalUserResponse> getUser(@RequestHeader("auth") String auth) {
+        return internalUserService.getUser(auth);
+    }
+
     // TODO remove
     @Operation(summary = "Create user for testing purposes")
     @PostMapping
@@ -26,27 +32,9 @@ public class InternalUserController {
         return internalUserService.create(createUserRequest);
     }
 
-    @Operation(summary = "User data and settings of logged in user")
-    @GetMapping
-    private ResponseEntity<InternalUserResponse> getUser(@RequestHeader("auth") String auth) {
-        return internalUserService.getUser(auth);
-    }
-
     @Operation(summary = "Change user data and settings of logged in user")
-    @PutMapping("/profile")
+    @PutMapping
     private ResponseEntity<MessageResponse> changeProfile(@RequestHeader("auth") String auth, @RequestBody ChangeProfileRequest changeProfileRequest) {
         return internalUserService.changeProfile(auth, changeProfileRequest);
-    }
-
-    @Operation(summary = "Change password and log out all sessions of this user. The response contains a new token valid token.")
-    @PutMapping("/password")
-    private ResponseEntity<TokenResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        return internalUserService.changePassword(changePasswordRequest);
-    }
-
-    @Operation(summary = "Change the dark theme")
-    @PutMapping("/darkTheme")
-    private ResponseEntity<MessageResponse> changeDarkTheme(@RequestHeader("auth") String auth, ChangeDarkThemeRequest request) {
-        return internalUserService.changeDarkTheme(auth, request);
     }
 }

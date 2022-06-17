@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SchoolClassExamsDTO {
-    private String schoolClass;
-    private List<SubjectExamsDTO> subjects;
+public class SemesterExamsResponse {
+    private UUID semesterId;
+    private String semesterName;
+    private List<SchoolClassExamsResponse> schoolClasses;
 }
