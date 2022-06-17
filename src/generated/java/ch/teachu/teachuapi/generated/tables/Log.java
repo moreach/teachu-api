@@ -10,14 +10,24 @@ import ch.teachu.teachuapi.generated.Teachu;
 import ch.teachu.teachuapi.generated.tables.records.LogRecord;
 import ch.teachu.teachuapi.sql.generation.LogLevelConverter;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.Name;
+import org.jooq.Record;
+import org.jooq.Row5;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 /**

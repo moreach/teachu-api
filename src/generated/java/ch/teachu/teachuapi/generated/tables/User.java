@@ -14,15 +14,25 @@ import ch.teachu.teachuapi.sql.generation.UserLanguageConverter;
 import ch.teachu.teachuapi.sql.generation.UserRoleConverter;
 import ch.teachu.teachuapi.sql.generation.UserSexConverter;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.Name;
+import org.jooq.Record;
+import org.jooq.Row20;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 /**
@@ -31,7 +41,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-    private static final long serialVersionUID = -851599621;
+    private static final long serialVersionUID = 1809143091;
 
     /**
      * The reference instance of <code>teachu.user</code>
@@ -117,9 +127,9 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, String> PHONE = createField(DSL.name("phone"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>teachu.user.profile_img</code>.
+     * The column <code>teachu.user.profile_img_id</code>.
      */
-    public final TableField<UserRecord, String> PROFILE_IMG = createField(DSL.name("profile_img"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
+    public final TableField<UserRecord, UUID> PROFILE_IMG_ID = createField(DSL.name("profile_img_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
      * The column <code>teachu.user.notes</code>.
@@ -225,7 +235,7 @@ public class User extends TableImpl<UserRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<UUID, String, String, UserRole, String, String, LocalDate, UserSex, UserLanguage, Boolean, String, String, String, String, String, String, LocalDateTime, LocalDate, LocalDate, Boolean> fieldsRow() {
+    public Row20<UUID, String, String, UserRole, String, String, LocalDate, UserSex, UserLanguage, Boolean, String, String, String, String, UUID, String, LocalDateTime, LocalDate, LocalDate, Boolean> fieldsRow() {
         return (Row20) super.fieldsRow();
     }
 }

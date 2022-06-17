@@ -25,7 +25,6 @@ public class ChildResponse {
     public static final String POSTAL_CODE = "postalCode";
     public static final String STREET = "street";
     public static final String PHONE = "phone";
-    public static final String PROFILE_IMAGE = "profileImage";
 
     private String email;
     private String firstName;
@@ -36,6 +35,5 @@ public class ChildResponse {
     private String postalCode;
     private String street;
     private String phone;
-    private String profileImage;
     private List<SemesterExamsResponse> marks;
 }

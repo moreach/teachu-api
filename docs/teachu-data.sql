@@ -2,36 +2,36 @@
 USE teachu;
 
 INSERT INTO user(id, email, password, role, first_name, last_name, birthday, sex, language, dark_theme, city,
-                 postal_code, street, phone, profile_img, notes, last_login, creation_date, termination_date, active)
+                 postal_code, street, phone, notes, last_login, creation_date, termination_date, active)
 VALUES (UUID_TO_BIN(UUID()), 'student@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'student',
         'student_firstname', 'student_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
-        'Belchenstrasse 16', '696 969 69 69', 'micha/setzt/de/fileserver/uf.png', 'no noted', CURRENT_TIMESTAMP,
+        'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
        (UUID_TO_BIN(UUID()), 'teacher@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'teacher',
         'teacher_firstname', 'teacher_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
-        'Belchenstrasse 16', '696 969 69 69', 'micha/setzt/de/fileserver/uf.png', 'no noted', CURRENT_TIMESTAMP,
+        'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
        (UUID_TO_BIN(UUID()), 'parent@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'parent',
         'parent_firstname', 'parent_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
-        'Belchenstrasse 16', '696 969 69 69', 'micha/setzt/de/fileserver/uf.png', 'no noted', CURRENT_TIMESTAMP,
+        'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
         (UUID_TO_BIN(UUID()), 'student2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'student',
         'student2_firstname', 'student2_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
-        'Belchenstrasse 16', '696 969 69 69', 'micha/setzt/de/fileserver/uf.png', 'no noted', CURRENT_TIMESTAMP,
+        'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
         (UUID_TO_BIN(UUID()), 'parent2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'parent',
         'parent2_firstname', 'parent2_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
-        'Belchenstrasse 16', '696 969 69 69', 'micha/setzt/de/fileserver/uf.png', 'no noted', CURRENT_TIMESTAMP,
+        'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
         (UUID_TO_BIN(UUID()), 'teacher2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'teacher',
         'teacher2_firstname', 'teacher2_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
-        'Belchenstrasse 16', '696 969 69 69', 'micha/setzt/de/fileserver/uf.png', 'no noted', CURRENT_TIMESTAMP,
+        'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE);
 
 INSERT INTO school_class(id, name, teacher_id)

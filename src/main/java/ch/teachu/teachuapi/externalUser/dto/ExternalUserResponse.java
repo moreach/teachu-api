@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class ExternalUserResponse {
 
+    public static final String ID = "id";
     public static final String EMAIL = "email";
     public static final String ROLE = "role";
     public static final String FIRST_NAME = "firstName";
@@ -22,8 +24,9 @@ public class ExternalUserResponse {
     public static final String BIRTHDAY = "birthday";
     public static final String SEX = "sex";
     public static final String CITY = "city";
-    public static final String PROFILE_IMAGE = "profileImage";
+    public static final String PROFILE_IMAGE_ID = "profileImageId";
 
+    private UUID id;
     private String email;
     private UserRole role;
     private String firstName;
@@ -31,5 +34,5 @@ public class ExternalUserResponse {
     private Date birthday;
     private UserSex sex;
     private String city;
-    private String profileImage;
+    private UUID profileImageId;
 }

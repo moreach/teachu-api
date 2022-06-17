@@ -4,7 +4,30 @@
 package ch.teachu.teachuapi.generated;
 
 
-import ch.teachu.teachuapi.generated.tables.*;
+import ch.teachu.teachuapi.generated.tables.Chat;
+import ch.teachu.teachuapi.generated.tables.ChatMessage;
+import ch.teachu.teachuapi.generated.tables.ChatUser;
+import ch.teachu.teachuapi.generated.tables.Exam;
+import ch.teachu.teachuapi.generated.tables.FileAccess;
+import ch.teachu.teachuapi.generated.tables.Grade;
+import ch.teachu.teachuapi.generated.tables.Lesson;
+import ch.teachu.teachuapi.generated.tables.LessonEvent;
+import ch.teachu.teachuapi.generated.tables.Log;
+import ch.teachu.teachuapi.generated.tables.ParentStudent;
+import ch.teachu.teachuapi.generated.tables.Room;
+import ch.teachu.teachuapi.generated.tables.SchoolClass;
+import ch.teachu.teachuapi.generated.tables.SchoolClassEvent;
+import ch.teachu.teachuapi.generated.tables.SchoolClassSemester;
+import ch.teachu.teachuapi.generated.tables.SchoolClassSubject;
+import ch.teachu.teachuapi.generated.tables.SchoolClassUser;
+import ch.teachu.teachuapi.generated.tables.SchoolEvent;
+import ch.teachu.teachuapi.generated.tables.SchoolInfo;
+import ch.teachu.teachuapi.generated.tables.Semester;
+import ch.teachu.teachuapi.generated.tables.Subject;
+import ch.teachu.teachuapi.generated.tables.Timetable;
+import ch.teachu.teachuapi.generated.tables.Token;
+import ch.teachu.teachuapi.generated.tables.User;
+import ch.teachu.teachuapi.generated.tables.UserEvent;
 
 
 /**
@@ -32,6 +55,11 @@ public class Tables {
      * The table <code>teachu.exam</code>.
      */
     public static final Exam EXAM = Exam.EXAM;
+
+    /**
+     * The table <code>teachu.file_access</code>.
+     */
+    public static final FileAccess FILE_ACCESS = FileAccess.FILE_ACCESS;
 
     /**
      * The table <code>teachu.grade</code>.
