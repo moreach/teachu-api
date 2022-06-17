@@ -1,15 +1,16 @@
-package ch.teachu.teachuapi.auth.dtos;
+package ch.teachu.teachuapi.grade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
-    private String email;
-    private String password;
+@AllArgsConstructor
+public class CreateGradeResponse {
+    private UUID id;
 }

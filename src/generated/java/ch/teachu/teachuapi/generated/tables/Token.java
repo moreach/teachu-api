@@ -24,7 +24,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Token extends TableImpl<TokenRecord> {
 
-    private static final long serialVersionUID = -764969596;
+    private static final long serialVersionUID = -933907678;
 
     /**
      * The reference instance of <code>teachu.token</code>
@@ -42,12 +42,12 @@ public class Token extends TableImpl<TokenRecord> {
     /**
      * The column <code>teachu.token.user_id</code>.
      */
-    public final TableField<TokenRecord, UUID> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BINARY(16).nullable(false), this, "", new UuidConverter());
+    public final TableField<TokenRecord, UUID> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
      * The column <code>teachu.token.access</code>.
      */
-    public final TableField<TokenRecord, String> ACCESS = createField(DSL.name("access"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
+    public final TableField<TokenRecord, String> ACCESS = createField(DSL.name("access"), org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     /**
      * The column <code>teachu.token.refresh</code>.

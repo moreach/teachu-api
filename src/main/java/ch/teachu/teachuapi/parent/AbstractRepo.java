@@ -1,6 +1,7 @@
 package ch.teachu.teachuapi.parent;
 
 import ch.teachu.teachuapi.sql.Sql;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Record;
@@ -30,16 +31,32 @@ public class AbstractRepo {
         return sql().selectFrom(table).where(getIdField(table).eq(id)).fetchOneInto(table);
     }
 
-    public void deleteById(TableImpl<?> table, UUID id) {
-        sql().delete(table).where(getIdField(table).eq(id)).execute();
+    public boolean existsById(TableImpl<?> table, UUID id) {
+        return sql().fetchExists(sql().selectFrom(table).where(getIdField(table).eq(id)));
+    }
+
+    public int deleteById(TableImpl<?> table, UUID id) {
+        return sql().delete(table).where(getIdField(table).eq(id)).execute();
     }
 
     @SuppressWarnings("unchecked")
-    protected Field<UUID> getIdField(TableImpl<?> table) {
+    private Field<UUID> getIdField(TableImpl<?> table) {
         try {
             return (Field<UUID>) table.getClass().getField("ID").get(table);
         } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Adds a condition to a list if the given binding is not null.
+     * @param conditionList The list to add the condition to.
+     * @param conditionToAdd The condition which should be added to the list.
+     * @param binding The value used in the condition which will determine whether the condition should be added or not.
+     */
+    protected void addCondition(List<Condition> conditionList, Condition conditionToAdd, Object binding) {
+        if (binding != null) {
+            conditionList.add(conditionToAdd);
         }
     }
 }

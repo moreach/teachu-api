@@ -1,15 +1,15 @@
 package ch.teachu.teachuapi.internalUser;
 
-import ch.teachu.teachuapi.dtos.MessageDTO;
-import ch.teachu.teachuapi.internalUser.dto.ChangeProfileDTO;
-import ch.teachu.teachuapi.internalUser.dto.CreateUserDTO;
-import ch.teachu.teachuapi.internalUser.dto.PersonalUserDTO;
+import ch.teachu.teachuapi.auth.dtos.TokenResponse;
+import ch.teachu.teachuapi.dtos.MessageResponse;
+import ch.teachu.teachuapi.internalUser.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "User")
+@RequestMapping("/user")
 @RestController
 public class InternalUserController {
 
@@ -19,21 +19,22 @@ public class InternalUserController {
         this.internalUserService = internalUserService;
     }
 
-    // TODO remove
-    @Operation(summary = "Create user for testing purposes")
-    @PostMapping("/user")
-    private ResponseEntity<MessageDTO> createUser(@RequestBody CreateUserDTO createUserDTO) {
-        return internalUserService.create(createUserDTO);
-    }
-
-    @GetMapping("/user")
-    private ResponseEntity<PersonalUserDTO> getUser(@RequestHeader("auth") String auth) {
+    @Operation(summary = "User data and settings of logged in user")
+    @GetMapping
+    private ResponseEntity<InternalUserResponse> getUser(@RequestHeader("auth") String auth) {
         return internalUserService.getUser(auth);
     }
 
-    @PutMapping("/user/profile")
-    private ResponseEntity<MessageDTO> changeProfile(@RequestHeader("auth") String auth, ChangeProfileDTO changeProfileDTO) {
-        return internalUserService.changeProfile(auth, changeProfileDTO);
+    // TODO remove
+    @Operation(summary = "Create user for testing purposes")
+    @PostMapping
+    private ResponseEntity<MessageResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
+        return internalUserService.create(createUserRequest);
     }
 
+    @Operation(summary = "Change user data and settings of logged in user")
+    @PutMapping
+    private ResponseEntity<MessageResponse> changeProfile(@RequestHeader("auth") String auth, @RequestBody ChangeProfileRequest changeProfileRequest) {
+        return internalUserService.changeProfile(auth, changeProfileRequest);
+    }
 }

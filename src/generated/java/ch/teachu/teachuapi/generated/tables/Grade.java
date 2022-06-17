@@ -23,7 +23,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Grade extends TableImpl<GradeRecord> {
 
-    private static final long serialVersionUID = -2125787786;
+    private static final long serialVersionUID = -977993597;
 
     /**
      * The reference instance of <code>teachu.grade</code>
@@ -57,6 +57,11 @@ public class Grade extends TableImpl<GradeRecord> {
      * The column <code>teachu.grade.note</code>.
      */
     public final TableField<GradeRecord, String> NOTE = createField(DSL.name("note"), org.jooq.impl.SQLDataType.VARCHAR(1000), this, "");
+
+    /**
+     * The column <code>teachu.grade.exam_id</code>.
+     */
+    public final TableField<GradeRecord, UUID> EXAM_ID = createField(DSL.name("exam_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
 
     /**
      * Create a <code>teachu.grade</code> table reference
@@ -133,11 +138,11 @@ public class Grade extends TableImpl<GradeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<UUID, UUID, Double, String> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<UUID, UUID, Double, String, UUID> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 }

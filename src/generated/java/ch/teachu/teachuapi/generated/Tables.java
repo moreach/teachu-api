@@ -74,6 +74,11 @@ public class Tables {
     public static final SchoolClassEvent SCHOOL_CLASS_EVENT = SchoolClassEvent.SCHOOL_CLASS_EVENT;
 
     /**
+     * The table <code>teachu.school_class_semester</code>.
+     */
+    public static final SchoolClassSemester SCHOOL_CLASS_SEMESTER = SchoolClassSemester.SCHOOL_CLASS_SEMESTER;
+
+    /**
      * The table <code>teachu.school_class_subject</code>.
      */
     public static final SchoolClassSubject SCHOOL_CLASS_SUBJECT = SchoolClassSubject.SCHOOL_CLASS_SUBJECT;
@@ -92,6 +97,11 @@ public class Tables {
      * The table <code>teachu.school_info</code>.
      */
     public static final SchoolInfo SCHOOL_INFO = SchoolInfo.SCHOOL_INFO;
+
+    /**
+     * The table <code>teachu.semester</code>.
+     */
+    public static final Semester SEMESTER = Semester.SEMESTER;
 
     /**
      * The table <code>teachu.subject</code>.

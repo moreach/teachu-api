@@ -19,7 +19,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Teachu extends SchemaImpl {
 
-    private static final long serialVersionUID = 1853052872;
+    private static final long serialVersionUID = 1282033410;
 
     /**
      * The reference instance of <code>teachu</code>
@@ -87,6 +87,11 @@ public class Teachu extends SchemaImpl {
     public final SchoolClassEvent SCHOOL_CLASS_EVENT = SchoolClassEvent.SCHOOL_CLASS_EVENT;
 
     /**
+     * The table <code>teachu.school_class_semester</code>.
+     */
+    public final SchoolClassSemester SCHOOL_CLASS_SEMESTER = SchoolClassSemester.SCHOOL_CLASS_SEMESTER;
+
+    /**
      * The table <code>teachu.school_class_subject</code>.
      */
     public final SchoolClassSubject SCHOOL_CLASS_SUBJECT = SchoolClassSubject.SCHOOL_CLASS_SUBJECT;
@@ -105,6 +110,11 @@ public class Teachu extends SchemaImpl {
      * The table <code>teachu.school_info</code>.
      */
     public final SchoolInfo SCHOOL_INFO = SchoolInfo.SCHOOL_INFO;
+
+    /**
+     * The table <code>teachu.semester</code>.
+     */
+    public final Semester SEMESTER = Semester.SEMESTER;
 
     /**
      * The table <code>teachu.subject</code>.
@@ -159,10 +169,12 @@ public class Teachu extends SchemaImpl {
             Room.ROOM,
             SchoolClass.SCHOOL_CLASS,
             SchoolClassEvent.SCHOOL_CLASS_EVENT,
+            SchoolClassSemester.SCHOOL_CLASS_SEMESTER,
             SchoolClassSubject.SCHOOL_CLASS_SUBJECT,
             SchoolClassUser.SCHOOL_CLASS_USER,
             SchoolEvent.SCHOOL_EVENT,
             SchoolInfo.SCHOOL_INFO,
+            Semester.SEMESTER,
             Subject.SUBJECT,
             Timetable.TIMETABLE,
             Token.TOKEN,

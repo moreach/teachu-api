@@ -1,9 +1,10 @@
 package ch.teachu.teachuapi.internalUser;
 
 import ch.teachu.teachuapi.enums.UserRole;
+import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.generated.tables.records.UserRecord;
-import ch.teachu.teachuapi.internalUser.dto.ChangeProfileDTO;
-import ch.teachu.teachuapi.internalUser.dto.PersonalUserDTO;
+import ch.teachu.teachuapi.internalUser.dto.ChangeProfileRequest;
+import ch.teachu.teachuapi.internalUser.dto.InternalUserResponse;
 import ch.teachu.teachuapi.parent.AbstractRepo;
 import org.springframework.stereotype.Repository;
 
@@ -16,12 +17,8 @@ import static ch.teachu.teachuapi.generated.tables.User.USER;
 public class InternalUserRepo extends AbstractRepo {
 
     public boolean existsByEmail(String email) {
-        Integer matchCount = sql().selectCount()
-                .from(USER)
-                .where(USER.EMAIL.eq(email))
-                .fetchOneInto(Integer.class);
-
-        return matchCount == null || matchCount > 0;
+        return  sql().fetchExists(sql().selectFrom(USER)
+                .where(USER.EMAIL.eq(email)));
     }
 
     public void createUser(String email, String password, UserRole userRole) {
@@ -30,33 +27,39 @@ public class InternalUserRepo extends AbstractRepo {
                 .execute();
     }
 
-    public Optional<PersonalUserDTO> findById(UUID userId) {
-        return sql().select(USER.EMAIL.as(PersonalUserDTO.EMAIL),
-                USER.ROLE.as(PersonalUserDTO.ROLE),
-                USER.FIRST_NAME.as(PersonalUserDTO.FIRST_NAME),
-                USER.LAST_NAME.as(PersonalUserDTO.LAST_NAME),
-                USER.BIRTHDAY.as(PersonalUserDTO.BIRTHDAY),
-                USER.SEX.as(PersonalUserDTO.SEX),
-                USER.LANGUAGE.as(PersonalUserDTO.LANGUAGE),
-                USER.DARK_THEME.as(PersonalUserDTO.DARK_THEME),
-                USER.CITY.as(PersonalUserDTO.CITY),
-                USER.POSTAL_CODE.as(PersonalUserDTO.POSTAL_CODE),
-                USER.STREET.as(PersonalUserDTO.STREET),
-                USER.PHONE.as(PersonalUserDTO.PHONE),
-                USER.PROFILE_IMG.as(PersonalUserDTO.PROFILE_IMAGE))
+    public Optional<InternalUserResponse> findById(UUID userId) {
+        return sql().select(USER.EMAIL.as(InternalUserResponse.EMAIL),
+                USER.ROLE.as(InternalUserResponse.ROLE),
+                USER.FIRST_NAME.as(InternalUserResponse.FIRST_NAME),
+                USER.LAST_NAME.as(InternalUserResponse.LAST_NAME),
+                USER.BIRTHDAY.as(InternalUserResponse.BIRTHDAY),
+                USER.SEX.as(InternalUserResponse.SEX),
+                USER.LANGUAGE.as(InternalUserResponse.LANGUAGE),
+                USER.DARK_THEME.as(InternalUserResponse.DARK_THEME),
+                USER.CITY.as(InternalUserResponse.CITY),
+                USER.POSTAL_CODE.as(InternalUserResponse.POSTAL_CODE),
+                USER.STREET.as(InternalUserResponse.STREET),
+                USER.PHONE.as(InternalUserResponse.PHONE),
+                USER.PROFILE_IMG.as(InternalUserResponse.PROFILE_IMAGE))
                 .from(USER)
                 .where(USER.ID.eq(userId))
-                .fetchOptionalInto(PersonalUserDTO.class);
+                .fetchOptionalInto(InternalUserResponse.class);
     }
 
-    public void changeProfile(UUID userId, ChangeProfileDTO changeProfileDTO) {
-        UserRecord user = sql().fetchOne(USER, USER.ID.eq(userId));
-        assert user != null;
-        user.setLanguage(changeProfileDTO.getLanguage());
-        user.setDarkTheme(changeProfileDTO.isDarkTheme());
-        user.setPhone(changeProfileDTO.getPhone());
-        user.setProfileImg(changeProfileDTO.getProfileImage());
-        user.setNotes(changeProfileDTO.getNotes());
+    public void changeProfile(UUID userId, ChangeProfileRequest changeProfileRequest) {
+        UserRecord user = sql().fetchOptional(USER, USER.ID.eq(userId))
+                .orElseThrow(() -> new NotFoundException("User " + userId));
+        user.setLanguage(changeProfileRequest.getLanguage());
+        user.setDarkTheme(changeProfileRequest.isDarkTheme());
+        user.setPhone(changeProfileRequest.getPhone());
+        user.setProfileImg(changeProfileRequest.getProfileImage());
+        user.store();
+    }
+
+    public void changePassword(UUID userId, String password) {
+        UserRecord user = sql().fetchOptional(USER, USER.ID.eq(userId))
+                .orElseThrow(() -> new NotFoundException("User " + userId));
+        user.setPassword(password);
         user.store();
     }
 }

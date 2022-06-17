@@ -21,7 +21,7 @@ import java.util.UUID;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TokenRecord extends UpdatableRecordImpl<TokenRecord> implements Record5<UUID, String, String, LocalDateTime, LocalDateTime> {
 
-    private static final long serialVersionUID = 198694326;
+    private static final long serialVersionUID = 357904940;
 
     /**
      * Setter for <code>teachu.token.user_id</code>.
@@ -98,7 +98,7 @@ public class TokenRecord extends UpdatableRecordImpl<TokenRecord> implements Rec
     // -------------------------------------------------------------------------
 
     @Override
-    public Record1<UUID> key() {
+    public Record1<String> key() {
         return (Record1) super.key();
     }
 

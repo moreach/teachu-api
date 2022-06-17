@@ -10,10 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChangeProfileDTO {
+public class ChangeProfileRequest {
     private UserLanguage language;
     private boolean darkTheme;
     private String phone;
     private String profileImage;
-    private String notes;
 }
