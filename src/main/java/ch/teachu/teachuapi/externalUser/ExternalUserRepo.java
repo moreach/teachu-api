@@ -20,8 +20,7 @@ public class ExternalUserRepo extends AbstractRepo {
                         USER.LAST_NAME.as(ExternalUserResponse.LAST_NAME),
                         USER.BIRTHDAY.as(ExternalUserResponse.BIRTHDAY),
                         USER.SEX.as(ExternalUserResponse.SEX),
-                        USER.CITY.as(ExternalUserResponse.CITY),
-                        USER.PROFILE_IMG_ID.as(ExternalUserResponse.PROFILE_IMAGE_ID))
+                        USER.CITY.as(ExternalUserResponse.CITY))
                 .from(USER)
                 .where(USER.ID.eq(userId))
                 .fetchOptionalInto(ExternalUserResponse.class);

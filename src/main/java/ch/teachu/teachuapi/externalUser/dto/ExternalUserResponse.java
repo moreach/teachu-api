@@ -24,7 +24,6 @@ public class ExternalUserResponse {
     public static final String BIRTHDAY = "birthday";
     public static final String SEX = "sex";
     public static final String CITY = "city";
-    public static final String PROFILE_IMAGE_ID = "profileImageId";
 
     private UUID id;
     private String email;
@@ -34,5 +33,4 @@ public class ExternalUserResponse {
     private Date birthday;
     private UserSex sex;
     private String city;
-    private UUID profileImageId;
 }
