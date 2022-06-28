@@ -47,7 +47,7 @@ public class ExamService extends AbstractService {
             sum += subject.getAverageMark() * subject.getWeight();
             weight += subject.getWeight();
         }
-        schoolClass.setAverageMark(sum / weight);
+        schoolClass.setAverageMark(round2DecimalPlaces(sum / weight));
     }
 
     private void calculateAverages(SubjectExamsResponse subject) {
@@ -58,7 +58,7 @@ public class ExamService extends AbstractService {
             sum += exam.getAverageMark() * exam.getWeight();
             weight += exam.getWeight();
         }
-        subject.setAverageMark(sum / weight);
+        subject.setAverageMark(round2DecimalPlaces(sum / weight));
     }
 
     private void calculateAverages(ExamResponse exam) {
@@ -68,7 +68,11 @@ public class ExamService extends AbstractService {
             sum += grade.getMark();
             weight++;
         }
-        exam.setAverageMark(sum / weight);
+        exam.setAverageMark(round2DecimalPlaces(sum / weight));
+    }
+
+    private double round2DecimalPlaces(double d) {
+        return Math.round(d * 100.0) / 100.0;
     }
 
     private List<SemesterExamsResponse> loadExamsWithoutAverages(AuthDAO authDAO) {
