@@ -206,4 +206,8 @@ VALUES ((SELECT id FROM user WHERE email = 'teacher@test.ch'), 'teacher', 'teach
        ((SELECT id FROM user WHERE email = 'parent@test.ch'), 'parent', 'parent', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
        ((SELECT id FROM user WHERE email = 'teacher2@test.ch'), 'teacher2', 'teacher2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
        ((SELECT id FROM user WHERE email = 'student2@test.ch'), 'student2', 'student2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
-       ((SELECT id FROM user WHERE email = 'parent2@test.ch'), 'parent2', 'parent2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR)
+       ((SELECT id FROM user WHERE email = 'parent2@test.ch'), 'parent2', 'parent2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR);
+
+INSERT INTO school_config(name, value, code_type)
+VALUES ('Language', 'english', 'language'),
+       ('EmailDomain', 'super-school.ch', null);

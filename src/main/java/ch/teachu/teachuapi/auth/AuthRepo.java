@@ -5,6 +5,7 @@ import ch.teachu.teachuapi.generated.tables.records.TokenRecord;
 import ch.teachu.teachuapi.parent.AbstractRepo;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,12 +15,12 @@ import static ch.teachu.teachuapi.generated.tables.User.USER;
 
 @Repository
 public class AuthRepo extends AbstractRepo {
-    public Optional<AuthUserDAO> findAuthUserByEmail(String email) {
+    public Optional<AuthUserDAO> findActiveAuthUserByEmail(String email) {
         return Optional.ofNullable(
                 sql().select(USER.ID.as(AuthUserDAO.ID),
                         USER.PASSWORD.as(AuthUserDAO.PASSWORD))
                         .from(USER)
-                        .where(USER.EMAIL.eq(email))
+                        .where(USER.EMAIL.eq(email), USER.ACTIVE.eq(true), USER.TERMINATION_DATE.gt(LocalDate.now()))
                         .fetchOneInto(AuthUserDAO.class)
         );
     }
@@ -52,6 +53,13 @@ public class AuthRepo extends AbstractRepo {
                 .where(TOKEN.REFRESH.eq(refresh))
                 .fetchOne()
         );
+    }
+
+    public boolean isUserActive(String refresh) {
+        return sql().fetchExists(sql().select()
+                .from(TOKEN)
+                .join(USER).on(USER.ID.eq(TOKEN.USER_ID))
+                .where(TOKEN.REFRESH.eq(refresh), USER.ACTIVE.eq(true), USER.TERMINATION_DATE.gt(LocalDate.now())));
     }
 
     public int deleteTokenByRefresh(String refresh) {

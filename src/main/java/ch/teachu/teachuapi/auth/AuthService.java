@@ -11,6 +11,7 @@ import ch.teachu.teachuapi.errorhandling.NotFoundException;
 import ch.teachu.teachuapi.generated.tables.records.TokenRecord;
 import ch.teachu.teachuapi.internalUser.InternalUserRepo;
 import ch.teachu.teachuapi.internalUser.dto.ChangePasswordRequest;
+import ch.teachu.teachuapi.util.Assert;
 import ch.teachu.teachuapi.util.DateUtil;
 import ch.teachu.teachuapi.util.ValidationUtil;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -42,6 +43,7 @@ public class AuthService extends AbstractSecurityService {
     }
 
     public ResponseEntity<TokenResponse> refresh(RefreshRequest refreshRequest) {
+        Assert.ensureTrue(authRepo.isUserActive(refreshRequest.getRefresh()), "User deactivated");
         TokenRecord tokenRecord = authRepo.findTokenByRefresh(refreshRequest.getRefresh())
                 .orElseThrow(() -> new NotFoundException("Could not find refresh " + refreshRequest.getRefresh()));
 

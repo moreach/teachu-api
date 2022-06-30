@@ -247,3 +247,11 @@ CREATE TABLE school_class_semester
     school_class_id BINARY(16),
     semester_id BINARY(16)
 );
+
+DROP TABLE IF EXISTS school_config;
+CREATE TABLE school_config
+(
+    name VARCHAR(250),
+    value VARCHAR(250),
+    code_type VARCHAR(255)
+);

@@ -19,7 +19,7 @@ public abstract class AbstractSecurityService extends AbstractService {
 	}
 	
 	protected AuthUserDAO login(String email, String password) {
-		AuthUserDAO user = authRepo.findAuthUserByEmail(email)
+		AuthUserDAO user = authRepo.findActiveAuthUserByEmail(email)
 				.orElseThrow(() -> new NotFoundException("Email " + email));
 		ensurePasswordMatches(email, user, password);
 		return user;
