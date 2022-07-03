@@ -1,7 +1,5 @@
 package ch.teachu.teachuapi.grade;
 
-import ch.teachu.teachuapi.configs.GradeProperties;
-import ch.teachu.teachuapi.daos.AuthDAO;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.grade.dto.*;
 import ch.teachu.teachuapi.parent.AbstractService;
@@ -17,10 +15,9 @@ import java.util.UUID;
 public class GradeService extends AbstractService {
 
     private final GradeRepo gradeRepo;
-    private final GradeProperties gradeProperties;
 
     public ResponseEntity<SemestersGradesResponse> loadGrades(String auth, UUID studentId) {
-        AuthDAO authDAO = authMinRole(auth, UserRole.STUDENT);
+        authMinRole(auth, UserRole.PARENT);
         List<SemesterGradesResponse> semesters = gradeRepo.loadGrades(studentId);
         calculateAverages(semesters);
         return ResponseEntity.ok(new SemestersGradesResponse(semesters));
