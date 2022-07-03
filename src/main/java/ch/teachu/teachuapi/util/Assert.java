@@ -17,4 +17,16 @@ public class Assert {
             throw new InvalidException(message);
         }
     }
+
+    public static void ensureNotNull(Object obj, String message) {
+        if (obj == null) {
+            throw new InvalidException(message);
+        }
+    }
+
+    public static void ensureNull(Object obj, String message) {
+        if (obj != null) {
+            throw new InvalidException(message);
+        }
+    }
 }

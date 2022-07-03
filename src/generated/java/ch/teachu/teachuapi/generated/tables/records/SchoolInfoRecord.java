@@ -6,14 +6,15 @@ package ch.teachu.teachuapi.generated.tables.records;
 
 import ch.teachu.teachuapi.enums.SchoolInfoState;
 import ch.teachu.teachuapi.generated.tables.SchoolInfo;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 
 /**

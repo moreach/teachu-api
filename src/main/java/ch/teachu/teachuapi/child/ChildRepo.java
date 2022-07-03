@@ -41,8 +41,7 @@ public class ChildRepo extends AbstractRepo {
                         USER.CITY.as(ChildResponse.CITY),
                         USER.POSTAL_CODE.as(ChildResponse.POSTAL_CODE),
                         USER.STREET.as(ChildResponse.STREET),
-                        USER.PHONE.as(ChildResponse.PHONE),
-                        USER.PROFILE_IMG.as(ChildResponse.PROFILE_IMAGE))
+                        USER.PHONE.as(ChildResponse.PHONE))
                 .from(USER)
                 .join(PARENT_STUDENT)
                 .on(PARENT_STUDENT.STUDENT_ID.eq(childId))

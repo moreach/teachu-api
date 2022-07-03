@@ -4,13 +4,37 @@
 package ch.teachu.teachuapi.generated;
 
 
-import ch.teachu.teachuapi.generated.tables.*;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
+import ch.teachu.teachuapi.generated.tables.Chat;
+import ch.teachu.teachuapi.generated.tables.ChatMessage;
+import ch.teachu.teachuapi.generated.tables.ChatUser;
+import ch.teachu.teachuapi.generated.tables.Exam;
+import ch.teachu.teachuapi.generated.tables.FileAccess;
+import ch.teachu.teachuapi.generated.tables.Grade;
+import ch.teachu.teachuapi.generated.tables.Lesson;
+import ch.teachu.teachuapi.generated.tables.LessonEvent;
+import ch.teachu.teachuapi.generated.tables.Log;
+import ch.teachu.teachuapi.generated.tables.ParentStudent;
+import ch.teachu.teachuapi.generated.tables.Room;
+import ch.teachu.teachuapi.generated.tables.SchoolClass;
+import ch.teachu.teachuapi.generated.tables.SchoolClassEvent;
+import ch.teachu.teachuapi.generated.tables.SchoolClassSemester;
+import ch.teachu.teachuapi.generated.tables.SchoolClassSubject;
+import ch.teachu.teachuapi.generated.tables.SchoolClassUser;
+import ch.teachu.teachuapi.generated.tables.SchoolEvent;
+import ch.teachu.teachuapi.generated.tables.SchoolInfo;
+import ch.teachu.teachuapi.generated.tables.Semester;
+import ch.teachu.teachuapi.generated.tables.Subject;
+import ch.teachu.teachuapi.generated.tables.Timetable;
+import ch.teachu.teachuapi.generated.tables.Token;
+import ch.teachu.teachuapi.generated.tables.User;
+import ch.teachu.teachuapi.generated.tables.UserEvent;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -19,7 +43,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Teachu extends SchemaImpl {
 
-    private static final long serialVersionUID = 1282033410;
+    private static final long serialVersionUID = 2103145078;
 
     /**
      * The reference instance of <code>teachu</code>
@@ -45,6 +69,11 @@ public class Teachu extends SchemaImpl {
      * The table <code>teachu.exam</code>.
      */
     public final Exam EXAM = Exam.EXAM;
+
+    /**
+     * The table <code>teachu.file_access</code>.
+     */
+    public final FileAccess FILE_ACCESS = FileAccess.FILE_ACCESS;
 
     /**
      * The table <code>teachu.grade</code>.
@@ -161,6 +190,7 @@ public class Teachu extends SchemaImpl {
             ChatMessage.CHAT_MESSAGE,
             ChatUser.CHAT_USER,
             Exam.EXAM,
+            FileAccess.FILE_ACCESS,
             Grade.GRADE,
             Lesson.LESSON,
             LessonEvent.LESSON_EVENT,

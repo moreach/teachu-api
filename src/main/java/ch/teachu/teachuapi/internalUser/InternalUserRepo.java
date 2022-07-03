@@ -39,8 +39,7 @@ public class InternalUserRepo extends AbstractRepo {
                 USER.CITY.as(InternalUserResponse.CITY),
                 USER.POSTAL_CODE.as(InternalUserResponse.POSTAL_CODE),
                 USER.STREET.as(InternalUserResponse.STREET),
-                USER.PHONE.as(InternalUserResponse.PHONE),
-                USER.PROFILE_IMG.as(InternalUserResponse.PROFILE_IMAGE))
+                USER.PHONE.as(InternalUserResponse.PHONE))
                 .from(USER)
                 .where(USER.ID.eq(userId))
                 .fetchOptionalInto(InternalUserResponse.class);
@@ -52,7 +51,6 @@ public class InternalUserRepo extends AbstractRepo {
         user.setLanguage(changeProfileRequest.getLanguage());
         user.setDarkTheme(changeProfileRequest.isDarkTheme());
         user.setPhone(changeProfileRequest.getPhone());
-        user.setProfileImg(changeProfileRequest.getProfileImage());
         user.store();
     }
 

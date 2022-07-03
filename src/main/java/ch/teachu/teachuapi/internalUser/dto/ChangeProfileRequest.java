@@ -14,5 +14,4 @@ public class ChangeProfileRequest {
     private UserLanguage language;
     private boolean darkTheme;
     private String phone;
-    private String profileImage;
 }

@@ -24,7 +24,6 @@ CREATE TABLE user
     postal_code      VARCHAR(100),
     street           VARCHAR(100),
     phone            VARCHAR(100),
-    profile_img      VARCHAR(100),
     notes            VARCHAR(1000),
     last_login       TIMESTAMP,
     creation_date    DATE,

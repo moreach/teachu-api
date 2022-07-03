@@ -5,12 +5,13 @@ package ch.teachu.teachuapi.generated.tables.records;
 
 
 import ch.teachu.teachuapi.generated.tables.ChatUser;
+
+import java.util.UUID;
+
 import org.jooq.Field;
 import org.jooq.Record2;
 import org.jooq.Row2;
 import org.jooq.impl.TableRecordImpl;
-
-import java.util.UUID;
 
 
 /**

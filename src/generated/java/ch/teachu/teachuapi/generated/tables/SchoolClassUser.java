@@ -7,11 +7,20 @@ package ch.teachu.teachuapi.generated.tables;
 import ch.teachu.teachuapi.generated.Teachu;
 import ch.teachu.teachuapi.generated.tables.records.SchoolClassUserRecord;
 import ch.teachu.teachuapi.sql.generation.UuidConverter;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
 import java.util.UUID;
+
+import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.Name;
+import org.jooq.Record;
+import org.jooq.Row2;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.TableOptions;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 /**

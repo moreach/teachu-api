@@ -6,14 +6,15 @@ package ch.teachu.teachuapi.generated.tables.records;
 
 import ch.teachu.teachuapi.enums.LogLevel;
 import ch.teachu.teachuapi.generated.tables.Log;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record5;
 import org.jooq.Row5;
 import org.jooq.impl.UpdatableRecordImpl;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 
 /**
