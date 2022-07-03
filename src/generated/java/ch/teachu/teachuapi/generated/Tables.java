@@ -8,7 +8,6 @@ import ch.teachu.teachuapi.generated.tables.Chat;
 import ch.teachu.teachuapi.generated.tables.ChatMessage;
 import ch.teachu.teachuapi.generated.tables.ChatUser;
 import ch.teachu.teachuapi.generated.tables.Exam;
-import ch.teachu.teachuapi.generated.tables.FileAccess;
 import ch.teachu.teachuapi.generated.tables.Grade;
 import ch.teachu.teachuapi.generated.tables.Lesson;
 import ch.teachu.teachuapi.generated.tables.LessonEvent;
@@ -20,6 +19,7 @@ import ch.teachu.teachuapi.generated.tables.SchoolClassEvent;
 import ch.teachu.teachuapi.generated.tables.SchoolClassSemester;
 import ch.teachu.teachuapi.generated.tables.SchoolClassSubject;
 import ch.teachu.teachuapi.generated.tables.SchoolClassUser;
+import ch.teachu.teachuapi.generated.tables.SchoolConfig;
 import ch.teachu.teachuapi.generated.tables.SchoolEvent;
 import ch.teachu.teachuapi.generated.tables.SchoolInfo;
 import ch.teachu.teachuapi.generated.tables.Semester;
@@ -55,11 +55,6 @@ public class Tables {
      * The table <code>teachu.exam</code>.
      */
     public static final Exam EXAM = Exam.EXAM;
-
-    /**
-     * The table <code>teachu.file_access</code>.
-     */
-    public static final FileAccess FILE_ACCESS = FileAccess.FILE_ACCESS;
 
     /**
      * The table <code>teachu.grade</code>.
@@ -115,6 +110,11 @@ public class Tables {
      * The table <code>teachu.school_class_user</code>.
      */
     public static final SchoolClassUser SCHOOL_CLASS_USER = SchoolClassUser.SCHOOL_CLASS_USER;
+
+    /**
+     * The table <code>teachu.school_config</code>.
+     */
+    public static final SchoolConfig SCHOOL_CONFIG = SchoolConfig.SCHOOL_CONFIG;
 
     /**
      * The table <code>teachu.school_event</code>.

@@ -8,7 +8,6 @@ import ch.teachu.teachuapi.generated.tables.Chat;
 import ch.teachu.teachuapi.generated.tables.ChatMessage;
 import ch.teachu.teachuapi.generated.tables.ChatUser;
 import ch.teachu.teachuapi.generated.tables.Exam;
-import ch.teachu.teachuapi.generated.tables.FileAccess;
 import ch.teachu.teachuapi.generated.tables.Grade;
 import ch.teachu.teachuapi.generated.tables.Lesson;
 import ch.teachu.teachuapi.generated.tables.LessonEvent;
@@ -20,6 +19,7 @@ import ch.teachu.teachuapi.generated.tables.SchoolClassEvent;
 import ch.teachu.teachuapi.generated.tables.SchoolClassSemester;
 import ch.teachu.teachuapi.generated.tables.SchoolClassSubject;
 import ch.teachu.teachuapi.generated.tables.SchoolClassUser;
+import ch.teachu.teachuapi.generated.tables.SchoolConfig;
 import ch.teachu.teachuapi.generated.tables.SchoolEvent;
 import ch.teachu.teachuapi.generated.tables.SchoolInfo;
 import ch.teachu.teachuapi.generated.tables.Semester;
@@ -43,7 +43,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Teachu extends SchemaImpl {
 
-    private static final long serialVersionUID = 2103145078;
+    private static final long serialVersionUID = -654932380;
 
     /**
      * The reference instance of <code>teachu</code>
@@ -69,11 +69,6 @@ public class Teachu extends SchemaImpl {
      * The table <code>teachu.exam</code>.
      */
     public final Exam EXAM = Exam.EXAM;
-
-    /**
-     * The table <code>teachu.file_access</code>.
-     */
-    public final FileAccess FILE_ACCESS = FileAccess.FILE_ACCESS;
 
     /**
      * The table <code>teachu.grade</code>.
@@ -129,6 +124,11 @@ public class Teachu extends SchemaImpl {
      * The table <code>teachu.school_class_user</code>.
      */
     public final SchoolClassUser SCHOOL_CLASS_USER = SchoolClassUser.SCHOOL_CLASS_USER;
+
+    /**
+     * The table <code>teachu.school_config</code>.
+     */
+    public final SchoolConfig SCHOOL_CONFIG = SchoolConfig.SCHOOL_CONFIG;
 
     /**
      * The table <code>teachu.school_event</code>.
@@ -190,7 +190,6 @@ public class Teachu extends SchemaImpl {
             ChatMessage.CHAT_MESSAGE,
             ChatUser.CHAT_USER,
             Exam.EXAM,
-            FileAccess.FILE_ACCESS,
             Grade.GRADE,
             Lesson.LESSON,
             LessonEvent.LESSON_EVENT,
@@ -202,6 +201,7 @@ public class Teachu extends SchemaImpl {
             SchoolClassSemester.SCHOOL_CLASS_SEMESTER,
             SchoolClassSubject.SCHOOL_CLASS_SUBJECT,
             SchoolClassUser.SCHOOL_CLASS_USER,
+            SchoolConfig.SCHOOL_CONFIG,
             SchoolEvent.SCHOOL_EVENT,
             SchoolInfo.SCHOOL_INFO,
             Semester.SEMESTER,

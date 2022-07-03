@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-    private static final long serialVersionUID = 1809143091;
+    private static final long serialVersionUID = -851599621;
 
     /**
      * The reference instance of <code>teachu.user</code>
@@ -127,9 +127,9 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, String> PHONE = createField(DSL.name("phone"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>teachu.user.profile_img_id</code>.
+     * The column <code>teachu.user.profile_img</code>.
      */
-    public final TableField<UserRecord, UUID> PROFILE_IMG_ID = createField(DSL.name("profile_img_id"), org.jooq.impl.SQLDataType.BINARY(16), this, "", new UuidConverter());
+    public final TableField<UserRecord, String> PROFILE_IMG = createField(DSL.name("profile_img"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
      * The column <code>teachu.user.notes</code>.
@@ -235,7 +235,7 @@ public class User extends TableImpl<UserRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row20<UUID, String, String, UserRole, String, String, LocalDate, UserSex, UserLanguage, Boolean, String, String, String, String, UUID, String, LocalDateTime, LocalDate, LocalDate, Boolean> fieldsRow() {
+    public Row20<UUID, String, String, UserRole, String, String, LocalDate, UserSex, UserLanguage, Boolean, String, String, String, String, String, String, LocalDateTime, LocalDate, LocalDate, Boolean> fieldsRow() {
         return (Row20) super.fieldsRow();
     }
 }
