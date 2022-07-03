@@ -2,7 +2,6 @@ package ch.teachu.teachuapi.child;
 
 import ch.teachu.teachuapi.child.dto.ChildResponse;
 import ch.teachu.teachuapi.child.dto.OutlineChildResponse;
-import ch.teachu.teachuapi.exam.ExamRepo;
 import ch.teachu.teachuapi.parent.AbstractRepo;
 import org.springframework.stereotype.Repository;
 
@@ -14,12 +13,6 @@ import static ch.teachu.teachuapi.generated.tables.User.USER;
 
 @Repository
 public class ChildRepo extends AbstractRepo {
-
-    protected final ExamRepo gradeRepo;
-
-    public ChildRepo(ExamRepo gradeRepo) {
-        this.gradeRepo = gradeRepo;
-    }
 
     public List<OutlineChildResponse> findChildren(UUID parentId) {
         return sql().select(USER.ID.as(OutlineChildResponse.ID),

@@ -6,10 +6,10 @@ import ch.teachu.teachuapi.child.dto.OutlineChildrenResponse;
 import ch.teachu.teachuapi.daos.AuthDAO;
 import ch.teachu.teachuapi.enums.UserRole;
 import ch.teachu.teachuapi.errorhandling.NotFoundException;
-import ch.teachu.teachuapi.exam.ExamRepo;
-import ch.teachu.teachuapi.exam.ExamService;
-import ch.teachu.teachuapi.exam.dto.SemesterExamsResponse;
 import ch.teachu.teachuapi.generated.tables.User;
+import ch.teachu.teachuapi.grade.GradeRepo;
+import ch.teachu.teachuapi.grade.GradeService;
+import ch.teachu.teachuapi.grade.dto.SemesterGradesResponse;
 import ch.teachu.teachuapi.parent.AbstractService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +23,8 @@ import java.util.UUID;
 public class ChildService extends AbstractService {
 
     private final ChildRepo childRepo;
-    private final ExamService examService;
-    private final ExamRepo examRepo;
+    private final GradeService gradeService;
+    private final GradeRepo gradeRepo;
 
     public ResponseEntity<OutlineChildrenResponse> getChildren(String auth) {
         UUID parentId = authExactRole(auth, UserRole.PARENT).getUserId();
@@ -42,13 +42,13 @@ public class ChildService extends AbstractService {
         }
 
         ChildResponse childResponse = childRepo.loadBaseData(authDAO.getUserId(), studentId);
-        childResponse.setMarks(loadExams(authDAO, studentId));
+        childResponse.setMarks(loadExams(studentId));
         return ResponseEntity.ok(childResponse);
     }
 
-    private List<SemesterExamsResponse> loadExams(AuthDAO authDAO, UUID studentId) {
-        List<SemesterExamsResponse> semesters = examRepo.loadExamsByStudent(studentId);
-        examService.calculateAverages(semesters);
+    private List<SemesterGradesResponse> loadExams(UUID studentId) {
+        List<SemesterGradesResponse> semesters = gradeRepo.loadGrades(studentId);
+        gradeService.calculateAverages(semesters);
         return semesters;
     }
 }
