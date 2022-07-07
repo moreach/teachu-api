@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import static ch.teachu.teachuapi.generated.tables.Token.TOKEN;
 import static ch.teachu.teachuapi.generated.tables.User.USER;
+import static org.jooq.impl.DSL.or;
 
 @Repository
 public class AuthRepo extends AbstractRepo {
@@ -20,7 +21,7 @@ public class AuthRepo extends AbstractRepo {
                 sql().select(USER.ID.as(AuthUserDAO.ID),
                         USER.PASSWORD.as(AuthUserDAO.PASSWORD))
                         .from(USER)
-                        .where(USER.EMAIL.eq(email), USER.ACTIVE.eq(true), USER.TERMINATION_DATE.gt(LocalDate.now()))
+                        .where(USER.EMAIL.eq(email), USER.ACTIVE.eq(true), or(USER.TERMINATION_DATE.isNull(), USER.TERMINATION_DATE.gt(LocalDate.now())))
                         .fetchOneInto(AuthUserDAO.class)
         );
     }
@@ -59,7 +60,7 @@ public class AuthRepo extends AbstractRepo {
         return sql().fetchExists(sql().select()
                 .from(TOKEN)
                 .join(USER).on(USER.ID.eq(TOKEN.USER_ID))
-                .where(TOKEN.REFRESH.eq(refresh), USER.ACTIVE.eq(true), USER.TERMINATION_DATE.gt(LocalDate.now())));
+                .where(TOKEN.REFRESH.eq(refresh), USER.ACTIVE.eq(true), or(USER.TERMINATION_DATE.isNull(), USER.TERMINATION_DATE.gt(LocalDate.now()))));
     }
 
     public int deleteTokenByRefresh(String refresh) {
