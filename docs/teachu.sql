@@ -3,7 +3,7 @@ DROP DATABASE IF EXISTS teachu;
 CREATE DATABASE teachu;
 USE teachu;
 -- user
-CREATE USER IF NOT EXISTS 'dev'@'%'IDENTIFIED WITH caching_sha2_password BY 'dev';
+CREATE USER IF NOT EXISTS 'dev'@'%' IDENTIFIED WITH caching_sha2_password BY 'dev';
 GRANT ALL PRIVILEGES ON *.* TO 'dev'@'%' WITH GRANT OPTION;
 
 -- tables
@@ -11,41 +11,41 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user
 (
     id               BINARY(16) PRIMARY KEY,
-    email            VARCHAR(100),
-    password         VARCHAR(100),
-    role             VARCHAR(100),
-    first_name       VARCHAR(100),
-    last_name        VARCHAR(100),
+    email            VARCHAR(255),
+    password         VARCHAR(255),
+    role             VARCHAR(255),
+    first_name       VARCHAR(255),
+    last_name        VARCHAR(255),
     birthday         DATE,
-    sex              VARCHAR(100),
-    language         VARCHAR(100),
+    sex              VARCHAR(255),
+    language         VARCHAR(255),
     dark_theme       BOOLEAN,
-    city             VARCHAR(100),
-    postal_code      VARCHAR(100),
-    street           VARCHAR(100),
-    phone            VARCHAR(100),
-    notes            VARCHAR(1000),
-    last_login       TIMESTAMP,
+    city             VARCHAR(255),
+    postal_code      VARCHAR(255),
+    street           VARCHAR(255),
+    phone            VARCHAR(255),
+    last_login       TIMESTAMP,     -- todo do not forget
     creation_date    DATE,
     termination_date DATE,
-    active           BOOLEAN
+    notes            VARCHAR(4096), -- todo should not be used (api)
+    active           BOOLEAN        -- todo go through again
 );
 
 DROP TABLE IF EXISTS token;
 CREATE TABLE token
 (
-    user_id BINARY(16),
-    access VARCHAR(100) PRIMARY KEY,
-    refresh VARCHAR(100),
-    access_expires TIMESTAMP,
+    user_id         BINARY(16),
+    access          VARCHAR(255) PRIMARY KEY,
+    refresh         VARCHAR(255),
+    access_expires  TIMESTAMP,
     refresh_expires TIMESTAMP
 );
 
 DROP TABLE IF EXISTS school_class;
 CREATE TABLE school_class
 (
-    id      BINARY(16) PRIMARY KEY,
-    name    VARCHAR(100),
+    id         BINARY(16) PRIMARY KEY,
+    name       VARCHAR(255),
     teacher_id BINARY(16)
 );
 
@@ -53,36 +53,33 @@ DROP TABLE IF EXISTS school_class_user;
 CREATE TABLE school_class_user
 (
     school_class_id BINARY(16),
-    user_id  BINARY(16)
+    user_id         BINARY(16)
 );
 
 DROP TABLE IF EXISTS subject;
 CREATE TABLE subject
 (
-    id       BINARY(16) PRIMARY KEY,
-    name VARCHAR(100),
-    weight   FLOAT
+    id     BINARY(16) PRIMARY KEY,
+    name   VARCHAR(255),
+    weight FLOAT
 );
 
 DROP TABLE IF EXISTS school_class_subject;
 CREATE TABLE school_class_subject
 (
-    id       BINARY(16) PRIMARY KEY,
+    id              BINARY(16) PRIMARY KEY,
     school_class_id BINARY(16),
-    teacher_id BINARY(16),
-    subject_id     BINARY(16),
-    note     VARCHAR(100),
-    start_date DATE,
-    end_date DATE,
-    `interval` VARCHAR(100),
-    active BOOLEAN
+    subject_id      BINARY(16),
+    teacher_id      BINARY(16),
+    start_date      DATE,
+    end_date        DATE,
+    note            VARCHAR(4096)
 );
 
 DROP TABLE IF EXISTS timetable;
 CREATE TABLE timetable
 (
     id         BINARY(16) PRIMARY KEY,
-    lesson_index     int(1),
     start_time TIME,
     end_time   TIME
 );
@@ -90,87 +87,77 @@ CREATE TABLE timetable
 DROP TABLE IF EXISTS lesson;
 CREATE TABLE lesson
 (
-    id         BINARY(16) PRIMARY KEY,
+    id                      BINARY(16) PRIMARY KEY,
     school_class_subject_id BINARY(16),
-    start_time TIME,
-    end_time   TIME,
-    weekday    VARCHAR(100),
-    room       BINARY(16)
+    timetable_id            BINARY(16),
+    weekday                 VARCHAR(255),
+    room_id                 BINARY(16)
 );
 
 DROP TABLE IF EXISTS room;
 CREATE TABLE room
 (
-    id         BINARY(16) PRIMARY KEY,
-    name    VARCHAR(100),
-    note       VARCHAR(1000)
+    id   BINARY(16) PRIMARY KEY,
+    name VARCHAR(255),
+    note VARCHAR(4096)
 );
 
 DROP TABLE IF EXISTS exam;
 CREATE TABLE exam
 (
-    id          BINARY(16) PRIMARY KEY,
-    school_class_subject_id  BINARY(16),
-    name        VARCHAR(100),
-    description VARCHAR(250),
-    weight      FLOAT,
-    date        DATE,
-    view_date   DATE,
-    semester_id BINARY(16)
+    id                      BINARY(16) PRIMARY KEY,
+    school_class_subject_id BINARY(16),
+    name                    VARCHAR(100),
+    description             VARCHAR(250),
+    weight                  FLOAT,
+    date                    DATE,
+    view_date               DATE,
+    semester_id             BINARY(16)
 );
 
 DROP TABLE IF EXISTS grade;
 CREATE TABLE grade
 (
-    id          BINARY(16) PRIMARY KEY,
-    student_id     BINARY(16),
-    mark        FLOAT,
-    note        VARCHAR(1000),
-    exam_id     BINARY(16)
+    id         BINARY(16) PRIMARY KEY,
+    student_id BINARY(16),
+    exam_id    BINARY(16),
+    mark       FLOAT,
+    note       VARCHAR(4096)
 );
 
 DROP TABLE IF EXISTS user_event;
 CREATE TABLE user_event
 (
-    id BINARY(16) PRIMARY KEY,
-    user_id BINARY(16),
-    lesson_id BINARY(16),
-    description VARCHAR(1000),
-    date DATE,
-    user_event_state VARCHAR(100)
-);
-
-DROP TABLE IF EXISTS lesson_event;
-CREATE TABLE lesson_event
-(
-    id BINARY(16) PRIMARY KEY,
-    lesson_id BINARY(16),
-    title VARCHAR(100),
-    description VARCHAR(1000),
-    date DATE,
-    isTest BOOLEAN
+    id               BINARY(16) PRIMARY KEY,
+    user_id          BINARY(16),
+    lesson_id        BINARY(16),
+    title            VARCHAR(255),
+    description      VARCHAR(4096),
+    date             DATE,
+    user_event_state VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS school_class_event;
 CREATE TABLE school_class_event
 (
-    id BINARY(16) PRIMARY KEY,
+    id              BINARY(16) PRIMARY KEY,
     school_class_id BINARY(16),
-    title VARCHAR(100),
-    description VARCHAR(1000),
-    date DATE,
-    noSchool BOOLEAN
+    lesson_id       BINARY(16),
+    title           VARCHAR(255),
+    description     VARCHAR(4096),
+    date            DATE,
+    is_test         BOOLEAN
 );
 
 DROP TABLE IF EXISTS school_event;
 CREATE TABLE school_event
 (
-    id BINARY(16) PRIMARY KEY,
-    title VARCHAR(100),
-    description VARCHAR(1000),
-    date_from DATE,
-    date_to DATE,
-    noSchool BOOLEAN
+    id          BINARY(16) PRIMARY KEY,
+    title       VARCHAR(255),
+    description VARCHAR(4096),
+    date_from   DATE,
+    date_to     DATE,
+    no_school   BOOLEAN
 );
 
 DROP TABLE IF EXISTS parent_student;
@@ -183,21 +170,21 @@ CREATE TABLE parent_student
 DROP TABLE IF EXISTS chat;
 CREATE TABLE chat
 (
-    id BINARY(16) PRIMARY KEY,
-    title VARCHAR(100),
-    description VARCHAR(250),
-    creator_id BINARY(16)
+    id          BINARY(16) PRIMARY KEY,
+    title       VARCHAR(255),
+    description VARCHAR(255),
+    creator_id  BINARY(16)
 );
 
 DROP TABLE IF EXISTS chat_message;
 CREATE TABLE chat_message
 (
-    id BINARY(16) PRIMARY KEY,
-    chat_id BINARY(16),
-    message VARCHAR(1000),
-    user_id BINARY(16),
-    timestamp TIMESTAMP,
-    chat_state VARCHAR(100)
+    id         BINARY(16) PRIMARY KEY,
+    chat_id    BINARY(16),
+    user_id    BINARY(16),
+    message    VARCHAR(4096),
+    timestamp  TIMESTAMP,
+    chat_state VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS chat_user;
@@ -210,25 +197,15 @@ CREATE TABLE chat_user
 DROP TABLE IF EXISTS school_info;
 CREATE TABLE school_info
 (
-    id BINARY(16) PRIMARY KEY,
-    title VARCHAR(100),
-    message VARCHAR(1000),
-    date DATE,
-    img VARCHAR(100),
-    user_id BINARY(16),
-    school_info_state VARCHAR(100),
-    important BOOLEAN,
-    pinned BOOLEAN
-);
-
-DROP TABLE IF EXISTS log;
-CREATE TABLE log
-(
     id        BINARY(16) PRIMARY KEY,
-    message   VARCHAR(250),
-    origin    VARCHAR(100),
-    level     VARCHAR(100),
-    timestamp TIMESTAMP
+    title     VARCHAR(255),
+    message   VARCHAR(4096),
+    date      DATE,
+    img       VARCHAR(255),
+    user_id   BINARY(16),
+    important BOOLEAN,
+    pinned    BOOLEAN,
+    active    BOOLEAN
 );
 
 DROP TABLE IF EXISTS semester;
@@ -236,21 +213,21 @@ CREATE TABLE semester
 (
     id        BINARY(16) PRIMARY KEY,
     name      VARCHAR(250),
-    `from`    TIMESTAMP,
-    `to`      TIMESTAMP
+    date_from TIMESTAMP,
+    date_to   TIMESTAMP
 );
 
 DROP TABLE IF EXISTS school_class_semester;
 CREATE TABLE school_class_semester
 (
     school_class_id BINARY(16),
-    semester_id BINARY(16)
+    semester_id     BINARY(16)
 );
 
 DROP TABLE IF EXISTS school_config;
 CREATE TABLE school_config
 (
-    name VARCHAR(250),
-    value VARCHAR(250),
+    name      VARCHAR(250),
+    value     VARCHAR(250),
     code_type VARCHAR(255)
 );

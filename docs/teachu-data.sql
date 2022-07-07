@@ -18,17 +18,17 @@ VALUES (UUID_TO_BIN(UUID()), 'student@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE
         'parent_firstname', 'parent_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
         'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
-        (UUID_TO_BIN(UUID()), 'student2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
+       (UUID_TO_BIN(UUID()), 'student2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'student',
         'student2_firstname', 'student2_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
         'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
-        (UUID_TO_BIN(UUID()), 'parent2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
+       (UUID_TO_BIN(UUID()), 'parent2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'parent',
         'parent2_firstname', 'parent2_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
         'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
-        (UUID_TO_BIN(UUID()), 'teacher2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
+       (UUID_TO_BIN(UUID()), 'teacher2@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
         'teacher',
         'teacher2_firstname', 'teacher2_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
         'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
@@ -40,42 +40,40 @@ VALUES (UUID_TO_BIN(UUID()), 'IN19a', (SELECT id FROM user WHERE email = 'teache
 
 INSERT INTO school_class_user(school_class_id, user_id)
 VALUES ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM user WHERE email = 'student@test.ch')),
-((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM user WHERE email = 'student2@test.ch')),
-((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT id FROM user WHERE email = 'student@test.ch'));
+       ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM user WHERE email = 'student2@test.ch')),
+       ((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT id FROM user WHERE email = 'student@test.ch'));
 
 INSERT INTO subject(id, name, weight)
 VALUES (UUID_TO_BIN(UUID()), 'Informatik', 1.0),
-(UUID_TO_BIN(UUID()), 'Mathe', 2.0);
+       (UUID_TO_BIN(UUID()), 'Mathe', 2.0);
 
-INSERT INTO school_class_subject(id, school_class_id, teacher_id, subject_id, note, start_date, end_date, `interval`,
-                                 active)
-VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'),
-        (SELECT id FROM user WHERE email = 'teacher@test.ch'), (SELECT id FROM subject WHERE name = 'Informatik'),
-        'no notes', CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, 'weekly', TRUE),
+INSERT INTO school_class_subject(id, school_class_id, teacher_id, subject_id, note, start_date, end_date)
+VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM user WHERE email = 'teacher@test.ch'), (SELECT id FROM subject WHERE name = 'Informatik'), 'no notes',
+        CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR),
        (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'),
         (SELECT id FROM user WHERE email = 'teacher2@test.ch'), (SELECT id FROM subject WHERE name = 'Mathe'),
-        'no notes2', CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, 'daily', TRUE),
+        'no notes2', CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR),
        (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'BM19c'),
         (SELECT id FROM user WHERE email = 'teacher2@test.ch'), (SELECT id FROM subject WHERE name = 'Mathe'),
-        'no notes2', CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, 'weekly', TRUE);
+        'no notes2', CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR);
 
-INSERT INTO timetable(id, lesson_index, start_time, end_time)
-VALUES (UUID_TO_BIN(UUID()), 1, CURRENT_TIME, CURRENT_TIME + INTERVAL 1 HOUR),
-       (UUID_TO_BIN(UUID()), 2, CURRENT_TIME, CURRENT_TIME + INTERVAL 1 HOUR);
+INSERT INTO timetable(id, start_time, end_time)
+VALUES (UUID_TO_BIN(UUID()), CURRENT_TIME, CURRENT_TIME + INTERVAL 1 HOUR),
+       (UUID_TO_BIN(UUID()), CURRENT_TIME, CURRENT_TIME + INTERVAL 1 HOUR);
 
 
 INSERT INTO room(id, name, note)
 VALUES (UUID_TO_BIN(UUID()), 'B427', 'no note');
 
-INSERT INTO lesson(id, school_class_subject_id, start_time, end_time, weekday, room)
-VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), CURRENT_TIME,
-        CURRENT_TIME + INTERVAL 1 HOUR, 'monday', (SELECT id FROM room WHERE name = 'B427')),
-       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), CURRENT_TIME,
-        CURRENT_TIME + INTERVAL 1 HOUR, NULL, (SELECT id FROM room WHERE name = 'B427')),
-       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'BM19c'), CURRENT_TIME,
-        CURRENT_TIME + INTERVAL 1 HOUR, NULL, (SELECT id FROM room WHERE name = 'B427'));
+INSERT INTO lesson(id, school_class_subject_id, timetable_id, weekday, room_id)
+VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM timetable limit 1),
+        'monday', (SELECT id FROM room WHERE name = 'B427')),
+       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM timetable limit 1),
+        'tuesday', (SELECT id FROM room WHERE name = 'B427')),
+       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT id FROM timetable limit 1),
+        'wednesday', (SELECT id FROM room WHERE name = 'B427'));
 
-INSERT INTO semester(id, name, `from`, `to`)
+INSERT INTO semester(id, name, date_from, date_to)
 VALUES (UUID_TO_BIN(UUID()), 'Semester 1', CURRENT_DATE - INTERVAL 6 MONTH, CURRENT_DATE),
        (UUID_TO_BIN(UUID()), 'Semester 2', CURRENT_DATE, CURRENT_DATE + INTERVAL 6 MONTH);
 
@@ -84,7 +82,7 @@ VALUES (UUID_TO_BIN(UUID()),
         (SELECT id
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
-         AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Informatik')),
+           AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Informatik')),
         'Prüfung IDPA', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 1 DAY, CURRENT_DATE,
         (SELECT id
          FROM semester
@@ -163,15 +161,11 @@ INSERT INTO user_event(id, user_id, lesson_id, description, date, user_event_sta
 VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student@test.ch'),
         (SELECT id FROM lesson WHERE weekday = 'monday'), 'Absenz oder Ferienantrag', CURRENT_DATE, 'pending');
 
-INSERT INTO lesson_event(id, lesson_id, title, description, date, isTest)
-VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM lesson WHERE weekday = 'monday'), 'Prüfung', 'Mathematik fuck me daddy',
-        CURRENT_DATE, TRUE);
-
-INSERT INTO school_class_event(id, school_class_id, title, description, date, noSchool)
+INSERT INTO school_class_event(id, school_class_id, title, description, lesson_id, date, is_test)
 VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), 'Schulreise',
-        'Züri HB isch wunderschön', CURRENT_DATE, TRUE);
+        'Züri HB isch wunderschön', (SELECT id from lesson limit 1), CURRENT_DATE, FALSE);
 
-INSERT INTO school_event(id, title, description, date_from, date_to, noSchool)
+INSERT INTO school_event(id, title, description, date_from, date_to, no_school)
 VALUES (UUID_TO_BIN(UUID()), 'Ferien', 'Mer Lehrer hend eus die 13 Wuche Ferie scho verdient', CURRENT_DATE,
         CURRENT_DATE + INTERVAL 14 DAY, TRUE);
 
@@ -189,25 +183,31 @@ VALUES ((SELECT id FROM chat WHERE title = 'Schüler Lehrer Chatroom'),
        ((SELECT id FROM chat WHERE title = 'Schüler Lehrer Chatroom'),
         (SELECT id FROM user WHERE email = 'student@test.ch'));
 
-INSERT INTO school_info(id, title, message, date, img, user_id, school_info_state, important, pinned)
+INSERT INTO school_info(id, title, message, date, img, user_id, important, pinned, active)
 VALUES (UUID_TO_BIN(UUID()), 'Corona Infos', 'Neuste Informationen zur Corona Pandemie', CURRENT_DATE,
-        'micha/setzt/de/fileserver/uf.png', (SELECT id FROM user WHERE email = 'teacher@test.ch'), 'public', TRUE,
-        TRUE);
+        'micha/setzt/de/fileserver/uf.png', (SELECT id FROM user WHERE email = 'teacher@test.ch'), TRUE, TRUE, TRUE);
 
 INSERT INTO school_class_semester(school_class_id, semester_id)
-VALUES ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT  id FROM semester WHERE name = 'Semester 1')),
-       ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT  id FROM semester WHERE name = 'Semester 2')),
-       ((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT  id FROM semester WHERE name = 'Semester 1')),
-       ((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT  id FROM semester WHERE name = 'Semester 2'));
+VALUES ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM semester WHERE name = 'Semester 1')),
+       ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM semester WHERE name = 'Semester 2')),
+       ((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT id FROM semester WHERE name = 'Semester 1')),
+       ((SELECT id FROM school_class WHERE name = 'BM19c'), (SELECT id FROM semester WHERE name = 'Semester 2'));
 
 INSERT INTO token(user_id, access, refresh, access_expires, refresh_expires)
-VALUES ((SELECT id FROM user WHERE email = 'teacher@test.ch'), 'teacher', 'teacher', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
-       ((SELECT id FROM user WHERE email = 'student@test.ch'), 'student', 'student', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
-       ((SELECT id FROM user WHERE email = 'parent@test.ch'), 'parent', 'parent', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
-       ((SELECT id FROM user WHERE email = 'teacher2@test.ch'), 'teacher2', 'teacher2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
-       ((SELECT id FROM user WHERE email = 'student2@test.ch'), 'student2', 'student2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
-       ((SELECT id FROM user WHERE email = 'parent2@test.ch'), 'parent2', 'parent2', CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR);
+VALUES ((SELECT id FROM user WHERE email = 'teacher@test.ch'), 'teacher', 'teacher',
+        CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'student@test.ch'), 'student', 'student',
+        CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'parent@test.ch'), 'parent', 'parent', CURRENT_TIMESTAMP + INTERVAL 2 YEAR,
+        CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'teacher2@test.ch'), 'teacher2', 'teacher2',
+        CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'student2@test.ch'), 'student2', 'student2',
+        CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR),
+       ((SELECT id FROM user WHERE email = 'parent2@test.ch'), 'parent2', 'parent2',
+        CURRENT_TIMESTAMP + INTERVAL 2 YEAR, CURRENT_TIMESTAMP + INTERVAL 2 YEAR);
 
 INSERT INTO school_config(name, value, code_type)
 VALUES ('Language', 'english', 'language'),
        ('EmailDomain', 'super-school.ch', null);
+
