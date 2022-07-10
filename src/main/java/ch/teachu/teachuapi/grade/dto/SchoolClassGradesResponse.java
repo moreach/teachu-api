@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.exam.dto;
+package ch.teachu.teachuapi.grade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +12,11 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SchoolClassExamsResponse {
+public class SchoolClassGradesResponse {
     private UUID schoolClassId;
     private String schoolClass;
     private String teacherFirstName;
     private String teacherLastName;
     private double averageMark;
-    private List<SubjectExamsResponse> subjects;
+    private List<SubjectGradesResponse> subjects;
 }
