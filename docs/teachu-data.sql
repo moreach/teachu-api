@@ -157,9 +157,9 @@ VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student@test.ch
        (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student2@test.ch'), 5.0, 'no note',
         (SELECT id FROM exam WHERE name = 'Planimetrie'));
 
-INSERT INTO user_event(id, user_id, lesson_id, description, date, user_event_state)
+INSERT INTO user_event(id, user_id, lesson_id, description, date, user_event_state, user_event_type)
 VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student@test.ch'),
-        (SELECT id FROM lesson WHERE weekday = 'monday'), 'Absenz oder Ferienantrag', CURRENT_DATE, 'pending');
+        (SELECT id FROM lesson WHERE weekday = 'monday'), 'Absenz oder Ferienantrag', CURRENT_DATE, 'pending', 'sick');
 
 INSERT INTO school_class_event(id, school_class_id, title, description, lesson_id, date, is_test)
 VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), 'Schulreise',
