@@ -1,7 +1,6 @@
 package ch.teachu.teachuapi.grade;
 
-import ch.teachu.teachuapi.dtos.MessageResponse;
-import ch.teachu.teachuapi.grade.dto.*;
+import ch.teachu.teachuapi.grade.dto.SemestersGradesResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -20,27 +19,9 @@ public class GradeController {
         this.gradeService = gradeService;
     }
 
-    @Operation(summary = "Load grades with restriction")
-    @GetMapping("/restriction")
-    private ResponseEntity<GradesResponse> loadGradesWithRestriction(@RequestHeader("auth") String auth, LoadGradeRequest request) {
-        return gradeService.loadWithRestriction(auth, request);
-    }
-
-    @Operation(summary = "Create grade")
-    @PostMapping("/{studentId}")
-    private ResponseEntity<CreateGradeResponse> createGrade(@RequestHeader("auth") String auth, CreateGradeRequest request, @PathVariable UUID studentId) {
-        return gradeService.createGrade(auth, request, studentId);
-    }
-
-    @Operation(summary = "Change grade")
-    @PutMapping("/{studentId}")
-    private ResponseEntity<MessageResponse> changeGrade(@RequestHeader("auth") String auth, ChangeGradeRequest request, @PathVariable UUID studentId) {
-        return gradeService.changeGrade(auth, request, studentId);
-    }
-
-    @Operation(summary = "Delete grade")
-    @DeleteMapping("/{gradeId}")
-    private ResponseEntity<MessageResponse> deleteGrade(@RequestHeader("auth") String auth, @PathVariable UUID gradeId) {
-        return gradeService.deleteGrade(auth, gradeId);
+    @Operation(summary = "Load grades")
+    @GetMapping("/{studentId}")
+    private ResponseEntity<SemestersGradesResponse> loadGrades(@RequestHeader("auth") String auth, @PathVariable UUID studentId) {
+        return gradeService.loadGrades(auth, studentId);
     }
 }

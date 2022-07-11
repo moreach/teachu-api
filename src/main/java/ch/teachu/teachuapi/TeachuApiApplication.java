@@ -1,6 +1,5 @@
 package ch.teachu.teachuapi;
 
-import ch.teachu.teachuapi.configs.GradeProperties;
 import ch.teachu.teachuapi.configs.SecurityProperties;
 import ch.teachu.teachuapi.properties.DatabaseProperties;
 import ch.teachu.teachuapi.properties.FileProperties;
@@ -15,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties({DatabaseProperties.class, SecurityProperties.class, GradeProperties.class, FileProperties.class})
+@EnableConfigurationProperties({DatabaseProperties.class, SecurityProperties.class, FileProperties.class})
 @AllArgsConstructor
 public class TeachuApiApplication {
 

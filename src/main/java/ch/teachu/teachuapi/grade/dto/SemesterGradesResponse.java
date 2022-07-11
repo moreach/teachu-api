@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GradesResponse {
-    private double average;
-    private List<ExamGradeResponse> grades;
+public class SemesterGradesResponse {
+    private UUID semesterId;
+    private String semesterName;
+    private List<SchoolClassGradesResponse> schoolClasses;
 }

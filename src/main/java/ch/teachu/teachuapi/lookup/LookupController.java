@@ -1,10 +1,16 @@
 package ch.teachu.teachuapi.lookup;
 
-import ch.teachu.teachuapi.lookup.dto.*;
+import ch.teachu.teachuapi.lookup.dto.LookupRequest;
+import ch.teachu.teachuapi.lookup.dto.LookupResponse;
+import ch.teachu.teachuapi.lookup.dto.LookupStudentRequest;
+import ch.teachu.teachuapi.lookup.dto.SubjectLookupRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Lookup")
 @RequestMapping("/lookup")
@@ -27,12 +33,6 @@ public class LookupController {
     @GetMapping("/subject")
     private ResponseEntity<LookupResponse> lookupSubjects(@RequestHeader("auth") String auth, SubjectLookupRequest lookupRequest) {
         return lookupService.lookupSubjects(auth, lookupRequest);
-    }
-
-    @Operation(summary = "Lookup school classes of teacher")
-    @GetMapping("/schoolClass")
-    private ResponseEntity<LookupResponse> lookupSchoolClass(@RequestHeader("auth") String auth, LookupSchoolClassRequest request) {
-        return lookupService.lookupSchoolClass(auth, request);
     }
     
     @Operation(summary = "Lookup students")

@@ -1,20 +1,13 @@
 package ch.teachu.teachuapi.grade;
 
-import ch.teachu.teachuapi.child.ChildRepo;
-import ch.teachu.teachuapi.configs.GradeProperties;
-import ch.teachu.teachuapi.daos.AuthDAO;
-import ch.teachu.teachuapi.dtos.MessageResponse;
 import ch.teachu.teachuapi.enums.UserRole;
-import ch.teachu.teachuapi.errorhandling.InvalidException;
-import ch.teachu.teachuapi.errorhandling.NotFoundException;
-import ch.teachu.teachuapi.errorhandling.UnauthorizedException;
-import ch.teachu.teachuapi.generated.tables.Grade;
 import ch.teachu.teachuapi.grade.dto.*;
 import ch.teachu.teachuapi.parent.AbstractService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,48 +15,44 @@ import java.util.UUID;
 public class GradeService extends AbstractService {
 
     private final GradeRepo gradeRepo;
-    private final ChildRepo childRepo;
-    private final GradeProperties gradeProperties;
 
-    public ResponseEntity<GradesResponse> loadWithRestriction(String auth, LoadGradeRequest request) {
-        authMinRole(auth, UserRole.TEACHER);
-        return ResponseEntity.ok(gradeRepo.loadWithRestriction(request));
+    public ResponseEntity<SemestersGradesResponse> loadGrades(String auth, UUID studentId) {
+        authMinRole(auth, UserRole.PARENT);
+        List<SemesterGradesResponse> semesters = gradeRepo.loadGrades(studentId);
+        calculateAverages(semesters);
+        return ResponseEntity.ok(new SemestersGradesResponse(semesters));
     }
 
-    public ResponseEntity<CreateGradeResponse> createGrade(String auth, CreateGradeRequest request, UUID studentId) {
-        authMinRole(auth, UserRole.TEACHER);
-
-        if (request.getMark() > gradeProperties.getMaxMark() || request.getMark() < gradeProperties.getMinMark()) {
-            throw new InvalidException("Mark not in range.");
+    public void calculateAverages(List<SemesterGradesResponse> semesters) {
+        for (SemesterGradesResponse semester : semesters) {
+            for (SchoolClassGradesResponse schoolClass : semester.getSchoolClasses()) {
+                calculateAverages(schoolClass);
+            }
         }
-        if (gradeRepo.studentHasGrade(studentId, request.getExamId())) {
-            throw new InvalidException("Grade already registered");
-        }
-        if (gradeRepo.studentCanTakeExam(studentId, request.getExamId())) {
-            throw new InvalidException("Student is not in the right class for this exam");
-        }
-
-        UUID id = gradeRepo.createGrade(request, studentId);
-        return ResponseEntity.ok(new CreateGradeResponse(id));
     }
 
-    public ResponseEntity<MessageResponse> changeGrade(String auth, ChangeGradeRequest request, UUID studentId) {
-        authMinRole(auth, UserRole.TEACHER);
-
-        if (request.getMark() > gradeProperties.getMaxMark() || request.getMark() < gradeProperties.getMinMark()) {
-            throw new InvalidException("Mark not in range.");
+    private void calculateAverages(SchoolClassGradesResponse schoolClass) {
+        double sum = 0;
+        double weight = 0;
+        for (SubjectGradesResponse subject : schoolClass.getSubjects()) {
+            calculateAverages(subject);
+            sum += subject.getAverageMark() * subject.getWeight();
+            weight += subject.getWeight();
         }
-
-        gradeRepo.changeGrade(request, studentId);
-        return ResponseEntity.ok(new MessageResponse("Successfully changed grade"));
+        schoolClass.setAverageMark(round2DecimalPlaces(sum / weight));
     }
 
-    public ResponseEntity<MessageResponse> deleteGrade(String auth, UUID gradeId) {
-        authMinRole(auth, UserRole.TEACHER);
-        int deleteCount = gradeRepo.deleteById(Grade.GRADE, gradeId);
-        if (deleteCount == 0) {
-            throw new NotFoundException("Grade");
+    private void calculateAverages(SubjectGradesResponse subject) {
+        double sum = 0;
+        double weight = 0;
+        for (GradeResponse exam : subject.getGrades()) {
+            sum += exam.getMark() * exam.getWeight();
+            weight += exam.getWeight();
         }
-        return ResponseEntity.ok(new MessageResponse("Successfully deleted grade"));
+        subject.setAverageMark(round2DecimalPlaces(sum / weight));
+    }
+
+    private double round2DecimalPlaces(double d) {
+        return Math.round(d * 100.0) / 100.0;
     }
 }

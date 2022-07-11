@@ -1,11 +1,10 @@
-package ch.teachu.teachuapi.exam.dto;
+package ch.teachu.teachuapi.grade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,13 +12,12 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExamResponse {
-    private UUID id;
-    private String name;
-    private String description;
+public class SubjectGradesResponse {
+    private UUID subjectId;
+    private String subjectName;
+    private String teacherFirstName;
+    private String teacherLastName;
     private double weight;
-    private Date date;
-    private Date viewDate;
     private double averageMark;
     private List<GradeResponse> grades;
 }
