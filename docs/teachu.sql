@@ -134,7 +134,8 @@ CREATE TABLE user_event
     title            VARCHAR(255),
     description      VARCHAR(4096),
     date             DATE,
-    user_event_state VARCHAR(255)
+    user_event_state VARCHAR(255),
+    user_event_type VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS school_class_event;

@@ -1,8 +1,7 @@
 package ch.teachu.teachuapi.enums;
 
 public enum UserEventState {
-    PENDING, // for user made absences
+    PENDING,
     EXCUSED,
-    UNEXCUSED,
-    HOLIDAY
+    UNEXCUSED
 }
