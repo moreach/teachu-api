@@ -1,10 +1,10 @@
 package ch.teachu.teachuapi.user;
 
-import ch.teachu.teachuapi.parent.AbstractService;
-import ch.teachu.teachuapi.parent.dtos.MessageResponse;
-import ch.teachu.teachuapi.parent.enums.UserLanguage;
-import ch.teachu.teachuapi.parent.enums.UserRole;
-import ch.teachu.teachuapi.parent.enums.UserSex;
+import ch.teachu.teachuapi.shared.AbstractService;
+import ch.teachu.teachuapi.shared.dtos.MessageResponse;
+import ch.teachu.teachuapi.shared.enums.UserLanguage;
+import ch.teachu.teachuapi.shared.enums.UserRole;
+import ch.teachu.teachuapi.shared.enums.UserSex;
 import ch.teachu.teachuapi.user.dtos.ChangeProfileRequest;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import ch.teachu.teachuapi.user.dtos.InternalUserResponse;

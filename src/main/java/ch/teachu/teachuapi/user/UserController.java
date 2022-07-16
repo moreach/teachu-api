@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.user;
 
-import ch.teachu.teachuapi.parent.dtos.MessageResponse;
+import ch.teachu.teachuapi.shared.dtos.MessageResponse;
 import ch.teachu.teachuapi.user.dtos.ChangeProfileRequest;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import ch.teachu.teachuapi.user.dtos.InternalUserResponse;
@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.core.io.Resource;
 
 @Tag(name = "User")
 @RequestMapping("/user")

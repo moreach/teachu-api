@@ -1,12 +1,12 @@
 package ch.teachu.teachuapi.authentication;
 
 import ch.teachu.teachuapi.authentication.dtos.*;
-import ch.teachu.teachuapi.parent.configs.SecurityProperties;
-import ch.teachu.teachuapi.parent.dtos.MessageResponse;
-import ch.teachu.teachuapi.parent.errorhandlig.InvalidException;
-import ch.teachu.teachuapi.parent.errorhandlig.NotFoundException;
-import ch.teachu.teachuapi.parent.errorhandlig.UnauthorizedException;
-import ch.teachu.teachuapi.parent.util.ValidationUtil;
+import ch.teachu.teachuapi.shared.configs.SecurityProperties;
+import ch.teachu.teachuapi.shared.dtos.MessageResponse;
+import ch.teachu.teachuapi.shared.errorhandlig.InvalidException;
+import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
+import ch.teachu.teachuapi.shared.errorhandlig.UnauthorizedException;
+import ch.teachu.teachuapi.shared.util.ValidationUtil;
 import ch.teachu.teachuapi.sql.SQL;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;

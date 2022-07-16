@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.timetable.dtos;
 
-import ch.teachu.teachuapi.parent.enums.Weekday;
+import ch.teachu.teachuapi.shared.enums.Weekday;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

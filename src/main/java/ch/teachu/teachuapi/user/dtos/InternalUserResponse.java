@@ -1,8 +1,8 @@
 package ch.teachu.teachuapi.user.dtos;
 
-import ch.teachu.teachuapi.parent.enums.UserLanguage;
-import ch.teachu.teachuapi.parent.enums.UserRole;
-import ch.teachu.teachuapi.parent.enums.UserSex;
+import ch.teachu.teachuapi.shared.enums.UserLanguage;
+import ch.teachu.teachuapi.shared.enums.UserRole;
+import ch.teachu.teachuapi.shared.enums.UserSex;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

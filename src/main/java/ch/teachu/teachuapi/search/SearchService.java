@@ -1,7 +1,7 @@
 package ch.teachu.teachuapi.search;
 
-import ch.teachu.teachuapi.parent.AbstractService;
-import ch.teachu.teachuapi.parent.enums.UserRole;
+import ch.teachu.teachuapi.shared.AbstractService;
+import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.search.dtos.SearchUserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

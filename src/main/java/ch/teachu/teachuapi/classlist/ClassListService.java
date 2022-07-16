@@ -1,8 +1,8 @@
 package ch.teachu.teachuapi.classlist;
 
 import ch.teachu.teachuapi.classlist.dtos.ClassListResponse;
-import ch.teachu.teachuapi.parent.AbstractService;
-import ch.teachu.teachuapi.parent.enums.UserRole;
+import ch.teachu.teachuapi.shared.AbstractService;
+import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.user.UserService;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import org.springframework.http.ResponseEntity;

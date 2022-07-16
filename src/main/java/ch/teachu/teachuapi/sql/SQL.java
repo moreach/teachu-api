@@ -1,6 +1,6 @@
 package ch.teachu.teachuapi.sql;
 
-import ch.teachu.teachuapi.parent.properties.DatabaseProperties;
+import ch.teachu.teachuapi.shared.properties.DatabaseProperties;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Constructor;

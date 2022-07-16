@@ -1,13 +1,11 @@
 package ch.teachu.teachuapi;
 
-import ch.teachu.teachuapi.parent.configs.SecurityProperties;
-import ch.teachu.teachuapi.parent.properties.DatabaseProperties;
+import ch.teachu.teachuapi.shared.configs.SecurityProperties;
+import ch.teachu.teachuapi.shared.properties.DatabaseProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication

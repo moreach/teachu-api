@@ -1,8 +1,8 @@
 package ch.teachu.teachuapi.authentication;
 
 import ch.teachu.teachuapi.authentication.dtos.*;
-import ch.teachu.teachuapi.parent.AbstractService;
-import ch.teachu.teachuapi.parent.dtos.MessageResponse;
+import ch.teachu.teachuapi.shared.AbstractService;
+import ch.teachu.teachuapi.shared.dtos.MessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,13 @@
 package ch.teachu.teachuapi.grade;
 
+import ch.teachu.teachuapi.grade.dtos.SemesterResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "Grade")
 @RequestMapping("/grade")
@@ -15,9 +20,9 @@ public class GradeController {
         this.gradeService = gradeService;
     }
 
-//    @Operation(summary = "Load grades")
-//    @GetMapping("/{studentId}")
-//    private ResponseEntity<SemestersGradesResponse> loadGrades(@RequestHeader("auth") String auth, @PathVariable UUID studentId) {
-//        return gradeService.loadGrades(auth, studentId);
-//    }
+    @Operation(summary = "Load grades")
+    @GetMapping()
+    private ResponseEntity<List<SemesterResponse>> getGrades(@RequestHeader("access") String access, @RequestParam(required = false) String studentId) {
+        return gradeService.getGrades(access, studentId);
+    }
 }

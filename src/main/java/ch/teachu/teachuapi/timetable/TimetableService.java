@@ -1,8 +1,8 @@
 package ch.teachu.teachuapi.timetable;
 
-import ch.teachu.teachuapi.parent.AbstractService;
-import ch.teachu.teachuapi.parent.enums.UserRole;
-import ch.teachu.teachuapi.parent.enums.Weekday;
+import ch.teachu.teachuapi.shared.AbstractService;
+import ch.teachu.teachuapi.shared.enums.UserRole;
+import ch.teachu.teachuapi.shared.enums.Weekday;
 import ch.teachu.teachuapi.timetable.dtos.TimetableLayoutResponse;
 import ch.teachu.teachuapi.timetable.dtos.TimetableRequest;
 import ch.teachu.teachuapi.timetable.dtos.TimetableResponse;
