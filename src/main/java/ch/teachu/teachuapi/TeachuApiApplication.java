@@ -1,9 +1,7 @@
 package ch.teachu.teachuapi;
 
-import ch.teachu.teachuapi.configs.SecurityProperties;
-import ch.teachu.teachuapi.properties.DatabaseProperties;
-import ch.teachu.teachuapi.properties.FileProperties;
-import ch.teachu.teachuapi.util.IStorageAccessService;
+import ch.teachu.teachuapi.parent.configs.SecurityProperties;
+import ch.teachu.teachuapi.parent.properties.DatabaseProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,18 +12,18 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties({DatabaseProperties.class, SecurityProperties.class, FileProperties.class})
+@EnableConfigurationProperties({DatabaseProperties.class, SecurityProperties.class})
 @AllArgsConstructor
 public class TeachuApiApplication {
 
-	private final IStorageAccessService storageAccessService;
+//	private final IStorageAccessService storageAccessService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TeachuApiApplication.class, args);
 	}
-
-	@EventListener(ApplicationReadyEvent.class)
-	public void start() {
-		storageAccessService.init();
-	}
+//
+//	@EventListener(ApplicationReadyEvent.class)
+//	public void start() {
+//		storageAccessService.init();
+//	}
 }
