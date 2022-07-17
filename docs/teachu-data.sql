@@ -77,61 +77,43 @@ INSERT INTO semester(id, name, date_from, date_to)
 VALUES (UUID_TO_BIN(UUID()), 'Semester 1', CURRENT_DATE - INTERVAL 6 MONTH, CURRENT_DATE),
        (UUID_TO_BIN(UUID()), 'Semester 2', CURRENT_DATE, CURRENT_DATE + INTERVAL 6 MONTH);
 
-INSERT INTO exam(id, school_class_subject_id, name, description, weight, date, view_date, semester_id)
+INSERT INTO exam(id, school_class_subject_id, name, description, weight, date, view_date)
 VALUES (UUID_TO_BIN(UUID()),
         (SELECT id
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Informatik')),
-        'Prüfung IDPA', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 1 DAY, CURRENT_DATE,
-        (SELECT id
-         FROM semester
-         WHERE semester.name = 'Semester 1')),
+        'Prüfung IDPA', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 1 DAY, CURRENT_DATE),
        (UUID_TO_BIN(UUID()),
         (SELECT id
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Mathe')),
-        'Algebra I', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 2 DAY, CURRENT_DATE,
-        (SELECT id
-         FROM semester
-         WHERE semester.name = 'Semester 1')),
+        'Algebra I', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 2 DAY, CURRENT_DATE),
        (UUID_TO_BIN(UUID()),
         (SELECT id
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Mathe')),
-        'Logarithmus', 'Prüfungs beschreibung', 0.5, CURRENT_DATE - INTERVAL 4 DAY, CURRENT_DATE,
-        (SELECT id
-         FROM semester
-         WHERE semester.name = 'Semester 1')),
+        'Logarithmus', 'Prüfungs beschreibung', 0.5, CURRENT_DATE - INTERVAL 4 DAY, CURRENT_DATE),
        (UUID_TO_BIN(UUID()),
         (SELECT id
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Informatik')),
-        'Prüfung IDPA II', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 3 DAY, CURRENT_DATE,
-        (SELECT id
-         FROM semester
-         WHERE semester.name = 'Semester 2')),
+        'Prüfung IDPA II', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 3 DAY, CURRENT_DATE),
        (UUID_TO_BIN(UUID()),
         (SELECT id
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Mathe')),
-        'Geometrie', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 1 DAY, CURRENT_DATE,
-        (SELECT id
-         FROM semester
-         WHERE semester.name = 'Semester 2')),
+        'Geometrie', 'Prüfungs beschreibung', 1.0, CURRENT_DATE - INTERVAL 1 DAY, CURRENT_DATE),
        (UUID_TO_BIN(UUID()),
         (SELECT id
          FROM school_class_subject
          WHERE school_class_id = (SELECT id FROM school_class WHERE name = 'IN19a')
            AND subject_id = (SELECT id FROM subject WHERE subject.name = 'Mathe')),
-        'Planimetrie', 'Prüfungs beschreibung', 1.0, CURRENT_DATE, CURRENT_DATE,
-        (SELECT id
-         FROM semester
-         WHERE semester.name = 'Semester 2'));
+        'Planimetrie', 'Prüfungs beschreibung', 1.0, CURRENT_DATE, CURRENT_DATE);
 
 INSERT INTO grade(id, student_id, mark, note, exam_id)
 VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student@test.ch'), 6.0, 'no note',
@@ -157,17 +139,19 @@ VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student@test.ch
        (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student2@test.ch'), 5.0, 'no note',
         (SELECT id FROM exam WHERE name = 'Planimetrie'));
 
-INSERT INTO user_event(id, user_id, lesson_id, description, date, user_event_state, user_event_type)
-VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student@test.ch'),
-        (SELECT id FROM lesson WHERE weekday = 'monday'), 'Absenz oder Ferienantrag', CURRENT_DATE, 'pending', 'sick');
+INSERT INTO user_event(id, user_id, date_from, date_to, title, description, user_event_state, user_event_type)
+VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM user WHERE email = 'student@test.ch'), CURRENT_DATE, CURRENT_DATE + interval 2 hour, 'Krank', 'Verkältung', 'pending', 'sick');
 
-INSERT INTO school_class_event(id, school_class_id, title, description, lesson_id, date, is_test)
-VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), 'Schulreise',
-        'Züri HB isch wunderschön', (SELECT id from lesson limit 1), CURRENT_DATE, FALSE);
+INSERT INTO lesson_event(id, lesson_id, date, title, description, lesson_event_type)
+VALUES (UUID_TO_BIN(UUID()), (SELECT id from lesson limit 1), current_date, 'Prüfung', 'Schwierige Prüfung', 'exam');
 
-INSERT INTO school_event(id, title, description, date_from, date_to, no_school)
-VALUES (UUID_TO_BIN(UUID()), 'Ferien', 'Mer Lehrer hend eus die 13 Wuche Ferie scho verdient', CURRENT_DATE,
-        CURRENT_DATE + INTERVAL 14 DAY, TRUE);
+INSERT INTO school_class_event(id, school_class_id, date_from, date_to, title, description, school_class_event_type)
+VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'), current_date, current_date + INTERVAL 5 day, 'Schulreise',
+        'Züri HB isch wunderschön', 'trip');
+
+INSERT INTO school_event(id, date_from, date_to, title, description, school_event_type)
+VALUES (UUID_TO_BIN(UUID()), CURRENT_DATE,
+        CURRENT_DATE + INTERVAL 14 DAY, 'Ferien', 'Mer Lehrer hend eus die 13 Wuche Ferie scho verdient', 'holiday');
 
 INSERT INTO parent_student(parent_id, student_id)
 VALUES ((SELECT id FROM user WHERE email = 'parent@test.ch'), (SELECT id FROM user WHERE email = 'student@test.ch')),

@@ -111,8 +111,7 @@ CREATE TABLE exam
     description             VARCHAR(250),
     weight                  FLOAT,
     date                    DATE,
-    view_date               DATE,
-    semester_id             BINARY(16)
+    view_date               DATE
 );
 
 DROP TABLE IF EXISTS grade;
@@ -130,35 +129,46 @@ CREATE TABLE user_event
 (
     id               BINARY(16) PRIMARY KEY,
     user_id          BINARY(16),
-    lesson_id        BINARY(16),
+    date_from        TIMESTAMP,
+    date_to          TIMESTAMP,
     title            VARCHAR(255),
     description      VARCHAR(4096),
-    date             DATE,
     user_event_state VARCHAR(255),
-    user_event_type VARCHAR(255)
+    user_event_type  VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS lesson_event;
+CREATE TABLE lesson_event
+(
+    id                 BINARY(16) PRIMARY KEY,
+    lesson_id          BINARY(16),
+    date               DATE,
+    title              VARCHAR(255),
+    description        VARCHAR(4096),
+    lesson_event_type VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS school_class_event;
 CREATE TABLE school_class_event
 (
-    id              BINARY(16) PRIMARY KEY,
-    school_class_id BINARY(16),
-    lesson_id       BINARY(16),
-    title           VARCHAR(255),
-    description     VARCHAR(4096),
-    date            DATE,
-    is_test         BOOLEAN
+    id                       BINARY(16) PRIMARY KEY,
+    school_class_id          BINARY(16),
+    date_from                DATE,
+    date_to                  DATE,
+    title                    VARCHAR(255),
+    description              VARCHAR(4096),
+    school_class_event_type VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS school_event;
 CREATE TABLE school_event
 (
-    id          BINARY(16) PRIMARY KEY,
-    title       VARCHAR(255),
-    description VARCHAR(4096),
-    date_from   DATE,
-    date_to     DATE,
-    no_school   BOOLEAN
+    id           BINARY(16) PRIMARY KEY,
+    date_from    DATE,
+    date_to      DATE,
+    title        VARCHAR(255),
+    description  VARCHAR(4096),
+    school_event_type VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS parent_student;
