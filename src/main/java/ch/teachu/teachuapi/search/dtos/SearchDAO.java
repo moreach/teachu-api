@@ -1,6 +1,5 @@
 package ch.teachu.teachuapi.search.dtos;
 
-import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchUserResponse {
-    private ExternalUserResponse user;
+public class SearchDAO {
+    private String query;
+
+    private String userId;
 }

@@ -21,11 +21,11 @@ public class GradeDAO {
     private String classTeacherId;
     private String subjectId;
     private String subjectName;
-    private double subjectWeight;
+    private Double subjectWeight;
     private String subjectTeacherId;
     private String examName;
     private String examDescription;
-    private double examWeight;
+    private Double examWeight;
     private Date examDate;
-    private double examMark;
+    private Double examMark;
 }

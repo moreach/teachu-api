@@ -1,6 +1,5 @@
-package ch.teachu.teachuapi.parent.dtos;
+package ch.teachu.teachuapi.classlist.dtos;
 
-import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChildResponse {
+public class ClassListDAO {
+    private String access;
+
     private String id;
-    private ExternalUserResponse externalUserResponse;
+    private String name;
+    private String teacherId;
+    private String userId;
 }

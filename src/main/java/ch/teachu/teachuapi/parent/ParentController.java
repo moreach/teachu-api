@@ -24,7 +24,7 @@ public class ParentController {
 
     @Operation(summary = "Load children of parent")
     @GetMapping
-    private ResponseEntity<List<ChildResponse>> getChildren(@RequestHeader("auth") String auth) {
-        return parentService.getChildren(auth);
+    private ResponseEntity<List<ChildResponse>> getChildren(@RequestHeader("access") String access) {
+        return parentService.getChildren(access);
     }
 }

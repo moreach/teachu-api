@@ -1,6 +1,5 @@
 package ch.teachu.teachuapi.schoolinfo.dtos;
 
-import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +11,11 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SchoolInfoResponse {
+public class SchoolInfoDAO {
     private String title;
     private String message;
-    private boolean important;
-    private boolean pinned;
+    private Boolean important;
+    private Boolean pinned;
     private Date date;
-    private ExternalUserResponse creator;
-    // todo to be implemented
-    // private IDK image;
+    private String userId;
 }
