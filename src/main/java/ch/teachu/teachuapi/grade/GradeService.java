@@ -2,8 +2,7 @@ package ch.teachu.teachuapi.grade;
 
 import ch.teachu.teachuapi.grade.dtos.*;
 import ch.teachu.teachuapi.shared.AbstractService;
-import ch.teachu.teachuapi.shared.enums.UserRole;
-import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
+import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
 import org.springframework.http.ResponseEntity;
@@ -23,46 +22,7 @@ public class GradeService extends AbstractService {
     }
 
     public ResponseEntity<List<SemesterResponse>> getGrades(String access, String studentId) {
-        authMinRole(access, UserRole.parent);
-
-        StudentDAO studentDAO = new StudentDAO();
-        studentDAO.setAccess(access);
-        studentDAO.setInputStudentId(studentId);
-
-        if (studentDAO.getInputStudentId() == null) {
-            SQL.select("" +
-                            "SELECT BIN_TO_UUID(u.id) " +
-                            "FROM   user u " +
-                            "INNER JOIN token t on u.id = t.user_id " +
-                            "WHERE  access = -access " +
-                            "AND    u.role = 'student' " +
-                            "AND    u.active IS TRUE " +
-                            "INTO   :studentId",
-                    studentDAO,
-                    studentDAO);
-
-            if (studentDAO.getStudentId() == null) {
-                throw new NotFoundException("Student with this authentication");
-            }
-        } else {
-            SQL.select("" +
-                            "SELECT BIN_TO_UUID(ps.student_id) " +
-                            "FROM   user u " +
-                            "INNER JOIN parent_student ps on u.id = ps.parent_id " +
-                            "INNER JOIN token t on u.id = t.user_id " +
-                            "WHERE  t.access = -access " +
-                            "AND    u.role = 'parent' " +
-                            "AND    ps.student_id = UUID_TO_BIN(-inputStudentId) " +
-                            "AND    u.active IS TRUE " +
-                            "INTO   :studentId ",
-                    studentDAO,
-                    studentDAO
-            );
-
-            if (studentDAO.getStudentId() == null) {
-                throw new NotFoundException("Student with this authentication (parent)");
-            }
-        }
+        SharedDAO sharedDAO = authStudentId(access, studentId);
 
         List<GradeDAO> gradeDAOs = new ArrayList<>();
 
@@ -90,7 +50,7 @@ public class GradeService extends AbstractService {
                         "INNER JOIN school_class sc ON scs.school_class_id = sc.id " +
                         "INNER JOIN school_class_semester scse ON sc.id = scse.school_class_id " +
                         "INNER JOIN semester se ON scse.semester_id = se.id " +
-                        "WHERE  g.student_id = UUID_TO_BIN(-studentId) " +
+                        "WHERE  g.student_id = UUID_TO_BIN(-userId) " +
                         "AND    e.view_date < NOW() " +
                         "INTO   :semesterId, " +
                         "       :semesterName, " +
@@ -110,7 +70,7 @@ public class GradeService extends AbstractService {
                         "       :examMark ",
                 gradeDAOs,
                 GradeDAO.class,
-                studentDAO);
+                sharedDAO);
 
         List<SemesterResponse> semesterResponses = new ArrayList<>();
 

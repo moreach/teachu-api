@@ -9,6 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleDTO {
+public class SharedDAO {
+    private String access;
+    private String studentId;
+
+    private String userId;
     private String role;
+    private Boolean isParent;
 }

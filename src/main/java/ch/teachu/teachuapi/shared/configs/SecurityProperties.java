@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "security")
 public class SecurityProperties {
-	private int accessExpiresInHours;
-	private int refreshExpiresInHours;
+    private int accessExpiresInHours;
+    private int refreshExpiresInHours;
 }

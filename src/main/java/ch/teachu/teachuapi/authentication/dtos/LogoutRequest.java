@@ -10,5 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LogoutRequest {
-  private String refresh;
+    private String refresh;
 }

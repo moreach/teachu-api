@@ -99,7 +99,7 @@ public class AuthService {
                         "SELECT refresh " +
                         "FROM   token t " +
                         "INNER JOIN user u ON t.user_id = u.id " +
-                        "WHERE  access_expires > now() " +
+                        "WHERE  refresh_expires > now() " +
                         "AND    u.active is true " +
                         "AND    refresh = -refresh " +
                         "INTO   :refresh ",

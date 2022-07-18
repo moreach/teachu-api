@@ -32,8 +32,9 @@ public class SearchService extends AbstractService {
         SQL.select("" +
                         "SELECT BIN_TO_UUID(id) " +
                         "FROM   user " +
-                        "WHERE  UPPER(first_name) LIKE CONCAT('%', UPPER(-query), '%') " +
-                        "OR     UPPER(last_name) LIKE CONCAT('%', UPPER(-query), '%') " +
+                        "WHERE  (UPPER(first_name) LIKE CONCAT('%', UPPER(-query), '%') OR " +
+                        "        UPPER(last_name) LIKE CONCAT('%', UPPER(-query), '%')) " +
+                        "AND    active IS TRUE " +
                         "INTO   :userId ",
                 searchDAOs,
                 SearchDAO.class,

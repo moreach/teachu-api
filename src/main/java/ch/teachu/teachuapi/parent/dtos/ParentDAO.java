@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChildDAO {
-    private String parentAccess;
-
+public class ParentDAO {
     private String userId;
 }

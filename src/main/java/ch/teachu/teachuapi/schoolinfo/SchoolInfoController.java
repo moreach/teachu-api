@@ -1,7 +1,6 @@
 package ch.teachu.teachuapi.schoolinfo;
 
 import ch.teachu.teachuapi.schoolinfo.dtos.SchoolInfoResponse;
-import ch.teachu.teachuapi.user.dtos.InternalUserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

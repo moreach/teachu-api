@@ -1,6 +1,5 @@
 package ch.teachu.teachuapi.timetable;
 
-import ch.teachu.teachuapi.classlist.dtos.ClassListResponse;
 import ch.teachu.teachuapi.timetable.dtos.TimetableLayoutResponse;
 import ch.teachu.teachuapi.timetable.dtos.TimetableRequest;
 import ch.teachu.teachuapi.timetable.dtos.TimetableResponse;

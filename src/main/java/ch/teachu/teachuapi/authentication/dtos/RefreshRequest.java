@@ -10,5 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RefreshRequest {
-  private String refresh;
+    private String refresh;
 }

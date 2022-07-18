@@ -1,8 +1,9 @@
 package ch.teachu.teachuapi.parent;
 
-import ch.teachu.teachuapi.parent.dtos.ChildDAO;
 import ch.teachu.teachuapi.parent.dtos.ChildResponse;
+import ch.teachu.teachuapi.parent.dtos.ParentDAO;
 import ch.teachu.teachuapi.shared.AbstractService;
+import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
@@ -22,35 +23,30 @@ public class ParentService extends AbstractService {
     }
 
     public ResponseEntity<List<ChildResponse>> getChildren(String access) {
-        authExactRole(access, UserRole.parent);
+        SharedDAO sharedDAO = authExactRole(access, UserRole.parent);
 
-        ChildDAO childParentAccessDAO = new ChildDAO();
-        childParentAccessDAO.setParentAccess(access);
-
-        List<ChildDAO> childDAOs = new ArrayList<>();
+        List<ParentDAO> parentDAOs = new ArrayList<>();
 
         SQL.select("" +
-                        "SELECT BIN_TO_UUID(student_id) " +
-                        "FROM   user u " +
-                        "INNER JOIN parent_student ps ON u.id = ps.student_id " +
-                        "INNER JOIN token t ON ps.parent_id = t.user_id " +
-                        "WHERE  t.access = -parentAccess " +
+                        "SELECT BIN_TO_UUID(ps.student_id) " +
+                        "FROM   parent_student ps " +
+                        "INNER JOIN user u on ps.student_id = u.id " +
+                        "WHERE  ps.parent_id = UUID_TO_BIN(-userId) " +
                         "AND    u.active IS TRUE " +
-                        "INTO   :userId",
-                childDAOs,
-                ChildDAO.class,
-                childParentAccessDAO);
+                        "INTO   :userId ",
+                parentDAOs,
+                ParentDAO.class,
+                sharedDAO);
 
         List<ChildResponse> childResponses = new ArrayList<>();
 
-        for (ChildDAO childDAO : childDAOs) {
+        for (ParentDAO parentDAO : parentDAOs) {
             childResponses.add(new ChildResponse(
-                            childDAO.getUserId(),
-                            userService.getExternalUser(access, childDAO.getUserId()).getBody()
+                            parentDAO.getUserId(),
+                            userService.getExternalUser(access, parentDAO.getUserId()).getBody()
                     )
             );
         }
-
 
         return ResponseEntity.ok(childResponses);
     }

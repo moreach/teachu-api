@@ -16,9 +16,9 @@ public class TeachuApiApplication {
 
 //	private final IStorageAccessService storageAccessService;
 
-	public static void main(String[] args) {
-		SpringApplication.run(TeachuApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TeachuApiApplication.class, args);
+    }
 //
 //	@EventListener(ApplicationReadyEvent.class)
 //	public void start() {

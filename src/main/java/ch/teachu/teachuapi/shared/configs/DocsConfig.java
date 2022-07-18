@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DocsConfig {
-    
+
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()

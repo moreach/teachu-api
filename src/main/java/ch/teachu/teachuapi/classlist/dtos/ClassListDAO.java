@@ -10,8 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassListDAO {
-    private String access;
-
     private String id;
     private String name;
     private String teacherId;
