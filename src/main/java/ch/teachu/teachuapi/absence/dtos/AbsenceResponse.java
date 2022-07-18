@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.shared.dtos;
+package ch.teachu.teachuapi.absence.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccessTokenDTO {
-    private String accessToken;
+public class AbsenceResponse {
+    private String test;
 }

@@ -4,5 +4,4 @@
 //    MALE,
 //    FEMALE,
 //    OTHER
-//    // TODO rename (others too)
 //}

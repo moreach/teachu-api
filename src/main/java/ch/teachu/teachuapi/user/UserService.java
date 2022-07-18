@@ -2,9 +2,11 @@ package ch.teachu.teachuapi.user;
 
 import ch.teachu.teachuapi.shared.AbstractService;
 import ch.teachu.teachuapi.shared.dtos.MessageResponse;
+import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.shared.enums.UserLanguage;
 import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.shared.enums.UserSex;
+import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.dtos.ChangeProfileRequest;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
@@ -16,10 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService extends AbstractService {
     public ResponseEntity<InternalUserResponse> getInternalUser(String access) {
-        authMinRole(access, UserRole.parent);
+        SharedDAO sharedDAO = authMinRole(access, UserRole.parent);
 
         UserDAO userDAO = new UserDAO();
-        userDAO.setAccess(access);
 
         SQL.select("" +
                         "SELECT email, " +
@@ -34,10 +35,8 @@ public class UserService extends AbstractService {
                         "       postal_code, " +
                         "       street, " +
                         "       phone " +
-                        "FROM   user u " +
-                        "INNER JOIN token t ON u.id = t.user_id " +
-                        "WHERE  t.access = -access " +
-                        "AND    u.active IS TRUE " +
+                        "FROM   user " +
+                        "WHERE  id = UUID_TO_BIN(-userId) " +
                         "INTO   :email, " +
                         "       :role, " +
                         "       :firstName, " +
@@ -51,7 +50,7 @@ public class UserService extends AbstractService {
                         "       :street, " +
                         "       :phone ",
                 userDAO,
-                userDAO);
+                sharedDAO);
 
         return ResponseEntity.ok(new InternalUserResponse(
                         userDAO.getEmail(),
@@ -72,8 +71,6 @@ public class UserService extends AbstractService {
 
     public ResponseEntity<ExternalUserResponse> getExternalUser(String access, String userId) {
         authMinRole(access, UserRole.parent);
-
-        // todo get user data by id
 
         UserDAO userDAO = new UserDAO();
         userDAO.setUserId(userId);
@@ -99,6 +96,10 @@ public class UserService extends AbstractService {
                 userDAO,
                 userDAO);
 
+        if (userDAO.getEmail() == null) {
+            throw new NotFoundException("User with id " + userId);
+        }
+
         return ResponseEntity.ok(
                 new ExternalUserResponse(
                         userDAO.getEmail(),
@@ -113,10 +114,10 @@ public class UserService extends AbstractService {
     }
 
     public ResponseEntity<MessageResponse> changeProfile(String access, ChangeProfileRequest changeProfileRequest) {
-        authMinRole(access, UserRole.parent);
+        SharedDAO sharedDAO = authMinRole(access, UserRole.parent);
 
         UserDAO userDAO = new UserDAO();
-        userDAO.setAccess(access);
+        userDAO.setUserId(sharedDAO.getUserId());
         userDAO.setLanguage(changeProfileRequest.getLanguage().name());
         userDAO.setDarkTheme(changeProfileRequest.isDarkTheme());
         userDAO.setPhone(changeProfileRequest.getPhone());
@@ -126,9 +127,7 @@ public class UserService extends AbstractService {
                         "SET    language = -language, " +
                         "       dark_theme = -darkTheme, " +
                         "       phone = -phone " +
-                        "WHERE  id = (SELECT user_id " +
-                        "             FROM   token " +
-                        "             WHERE  access = -access) ",
+                        "WHERE  id = UUID_TO_BIN(-userId) ",
                 userDAO);
 
         if (count == 0) {

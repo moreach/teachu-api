@@ -12,7 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDAO {
-    private String access;
     private String userId;
 
     private String email;

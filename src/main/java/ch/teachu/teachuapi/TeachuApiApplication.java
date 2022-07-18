@@ -1,7 +1,7 @@
 package ch.teachu.teachuapi;
 
-import ch.teachu.teachuapi.shared.configs.SecurityProperties;
 import ch.teachu.teachuapi.shared.properties.DatabaseProperties;
+import ch.teachu.teachuapi.shared.properties.SecurityProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

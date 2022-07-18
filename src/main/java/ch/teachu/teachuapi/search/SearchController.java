@@ -32,7 +32,6 @@ public class SearchController {
 //        return lookupService.lookupSubjects(auth, lookupRequest);
 //    }
 
-    // todo @RequestParam is not fix can change
     @Operation(summary = "Search users")
     @GetMapping("/user")
     private ResponseEntity<List<SearchUserResponse>> lookupStudent(@RequestHeader("access") String access, @RequestParam String query) {

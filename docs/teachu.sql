@@ -24,11 +24,11 @@ CREATE TABLE user
     postal_code      VARCHAR(255),
     street           VARCHAR(255),
     phone            VARCHAR(255),
-    last_login       TIMESTAMP,     -- todo do not forget
+    last_login       TIMESTAMP,
     creation_date    DATE,
     termination_date DATE,
-    notes            VARCHAR(4096), -- todo should not be used (api)
-    active           BOOLEAN        -- todo go through again
+    notes            VARCHAR(4096),
+    active           BOOLEAN
 );
 
 DROP TABLE IF EXISTS token;

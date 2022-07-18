@@ -37,7 +37,6 @@
 //        return internalUserService.downloadProfileImage(auth, userId);
 //    }
 //
-//    // TODO remove
 //    @Operation(summary = "Create user for testing purposes")
 //    @PostMapping
 //    private ResponseEntity<MessageResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {

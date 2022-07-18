@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.shared.configs;
+package ch.teachu.teachuapi.shared.properties;
 
 import lombok.Getter;
 import lombok.Setter;

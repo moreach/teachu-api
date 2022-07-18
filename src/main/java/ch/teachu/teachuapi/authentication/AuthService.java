@@ -1,11 +1,11 @@
 package ch.teachu.teachuapi.authentication;
 
 import ch.teachu.teachuapi.authentication.dtos.*;
-import ch.teachu.teachuapi.shared.configs.SecurityProperties;
 import ch.teachu.teachuapi.shared.dtos.MessageResponse;
 import ch.teachu.teachuapi.shared.errorhandlig.InvalidException;
 import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
 import ch.teachu.teachuapi.shared.errorhandlig.UnauthorizedException;
+import ch.teachu.teachuapi.shared.properties.SecurityProperties;
 import ch.teachu.teachuapi.shared.util.ValidationUtil;
 import ch.teachu.teachuapi.sql.SQL;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -100,7 +100,7 @@ public class AuthService {
                         "FROM   token t " +
                         "INNER JOIN user u ON t.user_id = u.id " +
                         "WHERE  refresh_expires > now() " +
-                        "AND    u.active is true " +
+                        "AND    u.active IS TRUE " +
                         "AND    refresh = -refresh " +
                         "INTO   :refresh ",
                 userDAO,
