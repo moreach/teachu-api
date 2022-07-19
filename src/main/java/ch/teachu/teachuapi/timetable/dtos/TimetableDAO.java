@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimetableLayoutResponse {
-    private String timetableId;
-    private String start;
-    private String end;
+public class TimetableDAO {
+    private String userId;
+    private Date date;
+    private String weekday;
+    private String lessonId;
 }

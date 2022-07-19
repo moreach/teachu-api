@@ -1,13 +1,12 @@
 package ch.teachu.teachuapi.absence;
 
+import ch.teachu.teachuapi.absence.dtos.AbsenceRequest;
 import ch.teachu.teachuapi.absence.dtos.AbsenceResponse;
+import ch.teachu.teachuapi.shared.dtos.MessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,10 +21,28 @@ public class AbsenceController {
         this.absenceService = absenceService;
     }
 
-    // todo not finished waiting on db redesign
-    @Operation(summary = "Load all absences (not working at all)")
+    @Operation(summary = "Load all absences")
     @GetMapping
-    private ResponseEntity<List<AbsenceResponse>> getAbsences(@RequestHeader("access") String access) {
-        return absenceService.getAbsences(access);
+    private ResponseEntity<List<AbsenceResponse>> getAbsences(@RequestHeader("access") String access, @RequestParam(required = false) String studentId) {
+        return absenceService.getAbsences(access, studentId);
+    }
+
+    @Operation(summary = "create absence")
+    @PostMapping
+    private ResponseEntity<MessageResponse> createAbsence(
+            @RequestHeader("access") String access,
+            @RequestParam(required = false) String studentId,
+            @RequestBody AbsenceRequest absenceRequest) {
+        return absenceService.createAbsence(access, studentId, absenceRequest);
+    }
+
+    @Operation(summary = "update absence")
+    @PutMapping("/{absenceId}")
+    private ResponseEntity<MessageResponse> updateAbsence(
+            @RequestHeader("access") String access,
+            @RequestParam(required = false) String studentId,
+            @PathVariable("absenceId") String absenceId,
+            @RequestBody AbsenceRequest absenceRequest) {
+        return absenceService.updateAbsence(access, studentId, absenceId, absenceRequest);
     }
 }

@@ -1,7 +1,5 @@
 package ch.teachu.teachuapi.absence.dtos;
 
-import ch.teachu.teachuapi.shared.enums.UserEventState;
-import ch.teachu.teachuapi.shared.enums.UserEventType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +11,14 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AbsenceResponse {
+public class AbsenceDAO {
+    private String userId;
+
     private String id;
     private Date from;
     private Date to;
     private String title;
     private String description;
-    private UserEventType type;
-    private UserEventState state;
+    private String type;
+    private String state;
 }

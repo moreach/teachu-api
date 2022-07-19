@@ -23,8 +23,11 @@ public class TimetableController {
 
     @Operation(summary = "Load timetable in defined timeframe (fails in swagger since js restricts body in get requests)")
     @GetMapping
-    private ResponseEntity<List<TimetableResponse>> getTimetable(@RequestHeader("access") String access, @RequestBody TimetableRequest timetableRequest) {
-        return timetableService.getTimetable(access, timetableRequest);
+    private ResponseEntity<List<TimetableResponse>> getTimetable(
+            @RequestHeader("access") String access,
+            @RequestParam(required = false) String studentId,
+            @RequestBody TimetableRequest timetableRequest) {
+        return timetableService.getTimetable(access, studentId, timetableRequest);
     }
 
     @Operation(summary = "Get layout of the timetable")
@@ -32,6 +35,4 @@ public class TimetableController {
     private ResponseEntity<List<TimetableLayoutResponse>> getTimetableLayout(@RequestHeader("access") String access) {
         return timetableService.getTimetableLayout(access);
     }
-
-    // todo endpoint to add events
 }

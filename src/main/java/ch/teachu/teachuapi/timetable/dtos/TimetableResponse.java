@@ -1,22 +1,23 @@
 package ch.teachu.teachuapi.timetable.dtos;
 
 import ch.teachu.teachuapi.shared.enums.Weekday;
-import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TimetableResponse {
-    private String className;
-    private int lessonNumber;
-    private String room;
+    private Date date;
     private Weekday weekday;
-    private String subjectName;
-    private ExternalUserResponse teacher;
-    // todo event
+    private TimetableUserResponse userEvent;
+    private TimetableSchoolClassResponse SchoolClassEvent;
+    private TimetableSchoolResponse schoolEvent;
+    private List<TimetableLessonResponse> lessons;
 }

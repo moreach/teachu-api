@@ -1,22 +1,20 @@
 package ch.teachu.teachuapi.scheduled;
 
+import ch.teachu.teachuapi.authentication.AuthService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TokenJob {
 
-//    private static final Logger LOG = LoggerFactory.getLogger(TokenJob.class);
-//    private final AuthRepo authRepo;
-//
-//    @Autowired
-//    public TokenJob(AuthRepo authRepo) {
-//        this.authRepo = authRepo;
-//    }
-//
-//    @Scheduled(cron = "0 0/10 * * * ?")
-//    public void deleteOldTokens() {
-//        // todo replace with auth service
-//        int count = authRepo.deleteExpiredTokens();
-//        LOG.info("Deleted " + count + " tokens that expired");
-//    }
+    private final AuthService authService;
+
+    public TokenJob(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @Scheduled(cron = "0 0/10 * * * ?")
+    public void deleteOldTokens() {
+        authService.deleteExpiredTokens();
+    }
 }

@@ -1,4 +1,4 @@
-package ch.teachu.teachuapi.absence.dtos;
+package ch.teachu.teachuapi.timetable.dtos;
 
 import ch.teachu.teachuapi.shared.enums.UserEventState;
 import ch.teachu.teachuapi.shared.enums.UserEventType;
@@ -13,8 +13,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AbsenceResponse {
-    private String id;
+public class TimetableUserResponse {
     private Date from;
     private Date to;
     private String title;

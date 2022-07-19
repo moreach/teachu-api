@@ -10,6 +10,8 @@ import ch.teachu.teachuapi.shared.util.ValidationUtil;
 import ch.teachu.teachuapi.sql.SQL;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import java.util.Date;
 
 @Service
 public class AuthService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AuthService.class);
 
     private final PasswordEncoder passwordEncoder;
     private final SecurityProperties securityProperties;
@@ -186,6 +190,16 @@ public class AuthService {
         }
 
         return ResponseEntity.ok(new MessageResponse("Successfully logged out"));
+    }
+
+    public void deleteExpiredTokens() {
+
+        int count = SQL.delete("" +
+                        "DELETE FROM token " +
+                        "WHERE refresh_expires < now()",
+                null);
+
+        LOG.info("deleted " + count + " expired tokens");
     }
 
     private Date calculateAccessExpires() {

@@ -9,8 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimetableLayoutResponse {
+public class TimetableLessonDAO {
+    private String id;
+    private String schoolClass;
+    private String subject;
+    private String teacherId;
     private String timetableId;
-    private String start;
-    private String end;
+    private String room;
 }
