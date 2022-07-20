@@ -2,7 +2,9 @@ package ch.teachu.teachuapi.shared.util;
 
 import ch.teachu.teachuapi.shared.errorhandlig.InvalidException;
 import lombok.experimental.UtilityClass;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @UtilityClass
@@ -34,6 +36,16 @@ public class ValidationUtil {
         }
         if (!digitCasePatten.matcher(password).find()) {
             throw new InvalidException("Password no number");
+        }
+    }
+
+    public static void checkIfImageIsValid(MultipartFile image) {
+        if (image == null) {
+            throw new InvalidException("Image is empty");
+        }
+
+        if (!Objects.equals(image.getContentType(), "image/png") && !Objects.equals(image.getContentType(), "image/jpeg")) {
+            throw new InvalidException("Image type is unsupported please use png or jpeg ");
         }
     }
 }
