@@ -42,7 +42,7 @@ public class ParentService extends AbstractService {
         for (ParentDAO parentDAO : parentDAOs) {
             childResponses.add(new ChildResponse(
                             parentDAO.getUserId(),
-                    userService.getExternalUser(access, parentDAO.getUserId())
+                            userService.getExternalUser(access, parentDAO.getUserId())
                     )
             );
         }

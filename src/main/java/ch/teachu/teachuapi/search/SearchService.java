@@ -43,7 +43,7 @@ public class SearchService extends AbstractService {
 
         for (SearchDAO searchDAO : searchDAOs) {
             searchUserResponses.add(new SearchUserResponse(
-                    userService.getExternalUser(access, searchDAO.getUserId())
+                            userService.getExternalUser(access, searchDAO.getUserId())
                     )
             );
         }
