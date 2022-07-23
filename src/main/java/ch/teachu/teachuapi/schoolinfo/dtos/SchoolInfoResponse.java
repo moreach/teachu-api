@@ -19,6 +19,5 @@ public class SchoolInfoResponse {
     private boolean pinned;
     private Date date;
     private ExternalUserResponse creator;
-    // todo to be implemented
-    // private IDK image;
+    private String imageId;
 }

@@ -6,7 +6,6 @@ import ch.teachu.teachuapi.shared.enums.*;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.timetable.dtos.*;
 import ch.teachu.teachuapi.user.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,7 +26,7 @@ public class TimetableService extends AbstractService {
         this.userService = userService;
     }
 
-    public ResponseEntity<List<TimetableResponse>> getTimetable(String access, String studentId, TimetableRequest timetableRequest) {
+    public List<TimetableResponse> getTimetable(String access, String studentId, TimetableRequest timetableRequest) {
         SharedDAO sharedDAO = authStudentId(access, studentId);
 
         LocalDate from = timetableRequest.getFrom()
@@ -209,7 +208,7 @@ public class TimetableService extends AbstractService {
                 timetableLessonResponses.add(new TimetableLessonResponse(
                                 timetableLessonDAO.getSchoolClass(),
                                 timetableLessonDAO.getSubject(),
-                                userService.getExternalUser(access, timetableLessonDAO.getTeacherId()).getBody(),
+                                userService.getExternalUser(access, timetableLessonDAO.getTeacherId()),
                                 timetableLessonDAO.getTimetableId(),
                                 timetableLessonDAO.getRoom(),
                                 timetableLessonEventResponse
@@ -228,10 +227,10 @@ public class TimetableService extends AbstractService {
             );
         }
 
-        return ResponseEntity.ok(timetableResponses);
+        return timetableResponses;
     }
 
-    public ResponseEntity<List<TimetableLayoutResponse>> getTimetableLayout(String access) {
+    public List<TimetableLayoutResponse> getTimetableLayout(String access) {
         authMinRole(access, UserRole.parent);
 
         List<TimetableLayoutResponse> timetableLayoutResponses = new ArrayList<>();
@@ -247,6 +246,6 @@ public class TimetableService extends AbstractService {
                 timetableLayoutResponses,
                 TimetableLayoutResponse.class);
 
-        return ResponseEntity.ok(timetableLayoutResponses);
+        return timetableLayoutResponses;
     }
 }

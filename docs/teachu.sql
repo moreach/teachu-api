@@ -24,6 +24,7 @@ CREATE TABLE user
     postal_code      VARCHAR(255),
     street           VARCHAR(255),
     phone            VARCHAR(255),
+    img              BINARY(16),
     last_login       TIMESTAMP,
     creation_date    DATE,
     termination_date DATE,
@@ -194,6 +195,7 @@ CREATE TABLE chat_message
     chat_id    BINARY(16),
     user_id    BINARY(16),
     message    VARCHAR(4096),
+    img        BINARY(16),
     timestamp  TIMESTAMP,
     chat_state VARCHAR(255)
 );
@@ -212,7 +214,7 @@ CREATE TABLE school_info
     title     VARCHAR(255),
     message   VARCHAR(4096),
     date      DATE,
-    img       VARCHAR(255),
+    img       BINARY(16),
     user_id   BINARY(16),
     important BOOLEAN,
     pinned    BOOLEAN,

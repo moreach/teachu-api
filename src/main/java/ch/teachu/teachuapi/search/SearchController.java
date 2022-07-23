@@ -19,22 +19,9 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-    // todo check if necessary and implement
-//    @Operation(summary = "Search semesters")
-//    @GetMapping("/semester")
-//    private ResponseEntity<LookupResponse> lookupSemesters(@RequestHeader("access") String auth, LookupRequest lookupRequest) {
-//        return lookupService.lookupSemesters(auth, lookupRequest);
-//    }
-//
-//    @Operation(summary = "Search subjects")
-//    @GetMapping("/subject")
-//    private ResponseEntity<LookupResponse> lookupSubjects(@RequestHeader("access") String auth, SubjectLookupRequest lookupRequest) {
-//        return lookupService.lookupSubjects(auth, lookupRequest);
-//    }
-
     @Operation(summary = "Search users")
     @GetMapping("/user")
     private ResponseEntity<List<SearchUserResponse>> lookupStudent(@RequestHeader("access") String access, @RequestParam String query) {
-        return searchService.searchUser(access, query);
+        return ResponseEntity.ok(searchService.searchUser(access, query));
     }
 }

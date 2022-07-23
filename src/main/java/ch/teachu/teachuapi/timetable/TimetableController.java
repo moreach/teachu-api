@@ -27,12 +27,12 @@ public class TimetableController {
             @RequestHeader("access") String access,
             @RequestParam(required = false) String studentId,
             @RequestBody TimetableRequest timetableRequest) {
-        return timetableService.getTimetable(access, studentId, timetableRequest);
+        return ResponseEntity.ok(timetableService.getTimetable(access, studentId, timetableRequest));
     }
 
     @Operation(summary = "Get layout of the timetable")
     @GetMapping("/layout")
     private ResponseEntity<List<TimetableLayoutResponse>> getTimetableLayout(@RequestHeader("access") String access) {
-        return timetableService.getTimetableLayout(access);
+        return ResponseEntity.ok(timetableService.getTimetableLayout(access));
     }
 }

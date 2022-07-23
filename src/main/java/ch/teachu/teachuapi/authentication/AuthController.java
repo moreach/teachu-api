@@ -22,24 +22,24 @@ public class AuthController extends AbstractService {
     @Operation(summary = "login")
     @PostMapping
     private ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        return authService.login(loginRequest);
+        return ResponseEntity.ok(authService.login(loginRequest));
     }
 
     @Operation(summary = "refresh")
     @PutMapping
     private ResponseEntity<RefreshResponse> refresh(@RequestBody RefreshRequest refreshRequest) {
-        return authService.refresh(refreshRequest);
+        return ResponseEntity.ok(authService.refresh(refreshRequest));
     }
 
     @Operation(summary = "Change password and log out all sessions of this user. The response contains a new token valid token.")
     @PutMapping("/password")
     private ResponseEntity<LoginResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        return authService.changePassword(changePasswordRequest);
+        return ResponseEntity.ok(authService.changePassword(changePasswordRequest));
     }
 
     @Operation(summary = "logout")
     @DeleteMapping
     private ResponseEntity<MessageResponse> logout(@RequestBody LogoutRequest logoutRequest) {
-        return authService.logout(logoutRequest);
+        return ResponseEntity.ok(authService.logout(logoutRequest));
     }
 }

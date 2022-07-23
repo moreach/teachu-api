@@ -6,7 +6,6 @@ import ch.teachu.teachuapi.shared.AbstractService;
 import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class SchoolInfoService extends AbstractService {
         this.userService = userService;
     }
 
-    public ResponseEntity<List<SchoolInfoResponse>> getSchoolInfos(String access) {
+    public List<SchoolInfoResponse> getSchoolInfos(String access) {
         authMinRole(access, UserRole.parent);
 
         List<SchoolInfoDAO> schoolInfoDAOs = new ArrayList<>();
@@ -30,6 +29,7 @@ public class SchoolInfoService extends AbstractService {
                         "SELECT title, " +
                         "       message, " +
                         "       date, " +
+                        "       BIN_TO_UUID(img), " +
                         "       BIN_TO_UUID(user_id)," +
                         "       important, " +
                         "       pinned " +
@@ -38,6 +38,7 @@ public class SchoolInfoService extends AbstractService {
                         "INTO   :title, " +
                         "       :message, " +
                         "       :date, " +
+                        "       :imageId, " +
                         "       :userId, " +
                         "       :important, " +
                         "       :pinned ",
@@ -53,11 +54,12 @@ public class SchoolInfoService extends AbstractService {
                             schoolInfoDAO.getImportant(),
                             schoolInfoDAO.getPinned(),
                             schoolInfoDAO.getDate(),
-                            userService.getExternalUser(access, schoolInfoDAO.getUserId()).getBody()
+                            userService.getExternalUser(access, schoolInfoDAO.getUserId()),
+                            schoolInfoDAO.getImageId()
                     )
             );
         }
 
-        return ResponseEntity.ok(schoolInfoResponses);
+        return schoolInfoResponses;
     }
 }

@@ -7,7 +7,6 @@ import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class ParentService extends AbstractService {
         this.userService = userService;
     }
 
-    public ResponseEntity<List<ChildResponse>> getChildren(String access) {
+    public List<ChildResponse> getChildren(String access) {
         SharedDAO sharedDAO = authExactRole(access, UserRole.parent);
 
         List<ParentDAO> parentDAOs = new ArrayList<>();
@@ -43,11 +42,11 @@ public class ParentService extends AbstractService {
         for (ParentDAO parentDAO : parentDAOs) {
             childResponses.add(new ChildResponse(
                             parentDAO.getUserId(),
-                            userService.getExternalUser(access, parentDAO.getUserId()).getBody()
+                    userService.getExternalUser(access, parentDAO.getUserId())
                     )
             );
         }
 
-        return ResponseEntity.ok(childResponses);
+        return childResponses;
     }
 }

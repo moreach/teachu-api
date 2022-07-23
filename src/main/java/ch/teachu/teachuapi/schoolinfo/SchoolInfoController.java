@@ -25,6 +25,6 @@ public class SchoolInfoController {
     @Operation(summary = "Load all school infos")
     @GetMapping
     private ResponseEntity<List<SchoolInfoResponse>> getSchoolInfos(@RequestHeader("access") String access) {
-        return schoolInfoService.getSchoolInfos(access);
+        return ResponseEntity.ok(schoolInfoService.getSchoolInfos(access));
     }
 }

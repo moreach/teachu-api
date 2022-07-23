@@ -27,5 +27,5 @@ public class InternalUserResponse {
     private String postalCode;
     private String street;
     private String phone;
-    // todo profile image
+    private String imageId;
 }

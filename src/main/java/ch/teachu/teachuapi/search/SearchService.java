@@ -6,7 +6,6 @@ import ch.teachu.teachuapi.shared.AbstractService;
 import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class SearchService extends AbstractService {
         this.userService = userService;
     }
 
-    public ResponseEntity<List<SearchUserResponse>> searchUser(String access, String query) {
+    public List<SearchUserResponse> searchUser(String access, String query) {
         authMinRole(access, UserRole.parent);
 
         SearchDAO searchQueryDAO = new SearchDAO();
@@ -44,11 +43,11 @@ public class SearchService extends AbstractService {
 
         for (SearchDAO searchDAO : searchDAOs) {
             searchUserResponses.add(new SearchUserResponse(
-                            userService.getExternalUser(access, searchDAO.getUserId()).getBody()
+                    userService.getExternalUser(access, searchDAO.getUserId())
                     )
             );
         }
 
-        return ResponseEntity.ok(searchUserResponses);
+        return searchUserResponses;
     }
 }

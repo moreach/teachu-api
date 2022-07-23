@@ -24,7 +24,7 @@ public class AbsenceController {
     @Operation(summary = "Load all absences")
     @GetMapping
     private ResponseEntity<List<AbsenceResponse>> getAbsences(@RequestHeader("access") String access, @RequestParam(required = false) String studentId) {
-        return absenceService.getAbsences(access, studentId);
+        return ResponseEntity.ok(absenceService.getAbsences(access, studentId));
     }
 
     @Operation(summary = "create absence")
@@ -33,7 +33,7 @@ public class AbsenceController {
             @RequestHeader("access") String access,
             @RequestParam(required = false) String studentId,
             @RequestBody AbsenceRequest absenceRequest) {
-        return absenceService.createAbsence(access, studentId, absenceRequest);
+        return ResponseEntity.ok(absenceService.createAbsence(access, studentId, absenceRequest));
     }
 
     @Operation(summary = "update absence")
@@ -43,6 +43,6 @@ public class AbsenceController {
             @RequestParam(required = false) String studentId,
             @PathVariable("absenceId") String absenceId,
             @RequestBody AbsenceRequest absenceRequest) {
-        return absenceService.updateAbsence(access, studentId, absenceId, absenceRequest);
+        return ResponseEntity.ok(absenceService.updateAbsence(access, studentId, absenceId, absenceRequest));
     }
 }

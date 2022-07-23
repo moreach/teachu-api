@@ -12,7 +12,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class AuthService {
         this.securityProperties = securityProperties;
     }
 
-    public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         UserDAO userDAO = new UserDAO();
 
         SQL.select("" +
@@ -88,15 +87,14 @@ public class AuthService {
             throw new RuntimeException("Failed to update user");
         }
 
-        return ResponseEntity.ok(new LoginResponse(
-                        userDAO.getAccess(),
-                        userDAO.getRefresh(),
-                        userDAO.getAccessExpires()
-                )
+        return new LoginResponse(
+                userDAO.getAccess(),
+                userDAO.getRefresh(),
+                userDAO.getAccessExpires()
         );
     }
 
-    public ResponseEntity<RefreshResponse> refresh(RefreshRequest refreshRequest) {
+    public RefreshResponse refresh(RefreshRequest refreshRequest) {
         UserDAO userDAO = new UserDAO();
 
         SQL.select("" +
@@ -128,14 +126,13 @@ public class AuthService {
             throw new RuntimeException("Failed to update Token");
         }
 
-        return ResponseEntity.ok(new RefreshResponse(
-                        userDAO.getAccess(),
-                        userDAO.getAccessExpires()
-                )
+        return new RefreshResponse(
+                userDAO.getAccess(),
+                userDAO.getAccessExpires()
         );
     }
 
-    public ResponseEntity<LoginResponse> changePassword(ChangePasswordRequest changePasswordRequest) {
+    public LoginResponse changePassword(ChangePasswordRequest changePasswordRequest) {
         UserDAO userDAO = new UserDAO();
 
         SQL.select("" +
@@ -179,7 +176,7 @@ public class AuthService {
         );
     }
 
-    public ResponseEntity<MessageResponse> logout(LogoutRequest logoutRequest) {
+    public MessageResponse logout(LogoutRequest logoutRequest) {
         int count = SQL.delete("" +
                         "DELETE FROM token " +
                         "WHERE  refresh = -refresh ",
@@ -189,7 +186,7 @@ public class AuthService {
             throw new RuntimeException("Failed to logout of sessions");
         }
 
-        return ResponseEntity.ok(new MessageResponse("Successfully logged out"));
+        return new MessageResponse("Successfully logged out");
     }
 
     public void deleteExpiredTokens() {

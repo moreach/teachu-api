@@ -21,5 +21,5 @@ public class ExternalUserResponse {
     private Date birthday;
     private UserSex sex;
     private String city;
-    // todo profile image
+    private String imageId;
 }

@@ -10,8 +10,6 @@ import ch.teachu.teachuapi.shared.util.ValidationUtil;
 import ch.teachu.teachuapi.sql.SQL;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +19,7 @@ import java.util.UUID;
 @Service
 public class ImageService extends AbstractService {
 
-    public ResponseEntity<Resource> getImage(String access, String imageId) {
+    public Resource getImage(String access, String imageId) {
         authMinRole(access, UserRole.parent);
 
         ImageDAO imageDAO = new ImageDAO();
@@ -39,12 +37,10 @@ public class ImageService extends AbstractService {
             throw new NotFoundException("Image with id " + imageId);
         }
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, "image/gif")
-                .body(new ByteArrayResource(imageDAO.getOutputImage()));
+        return new ByteArrayResource(imageDAO.getOutputImage());
     }
 
-    public ResponseEntity<ImageResponse> createImage(String access, MultipartFile image) {
+    public ImageResponse createImage(String access, MultipartFile image) {
         authMinRole(access, UserRole.parent);
 
         ValidationUtil.checkIfImageIsValid(image);
@@ -71,10 +67,10 @@ public class ImageService extends AbstractService {
             throw new RuntimeException("Failed to save image");
         }
 
-        return ResponseEntity.ok(new ImageResponse(imageDAO.getId()));
+        return new ImageResponse(imageDAO.getId());
     }
 
-    public ResponseEntity<MessageResponse> updateImage(String access, String imageId, MultipartFile image) {
+    public MessageResponse updateImage(String access, String imageId, MultipartFile image) {
         authMinRole(access, UserRole.parent);
 
         ValidationUtil.checkIfImageIsValid(image);
@@ -98,6 +94,6 @@ public class ImageService extends AbstractService {
             throw new RuntimeException("Failed to update image");
         }
 
-        return ResponseEntity.ok(new MessageResponse("Successfully updated image"));
+        return new MessageResponse("Successfully updated image");
     }
 }

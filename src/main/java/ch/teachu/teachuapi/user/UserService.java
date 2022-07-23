@@ -1,5 +1,7 @@
 package ch.teachu.teachuapi.user;
 
+import ch.teachu.teachuapi.image.ImageService;
+import ch.teachu.teachuapi.image.dtos.ImageResponse;
 import ch.teachu.teachuapi.shared.AbstractService;
 import ch.teachu.teachuapi.shared.dtos.MessageResponse;
 import ch.teachu.teachuapi.shared.dtos.SharedDAO;
@@ -12,12 +14,19 @@ import ch.teachu.teachuapi.user.dtos.ChangeProfileRequest;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import ch.teachu.teachuapi.user.dtos.InternalUserResponse;
 import ch.teachu.teachuapi.user.dtos.UserDAO;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService extends AbstractService {
-    public ResponseEntity<InternalUserResponse> getInternalUser(String access) {
+
+    private final ImageService imageService;
+
+    public UserService(ImageService imageService) {
+        this.imageService = imageService;
+    }
+
+    public InternalUserResponse getInternalUser(String access) {
         SharedDAO sharedDAO = authMinRole(access, UserRole.parent);
 
         UserDAO userDAO = new UserDAO();
@@ -34,7 +43,8 @@ public class UserService extends AbstractService {
                         "       city, " +
                         "       postal_code, " +
                         "       street, " +
-                        "       phone " +
+                        "       phone, " +
+                        "       BIN_TO_UUID(img) " +
                         "FROM   user " +
                         "WHERE  id = UUID_TO_BIN(-userId) " +
                         "INTO   :email, " +
@@ -48,28 +58,29 @@ public class UserService extends AbstractService {
                         "       :city, " +
                         "       :postalCode, " +
                         "       :street, " +
-                        "       :phone ",
+                        "       :phone, " +
+                        "       :imageId ",
                 userDAO,
                 sharedDAO);
 
-        return ResponseEntity.ok(new InternalUserResponse(
-                        userDAO.getEmail(),
-                        UserRole.valueOf(userDAO.getRole()),
-                        userDAO.getFirstName(),
-                        userDAO.getLastName(),
-                        userDAO.getBirthday(),
-                        UserSex.valueOf(userDAO.getSex()),
-                        UserLanguage.valueOf(userDAO.getLanguage()),
-                        userDAO.getDarkTheme(),
-                        userDAO.getCity(),
-                        userDAO.getPostalCode(),
-                        userDAO.getStreet(),
-                        userDAO.getPhone()
-                )
+        return new InternalUserResponse(
+                userDAO.getEmail(),
+                UserRole.valueOf(userDAO.getRole()),
+                userDAO.getFirstName(),
+                userDAO.getLastName(),
+                userDAO.getBirthday(),
+                UserSex.valueOf(userDAO.getSex()),
+                UserLanguage.valueOf(userDAO.getLanguage()),
+                userDAO.getDarkTheme(),
+                userDAO.getCity(),
+                userDAO.getPostalCode(),
+                userDAO.getStreet(),
+                userDAO.getPhone(),
+                userDAO.getImageId()
         );
     }
 
-    public ResponseEntity<ExternalUserResponse> getExternalUser(String access, String userId) {
+    public ExternalUserResponse getExternalUser(String access, String userId) {
         authMinRole(access, UserRole.parent);
 
         UserDAO userDAO = new UserDAO();
@@ -82,7 +93,8 @@ public class UserService extends AbstractService {
                         "       last_name, " +
                         "       birthday, " +
                         "       sex, " +
-                        "       city " +
+                        "       city, " +
+                        "       BIN_TO_UUID(img) " +
                         "FROM   user " +
                         "WHERE  id = UUID_TO_BIN(-userId) " +
                         "AND    active IS TRUE " +
@@ -92,7 +104,8 @@ public class UserService extends AbstractService {
                         "       :lastName, " +
                         "       :birthday, " +
                         "       :sex, " +
-                        "       :city ",
+                        "       :city, " +
+                        "       :imageId ",
                 userDAO,
                 userDAO);
 
@@ -100,20 +113,19 @@ public class UserService extends AbstractService {
             throw new NotFoundException("User with id " + userId);
         }
 
-        return ResponseEntity.ok(
-                new ExternalUserResponse(
-                        userDAO.getEmail(),
-                        UserRole.valueOf(userDAO.getRole()),
-                        userDAO.getFirstName(),
-                        userDAO.getLastName(),
-                        userDAO.getBirthday(),
-                        UserSex.valueOf(userDAO.getSex()),
-                        userDAO.getCity()
-                )
+        return new ExternalUserResponse(
+                userDAO.getEmail(),
+                UserRole.valueOf(userDAO.getRole()),
+                userDAO.getFirstName(),
+                userDAO.getLastName(),
+                userDAO.getBirthday(),
+                UserSex.valueOf(userDAO.getSex()),
+                userDAO.getCity(),
+                userDAO.getImageId()
         );
     }
 
-    public ResponseEntity<MessageResponse> changeProfile(String access, ChangeProfileRequest changeProfileRequest) {
+    public MessageResponse changeProfile(String access, ChangeProfileRequest changeProfileRequest) {
         SharedDAO sharedDAO = authMinRole(access, UserRole.parent);
 
         UserDAO userDAO = new UserDAO();
@@ -134,6 +146,28 @@ public class UserService extends AbstractService {
             throw new RuntimeException("Failed to update user");
         }
 
-        return ResponseEntity.ok(new MessageResponse("Successfully changed profile"));
+        return new MessageResponse("Successfully changed profile");
+    }
+
+    public MessageResponse createImage(String access, MultipartFile image) {
+        SharedDAO sharedDAO = authMinRole(access, UserRole.parent);
+
+        ImageResponse imageResponse = imageService.createImage(access, image);
+
+        UserDAO userDAO = new UserDAO();
+        userDAO.setUserId(sharedDAO.getUserId());
+        userDAO.setImageId(imageResponse.getId());
+
+        int count = SQL.update("" +
+                        "UPDATE user " +
+                        "SET    img = UUID_TO_BIN(-imageId) " +
+                        "WHERE  id = UUID_TO_BIN(-userId) ",
+                userDAO);
+
+        if (count == 0) {
+            throw new RuntimeException("Failed to update profile image");
+        }
+
+        return new MessageResponse("Successfully changed profile image");
     }
 }

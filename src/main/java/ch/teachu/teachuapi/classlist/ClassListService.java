@@ -7,7 +7,6 @@ import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class ClassListService extends AbstractService {
         this.userService = userService;
     }
 
-    public ResponseEntity<List<ClassListResponse>> getClassList(String access, String studentId) {
+    public List<ClassListResponse> getClassList(String access, String studentId) {
         SharedDAO sharedDAO = authStudentId(access, studentId);
 
         List<ClassListDAO> classListDAOs = new ArrayList<>();
@@ -61,7 +60,7 @@ public class ClassListService extends AbstractService {
 
             for (ClassListDAO classListStudentDAO : classListStudentDAOs) {
                 students.add(
-                        userService.getExternalUser(access, classListStudentDAO.getUserId()).getBody()
+                        userService.getExternalUser(access, classListStudentDAO.getUserId())
                 );
             }
 
@@ -82,19 +81,19 @@ public class ClassListService extends AbstractService {
 
             for (ClassListDAO classListTeacherDAO : classListTeacherDAOs) {
                 teachers.add(
-                        userService.getExternalUser(access, classListTeacherDAO.getUserId()).getBody()
+                        userService.getExternalUser(access, classListTeacherDAO.getUserId())
                 );
             }
 
             classListResponses.add(new ClassListResponse(
                             classListDAO.getName(),
-                            userService.getExternalUser(access, classListDAO.getTeacherId()).getBody(),
+                            userService.getExternalUser(access, classListDAO.getTeacherId()),
                             students,
                             teachers
                     )
             );
         }
 
-        return ResponseEntity.ok(classListResponses);
+        return classListResponses;
     }
 }

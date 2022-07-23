@@ -9,7 +9,6 @@ import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.shared.enums.UserEventState;
 import ch.teachu.teachuapi.shared.enums.UserEventType;
 import ch.teachu.teachuapi.sql.SQL;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Service
 public class AbsenceService extends AbstractService {
-    public ResponseEntity<List<AbsenceResponse>> getAbsences(String access, String studentId) {
+    public List<AbsenceResponse> getAbsences(String access, String studentId) {
         SharedDAO sharedDAO = authStudentId(access, studentId);
 
         List<AbsenceDAO> absenceDAOs = new ArrayList<>();
@@ -58,11 +57,11 @@ public class AbsenceService extends AbstractService {
             );
         }
 
-        return ResponseEntity.ok(absenceResponses);
+        return absenceResponses;
     }
 
 
-    public ResponseEntity<MessageResponse> createAbsence(String access, String studentId, AbsenceRequest absenceRequest) {
+    public MessageResponse createAbsence(String access, String studentId, AbsenceRequest absenceRequest) {
         SharedDAO sharedDAO = authStudentId(access, studentId);
 
         AbsenceDAO absenceDAO = new AbsenceDAO();
@@ -99,10 +98,10 @@ public class AbsenceService extends AbstractService {
             throw new RuntimeException("Failed to create absence");
         }
 
-        return ResponseEntity.ok(new MessageResponse("Successfully created absence"));
+        return new MessageResponse("Successfully created absence");
     }
 
-    public ResponseEntity<MessageResponse> updateAbsence(String access, String studentId, String absenceId, AbsenceRequest absenceRequest) {
+    public MessageResponse updateAbsence(String access, String studentId, String absenceId, AbsenceRequest absenceRequest) {
         SharedDAO sharedDAO = authStudentId(access, studentId);
 
         AbsenceDAO absenceDAO = new AbsenceDAO();
@@ -129,6 +128,6 @@ public class AbsenceService extends AbstractService {
             throw new RuntimeException("Failed to update absence");
         }
 
-        return ResponseEntity.ok(new MessageResponse("Successfully updated absence"));
+        return new MessageResponse("Successfully updated absence");
     }
 }

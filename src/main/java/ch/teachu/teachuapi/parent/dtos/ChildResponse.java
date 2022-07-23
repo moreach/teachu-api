@@ -12,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChildResponse {
     private String id;
-    private ExternalUserResponse externalUserResponse;
+    private ExternalUserResponse student;
 }

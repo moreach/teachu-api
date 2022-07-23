@@ -22,6 +22,6 @@ public class ClassListController {
     @Operation(summary = "Load class list")
     @GetMapping
     private ResponseEntity<List<ClassListResponse>> getClassList(@RequestHeader("access") String access, @RequestParam(required = false) String studentId) {
-        return classListService.getClassList(access, studentId);
+        return ResponseEntity.ok(classListService.getClassList(access, studentId));
     }
 }

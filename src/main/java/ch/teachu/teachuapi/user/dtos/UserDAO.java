@@ -26,4 +26,5 @@ public class UserDAO {
     private String postalCode;
     private String street;
     private String phone;
+    private String imageId;
 }

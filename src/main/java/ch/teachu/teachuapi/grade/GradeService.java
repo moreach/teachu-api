@@ -5,7 +5,6 @@ import ch.teachu.teachuapi.shared.AbstractService;
 import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class GradeService extends AbstractService {
         this.userService = userService;
     }
 
-    public ResponseEntity<List<SemesterResponse>> getGrades(String access, String studentId) {
+    public List<SemesterResponse> getGrades(String access, String studentId) {
         SharedDAO sharedDAO = authStudentId(access, studentId);
 
         List<GradeDAO> gradeDAOs = new ArrayList<>();
@@ -96,7 +95,7 @@ public class GradeService extends AbstractService {
                 classResponse = new ClassResponse(
                         gradeDAO.getClassId(),
                         gradeDAO.getClassName(),
-                        userService.getExternalUser(access, gradeDAO.getClassTeacherId()).getBody(),
+                        userService.getExternalUser(access, gradeDAO.getClassTeacherId()),
                         0.0,
                         new ArrayList<>()
                 );
@@ -110,7 +109,7 @@ public class GradeService extends AbstractService {
                 subjectResponse = new SubjectResponse(
                         gradeDAO.getSubjectId(),
                         gradeDAO.getSubjectName(),
-                        userService.getExternalUser(access, gradeDAO.getSubjectTeacherId()).getBody(),
+                        userService.getExternalUser(access, gradeDAO.getSubjectTeacherId()),
                         gradeDAO.getSubjectWeight(),
                         0.0,
                         new ArrayList<>()
@@ -137,7 +136,7 @@ public class GradeService extends AbstractService {
 
         }
 
-        return ResponseEntity.ok(semesterResponses);
+        return semesterResponses;
     }
 
     private SemesterResponse findSemester(List<SemesterResponse> semesterResponses, GradeDAO gradeDAO) {

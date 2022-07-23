@@ -22,6 +22,6 @@ public class GradeController {
     @Operation(summary = "Load grades")
     @GetMapping()
     private ResponseEntity<List<SemesterResponse>> getGrades(@RequestHeader("access") String access, @RequestParam(required = false) String studentId) {
-        return gradeService.getGrades(access, studentId);
+        return ResponseEntity.ok(gradeService.getGrades(access, studentId));
     }
 }

@@ -18,4 +18,5 @@ public class SchoolInfoDAO {
     private Boolean pinned;
     private Date date;
     private String userId;
+    private String imageId;
 }

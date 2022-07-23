@@ -167,9 +167,8 @@ VALUES ((SELECT id FROM chat WHERE title = 'Schüler Lehrer Chatroom'),
        ((SELECT id FROM chat WHERE title = 'Schüler Lehrer Chatroom'),
         (SELECT id FROM user WHERE email = 'student@test.ch'));
 
-INSERT INTO school_info(id, title, message, date, img, user_id, important, pinned, active)
-VALUES (UUID_TO_BIN(UUID()), 'Corona Infos', 'Neuste Informationen zur Corona Pandemie', CURRENT_DATE,
-        'micha/setzt/de/fileserver/uf.png', (SELECT id FROM user WHERE email = 'teacher@test.ch'), TRUE, TRUE, TRUE);
+INSERT INTO school_info(id, title, message, date, user_id, important, pinned, active)
+VALUES (UUID_TO_BIN(UUID()), 'Corona Infos', 'Neuste Informationen zur Corona Pandemie', CURRENT_DATE, (SELECT id FROM user WHERE email = 'teacher@test.ch'), TRUE, TRUE, TRUE);
 
 INSERT INTO school_class_semester(school_class_id, semester_id)
 VALUES ((SELECT id FROM school_class WHERE name = 'IN19a'), (SELECT id FROM semester WHERE name = 'Semester 1')),
