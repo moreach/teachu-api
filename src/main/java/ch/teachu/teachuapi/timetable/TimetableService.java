@@ -37,7 +37,8 @@ public class TimetableService extends AbstractService {
         LocalDate to = timetableRequest.getTo()
                 .toInstant()
                 .atZone(ZoneId.systemDefault())
-                .toLocalDate();
+                .toLocalDate()
+                .plusDays(1);
 
         List<TimetableResponse> timetableResponses = new ArrayList<>();
 
