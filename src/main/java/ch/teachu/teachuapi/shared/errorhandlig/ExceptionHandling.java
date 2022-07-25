@@ -4,6 +4,7 @@ import ch.teachu.teachuapi.shared.dtos.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +27,14 @@ public class ExceptionHandling {
     @ExceptionHandler(InvalidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse exceptionHandler(InvalidException exception) {
+        LOG.error(exception.getMessage(), exception);
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ServletRequestBindingException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse exceptionHandler(ServletRequestBindingException exception) {
         LOG.error(exception.getMessage(), exception);
         return new ErrorResponse(exception.getMessage());
     }
