@@ -75,6 +75,10 @@ public abstract class AbstractService {
                 sharedDAO,
                 sharedDAO);
 
+        if (sharedDAO.getUserId() == null) {
+            throw new UnauthorizedException("Token doesn't exist");
+        }
+
         return sharedDAO;
     }
 }
