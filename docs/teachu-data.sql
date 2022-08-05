@@ -32,6 +32,11 @@ VALUES (UUID_TO_BIN(UUID()), 'student@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE
         'teacher',
         'teacher2_firstname', 'teacher2_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
         'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
+        CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE),
+       (UUID_TO_BIN(UUID()), 'admin@test.ch', '$2a$10$nNMD8fkGEfKSttXD.jwPP.cE9oeTUvzeWnMM8DZD0rEVRV2N2avOm',
+        'admin',
+        'admin_firstname', 'admin_lastname', CURRENT_TIME, 'other', 'english', false, 'Schönenwerd', '5012',
+        'Belchenstrasse 16', '696 969 69 69', 'no noted', CURRENT_TIMESTAMP,
         CURRENT_DATE, CURRENT_DATE + INTERVAL 1 YEAR, TRUE);
 
 INSERT INTO school_class(id, name, teacher_id)
