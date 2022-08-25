@@ -3,7 +3,6 @@ package ch.teachu.teachuapi.authentication;
 import ch.teachu.teachuapi.authentication.dtos.*;
 import ch.teachu.teachuapi.shared.dtos.MessageResponse;
 import ch.teachu.teachuapi.shared.errorhandlig.InvalidException;
-import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
 import ch.teachu.teachuapi.shared.errorhandlig.UnauthorizedException;
 import ch.teachu.teachuapi.shared.properties.SecurityProperties;
 import ch.teachu.teachuapi.shared.util.ValidationUtil;
@@ -44,12 +43,8 @@ public class AuthService {
                 userDAO,
                 loginRequest);
 
-        if (userDAO.getId() == null) {
-            throw new NotFoundException("Email " + loginRequest.getEmail());
-        }
-
-        if (!passwordEncoder.matches(loginRequest.getPassword(), userDAO.getPassword())) {
-            throw new InvalidException("Password for email " + loginRequest.getEmail());
+        if (userDAO.getId() == null || !passwordEncoder.matches(loginRequest.getPassword(), userDAO.getPassword())) {
+            throw new InvalidException("Password or Email is incorrect");
         }
 
         userDAO.setAccess(RandomStringUtils.randomAlphanumeric(10));
