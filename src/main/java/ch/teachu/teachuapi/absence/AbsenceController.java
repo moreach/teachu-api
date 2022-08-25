@@ -45,4 +45,13 @@ public class AbsenceController {
             @RequestBody AbsenceRequest absenceRequest) {
         return ResponseEntity.ok(absenceService.updateAbsence(access, studentId, absenceId, absenceRequest));
     }
+
+    @Operation(summary = "update absence")
+    @PutMapping("verify/{absenceId}")
+    private ResponseEntity<MessageResponse> updateAbsence(
+            @RequestHeader("access") String access,
+            @RequestParam String studentId,
+            @PathVariable("absenceId") String absenceId) {
+        return ResponseEntity.ok(absenceService.verifyAbsence(access, studentId, absenceId));
+    }
 }

@@ -165,9 +165,9 @@ public class UserService extends AbstractService {
                 userDAO);
 
         if (count == 0) {
-            throw new RuntimeException("Failed to update profile image");
+            throw new RuntimeException("Failed to upload profile image");
         }
 
-        return new MessageResponse("Successfully changed profile image");
+        return new MessageResponse("Successfully uploaded profile image");
     }
 }

@@ -8,6 +8,7 @@ import ch.teachu.teachuapi.shared.dtos.MessageResponse;
 import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.shared.enums.UserEventState;
 import ch.teachu.teachuapi.shared.enums.UserEventType;
+import ch.teachu.teachuapi.shared.errorhandlig.InvalidException;
 import ch.teachu.teachuapi.sql.SQL;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +72,12 @@ public class AbsenceService extends AbstractService {
         absenceDAO.setTitle(absenceRequest.getTitle());
         absenceDAO.setDescription(absenceRequest.getDescription());
         absenceDAO.setType(absenceRequest.getType().name());
-        absenceDAO.setState(UserEventState.pending.name());
+
+        if (sharedDAO.getIsParent()) {
+            absenceDAO.setState(UserEventState.verified.name());
+        } else {
+            absenceDAO.setState(UserEventState.pending.name());
+        }
 
         int count = SQL.insert("" +
                         "INSERT INTO user_event ( " +
@@ -111,7 +117,12 @@ public class AbsenceService extends AbstractService {
         absenceDAO.setTitle(absenceRequest.getTitle());
         absenceDAO.setDescription(absenceRequest.getDescription());
         absenceDAO.setType(absenceRequest.getType().name());
-        absenceDAO.setState(UserEventState.pending.name());
+
+        if (sharedDAO.getIsParent()) {
+            absenceDAO.setState(UserEventState.verified.name());
+        } else {
+            absenceDAO.setState(UserEventState.pending.name());
+        }
 
         int count = SQL.update("" +
                         "UPDATE user_event " +
@@ -129,5 +140,29 @@ public class AbsenceService extends AbstractService {
         }
 
         return new MessageResponse("Successfully updated absence");
+    }
+
+    public MessageResponse verifyAbsence(String access, String studentId, String absenceId) {
+        SharedDAO sharedDAO = authStudentId(access, studentId);
+
+        if (!sharedDAO.getIsParent()) {
+            throw new InvalidException("Student cannot verify absences");
+        }
+
+        AbsenceDAO absenceDAO = new AbsenceDAO();
+        absenceDAO.setId(absenceId);
+        absenceDAO.setState(UserEventState.verified.name());
+
+        int count = SQL.update("" +
+                        "UPDATE user_event " +
+                        "SET    user_event_state = -state " +
+                        "WHERE  id = UUID_TO_BIN(-id) ",
+                absenceDAO);
+
+        if (count == 0) {
+            throw new RuntimeException("Failed to update absence");
+        }
+
+        return new MessageResponse("Successfully verified absence");
     }
 }
