@@ -14,14 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @AllArgsConstructor
 public class TeachuApiApplication {
 
-//	private final IStorageAccessService storageAccessService;
-
     public static void main(String[] args) {
         SpringApplication.run(TeachuApiApplication.class, args);
     }
-//
-//	@EventListener(ApplicationReadyEvent.class)
-//	public void start() {
-//		storageAccessService.init();
-//	}
 }

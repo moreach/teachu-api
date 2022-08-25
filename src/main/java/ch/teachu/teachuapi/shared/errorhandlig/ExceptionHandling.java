@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @ControllerAdvice
 public class ExceptionHandling {
@@ -35,6 +36,14 @@ public class ExceptionHandling {
     @ExceptionHandler(ServletRequestBindingException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse exceptionHandler(ServletRequestBindingException exception) {
+        LOG.error(exception.getMessage(), exception);
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse exceptionHandler(MaxUploadSizeExceededException exception) {
         LOG.error(exception.getMessage(), exception);
         return new ErrorResponse(exception.getMessage());
     }
