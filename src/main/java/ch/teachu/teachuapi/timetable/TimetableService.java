@@ -26,19 +26,10 @@ public class TimetableService extends AbstractService {
         this.userService = userService;
     }
 
-    public List<TimetableResponse> getTimetable(String access, String studentId, TimetableRequest timetableRequest) {
+    public List<TimetableResponse> getTimetable(String access, String studentId, LocalDate from, LocalDate to) {
         SharedDAO sharedDAO = authStudentId(access, studentId);
 
-        LocalDate from = timetableRequest.getFrom()
-                .toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-
-        LocalDate to = timetableRequest.getTo()
-                .toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate()
-                .plusDays(1);
+        to = to.plusDays(1);
 
         List<TimetableResponse> timetableResponses = new ArrayList<>();
 

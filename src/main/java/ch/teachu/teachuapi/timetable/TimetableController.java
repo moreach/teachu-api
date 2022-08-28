@@ -1,13 +1,14 @@
 package ch.teachu.teachuapi.timetable;
 
 import ch.teachu.teachuapi.timetable.dtos.TimetableLayoutResponse;
-import ch.teachu.teachuapi.timetable.dtos.TimetableRequest;
 import ch.teachu.teachuapi.timetable.dtos.TimetableResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Timetable")
@@ -26,8 +27,9 @@ public class TimetableController {
     private ResponseEntity<List<TimetableResponse>> getTimetable(
             @RequestHeader("access") String access,
             @RequestParam(required = false) String studentId,
-            @RequestBody TimetableRequest timetableRequest) {
-        return ResponseEntity.ok(timetableService.getTimetable(access, studentId, timetableRequest));
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+        return ResponseEntity.ok(timetableService.getTimetable(access, studentId, from, to));
     }
 
     @Operation(summary = "Get layout of the timetable")
