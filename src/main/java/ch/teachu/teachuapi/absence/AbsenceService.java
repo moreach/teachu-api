@@ -73,10 +73,10 @@ public class AbsenceService extends AbstractService {
         absenceDAO.setDescription(absenceRequest.getDescription());
         absenceDAO.setType(absenceRequest.getType().name());
 
-        if (sharedDAO.getIsParent()) {
-            absenceDAO.setState(UserEventState.verified.name());
-        } else {
+        if (sharedDAO.getIsParent() == null || !sharedDAO.getIsParent()) {
             absenceDAO.setState(UserEventState.pending.name());
+        } else {
+            absenceDAO.setState(UserEventState.verified.name());
         }
 
         int count = SQL.insert("" +
@@ -118,10 +118,10 @@ public class AbsenceService extends AbstractService {
         absenceDAO.setDescription(absenceRequest.getDescription());
         absenceDAO.setType(absenceRequest.getType().name());
 
-        if (sharedDAO.getIsParent()) {
-            absenceDAO.setState(UserEventState.verified.name());
-        } else {
+        if (sharedDAO.getIsParent() == null || !sharedDAO.getIsParent()) {
             absenceDAO.setState(UserEventState.pending.name());
+        } else {
+            absenceDAO.setState(UserEventState.verified.name());
         }
 
         int count = SQL.update("" +
