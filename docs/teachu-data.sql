@@ -64,7 +64,8 @@ VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class WHERE name = 'IN19a'),
 
 INSERT INTO timetable(id, start_time, end_time)
 VALUES (UUID_TO_BIN(UUID()), CURRENT_TIME, CURRENT_TIME + INTERVAL 1 HOUR),
-       (UUID_TO_BIN(UUID()), CURRENT_TIME, CURRENT_TIME + INTERVAL 1 HOUR);
+       (UUID_TO_BIN(UUID()), CURRENT_TIME, CURRENT_TIME + INTERVAL 2 HOUR),
+       (UUID_TO_BIN(UUID()), CURRENT_TIME, CURRENT_TIME + INTERVAL 3 HOUR);
 
 
 INSERT INTO room(id, name, note)
@@ -73,9 +74,9 @@ VALUES (UUID_TO_BIN(UUID()), 'B427', 'no note');
 INSERT INTO lesson(id, school_class_subject_id, timetable_id, weekday, room_id)
 VALUES (UUID_TO_BIN(UUID()), (SELECT id FROM school_class_subject limit 1), (SELECT id FROM timetable limit 1),
         'monday', (SELECT id FROM room WHERE name = 'B427')),
-       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class_subject limit 1), (SELECT id FROM timetable limit 1),
+       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class_subject limit 1), (SELECT id FROM timetable limit 1 offset 1),
         'tuesday', (SELECT id FROM room WHERE name = 'B427')),
-       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class_subject limit 1), (SELECT id FROM timetable limit 1),
+       (UUID_TO_BIN(UUID()), (SELECT id FROM school_class_subject limit 1), (SELECT id FROM timetable limit 1 offset 2),
         'wednesday', (SELECT id FROM room WHERE name = 'B427'));
 
 INSERT INTO semester(id, name, date_from, date_to)

@@ -17,6 +17,8 @@ Auth: parent2
 User: student2@test.ch
 Password: test
 Auth: student2
+User: admin@test.ch
+Password: test
 
 ## Docker
 Run in docker containers with `docker-compose up` in the "./docker" directory. 
