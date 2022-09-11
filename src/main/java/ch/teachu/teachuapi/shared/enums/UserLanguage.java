@@ -1,7 +1,24 @@
 package ch.teachu.teachuapi.shared.enums;
 
 public enum UserLanguage {
-    german,
+    english,
+    arabic,
+    chinese,
+    danish,
+    dutch,
+    finnish,
     french,
-    english
+    german,
+    hindi,
+    italian,
+    japanese,
+    korean,
+    polish,
+    portuguese,
+    russian,
+    spanish,
+    swedish,
+    thai,
+    turkish,
+    vietnamese
 }
