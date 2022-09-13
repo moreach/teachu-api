@@ -32,6 +32,7 @@ public class AbsenceService extends AbstractService {
                         "       user_event_state " +
                         "FROM   user_event " +
                         "WHERE  user_id = UUID_TO_BIN(-userId) " +
+                        "ORDER BY date_from DESC " +
                         "INTO   :id, " +
                         "       :from, " +
                         "       :to, " +
