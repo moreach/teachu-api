@@ -223,6 +223,22 @@ public class ChatService extends AbstractService {
         List<MessageResponse> messageResponses = new ArrayList<>();
 
         for (MessageDAO messageDAO : messageDAOs) {
+            if (messageDAO.getChatState().equals(ChatState.unread.name())) {
+                if (!messageDAO.getUserId().equals(sharedDAO.getUserId())) {
+                    messageDAO.setChatState(ChatState.read.name());
+
+                    int count = SQL.update("" +
+                                    "UPDATE chat_message " +
+                                    "SET    chat_state = -chatState " +
+                                    "WHERE  id = UUID_TO_BIN(-id) ",
+                            messageDAO);
+
+                    if (count == 0) {
+                        throw new RuntimeException("Failed to update message state");
+                    }
+                }
+            }
+
             MessageResponse messageResponse = new MessageResponse();
             messageResponse.setMessage(messageDAO.getMessage());
             messageResponse.setUser(userService.getExternalUser(access, messageDAO.getUserId()));

@@ -26,9 +26,7 @@ public class ChatHandler extends TextWebSocketHandler {
             throw new UnauthorizedException("Access token is missing");
         }
 
-
         sessions.add(session);
-        sessions.forEach(System.out::println);
     }
 
     @Override
