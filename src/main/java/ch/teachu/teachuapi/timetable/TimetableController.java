@@ -22,7 +22,7 @@ public class TimetableController {
         this.timetableService = timetableService;
     }
 
-    @Operation(summary = "Load timetable in defined timeframe (fails in swagger since js restricts body in get requests)")
+    @Operation(summary = "Load timetable in defined timeframe")
     @GetMapping
     private ResponseEntity<List<TimetableResponse>> getTimetable(
             @RequestHeader("access") String access,

@@ -114,6 +114,7 @@ public class UserService extends AbstractService {
         }
 
         return new ExternalUserResponse(
+                userId,
                 userDAO.getEmail(),
                 UserRole.valueOf(userDAO.getRole()),
                 userDAO.getFirstName(),
