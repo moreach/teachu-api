@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDAO {
 
-  private String id;
+    private String id;
 }

@@ -22,18 +22,6 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    /**
-     * sockets
-     * - chat messages
-     * - receive
-     * - send
-     * - initial load (with all unused chat rooms)
-     *
-     * requests
-     * - cud chat room (admin)
-     * - leave char room (user)
-     */
-
     @Operation(summary = "Get all chats")
     @GetMapping
     private ResponseEntity<List<ChatResponse>> getChats(@RequestHeader("access") String access) {
