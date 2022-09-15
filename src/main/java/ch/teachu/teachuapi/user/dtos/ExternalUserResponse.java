@@ -14,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExternalUserResponse {
+    private String id;
     private String email;
     private UserRole role;
     private String firstName;
