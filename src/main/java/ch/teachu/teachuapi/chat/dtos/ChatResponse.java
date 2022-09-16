@@ -19,4 +19,5 @@ public class ChatResponse {
     private String description;
     private ExternalUserResponse creator;
     private List<ExternalUserResponse> members;
+    private MessageResponse lastMessage;
 }

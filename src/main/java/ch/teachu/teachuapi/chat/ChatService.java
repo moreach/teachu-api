@@ -75,6 +75,8 @@ public class ChatService extends AbstractService {
                 chatResponse.getMembers().add(userService.getExternalUser(access, userDAO.getId()));
             }
 
+            chatResponse.setLastMessage(getMessage(chatDAO.getId(), access));
+
             chatResponses.add(chatResponse);
         }
 
@@ -288,5 +290,37 @@ public class ChatService extends AbstractService {
         }
 
         return new ch.teachu.teachuapi.shared.dtos.MessageResponse("Successfully created message");
+    }
+
+    private MessageResponse getMessage(String chatId, String access) {
+        ChatDAO chatDAO = new ChatDAO();
+        chatDAO.setId(chatId);
+
+        MessageDAO messageDAO = new MessageDAO();
+
+        SQL.select("" +
+                        "SELECT BIN_TO_UUID(id), " +
+                        "       BIN_TO_UUID(user_id), " +
+                        "       message, " +
+                        "       timestamp, " +
+                        "       chat_state " +
+                        "FROM   chat_message " +
+                        "WHERE  chat_id = UUID_TO_BIN(-id) " +
+                        "ORDER BY timestamp DESC " +
+                        "INTO   :id, " +
+                        "       :userId, " +
+                        "       :message, " +
+                        "       :timestamp, " +
+                        "       :chatState ",
+                messageDAO,
+                chatDAO);
+
+        MessageResponse messageResponse = new MessageResponse();
+        messageResponse.setMessage(messageDAO.getMessage());
+        messageResponse.setUser(userService.getExternalUser(access, messageDAO.getUserId()));
+        messageResponse.setTimestamp(messageDAO.getTimestamp());
+        messageResponse.setChatState(ChatState.valueOf(messageDAO.getChatState()));
+
+        return messageResponse;
     }
 }
