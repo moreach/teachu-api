@@ -5,6 +5,7 @@ import ch.teachu.teachuapi.shared.AbstractService;
 import ch.teachu.teachuapi.shared.dtos.SharedDAO;
 import ch.teachu.teachuapi.shared.enums.ChatState;
 import ch.teachu.teachuapi.shared.enums.UserRole;
+import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
 import ch.teachu.teachuapi.shared.errorhandlig.UnauthorizedException;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.UserService;
@@ -68,11 +69,17 @@ public class ChatService extends AbstractService {
             chatResponse.setId(chatDAO.getId());
             chatResponse.setTitle(chatDAO.getTitle());
             chatResponse.setDescription(chatDAO.getDescription());
-            chatResponse.setCreator(userService.getExternalUser(access, chatDAO.getCreatorId()));
+            try {
+                chatResponse.setCreator(userService.getExternalUser(access, chatDAO.getCreatorId()));
+            } catch (NotFoundException e) {
+                chatResponse.setCreator(null);
+            }
             chatResponse.setMembers(new ArrayList<>());
 
             for (UserDAO userDAO : chatDAO.getUserDAOs()) {
-                chatResponse.getMembers().add(userService.getExternalUser(access, userDAO.getId()));
+                try {
+                    chatResponse.getMembers().add(userService.getExternalUser(access, userDAO.getId()));
+                } catch (NotFoundException ignored) {}
             }
 
             chatResponse.setLastMessage(getMessage(chatDAO.getId(), access));
@@ -243,7 +250,11 @@ public class ChatService extends AbstractService {
 
             MessageResponse messageResponse = new MessageResponse();
             messageResponse.setMessage(messageDAO.getMessage());
-            messageResponse.setUser(userService.getExternalUser(access, messageDAO.getUserId()));
+            try {
+                messageResponse.setUser(userService.getExternalUser(access, messageDAO.getUserId()));
+            } catch (NotFoundException e) {
+                messageResponse.setUser(null);
+            }
             messageResponse.setTimestamp(messageDAO.getTimestamp());
             messageResponse.setChatState(ChatState.valueOf(messageDAO.getChatState()));
 
@@ -315,9 +326,17 @@ public class ChatService extends AbstractService {
                 messageDAO,
                 chatDAO);
 
+        if (messageDAO.getId() == null) {
+            return new MessageResponse();
+        }
+
         MessageResponse messageResponse = new MessageResponse();
         messageResponse.setMessage(messageDAO.getMessage());
-        messageResponse.setUser(userService.getExternalUser(access, messageDAO.getUserId()));
+        try {
+            messageResponse.setUser(userService.getExternalUser(access, messageDAO.getUserId()));
+        } catch (NotFoundException e) {
+            messageResponse.setUser(null);
+        }
         messageResponse.setTimestamp(messageDAO.getTimestamp());
         messageResponse.setChatState(ChatState.valueOf(messageDAO.getChatState()));
 
