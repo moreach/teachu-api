@@ -15,6 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InternalUserResponse {
+    private String id;
     private String email;
     private UserRole role;
     private String firstName;

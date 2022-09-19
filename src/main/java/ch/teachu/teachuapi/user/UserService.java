@@ -64,6 +64,7 @@ public class UserService extends AbstractService {
                 sharedDAO);
 
         return new InternalUserResponse(
+                sharedDAO.getUserId(),
                 userDAO.getEmail(),
                 UserRole.valueOf(userDAO.getRole()),
                 userDAO.getFirstName(),
