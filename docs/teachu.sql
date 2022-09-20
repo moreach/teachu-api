@@ -8,9 +8,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'dev'@'%' WITH GRANT OPTION;
 
 -- tables
 DROP TABLE IF EXISTS user;
-CREATE TABLE user
-(
-    id               BINARY(16) PRIMARY KEY,
+CREATE TABLE user(
+	id			     BINARY(16) NOT NULL,
     email            VARCHAR(255),
     password         VARCHAR(255),
     role             VARCHAR(255),
@@ -29,7 +28,15 @@ CREATE TABLE user
     creation_date    DATE,
     termination_date DATE,
     notes            VARCHAR(4096),
-    active           BOOLEAN
+    active           BOOLEAN,
+	username text NOT NULL,
+	goodSubject1 int NOT NULL,
+	goodSubject2 int NOT NULL,
+	goodSubject3 int NOT NULL,
+	badSubject1 int NOT NULL,
+	badSubject2 int NOT NULL,
+	badSubject3 int NOT NULL,
+	PRIMARY KEY(id)
 );
 
 DROP TABLE IF EXISTS token;
@@ -250,3 +257,594 @@ CREATE TABLE image
     id    BINARY(16) PRIMARY KEY,
     image MEDIUMBLOB
 );
+
+DROP TABLE IF EXISTS ChallengeQuestionAnswers;
+CREATE TABLE ChallengeQuestionAnswers(
+	Id BINARY(16) NOT NULL,
+	ChallengeId BINARY(16) NOT NULL,
+	ChallengeQuestionPosedId BINARY(16) NOT NULL,
+	UserId BINARY(16) NOT NULL,
+	Answer text NOT NULL,
+	IsRight bit NOT NULL,
+	Points int NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS ChallengeQuestionsMathematicResolved;
+CREATE TABLE ChallengeQuestionsMathematicResolved(
+	Id BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	Answer float NOT NULL,
+	Digits int NOT NULL,
+	ChallengeId BINARY(16) NOT NULL,
+	QuestionMathematicId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS ChallengeQuestiosnPosed;
+CREATE TABLE ChallengeQuestiosnPosed(
+	Id BINARY(16) NOT NULL,
+	ChallengeId BINARY(16) NOT NULL,
+	QuestionId BINARY(16) NOT NULL,
+	Answer text NOT NULL,
+	Created datetime NOT NULL,
+	Expires datetime NOT NULL,
+	IsActive bit NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS Challenges;
+CREATE TABLE Challenges(
+	Id BINARY(16) NOT NULL,
+	Name text NOT NULL,
+	CreateSetId BINARY(16) NOT NULL,
+	State int NOT NULL,
+	OwnerId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS ChallengeUsers;
+CREATE TABLE ChallengeUsers(
+	Id BINARY(16) NOT NULL,
+	UserId BINARY(16) NOT NULL,
+	ChallengeId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionDistributeAnswers;
+CREATE TABLE CreateQuestionDistributeAnswers(
+	Id BINARY(16) NOT NULL,
+	LeftSide text NOT NULL,
+	LeftSideId BINARY(16) NOT NULL,
+	RightSide text NOT NULL,
+	RightSideId BINARY(16) NOT NULL,
+	QuestionDistributeId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionDistributes;
+CREATE TABLE CreateQuestionDistributes(
+	Id BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionMathematics;
+CREATE TABLE CreateQuestionMathematics(
+	Id BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	Answer text NOT NULL,
+	Digits int NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionMathematicVariables;
+CREATE TABLE CreateQuestionMathematicVariables(
+	Id BINARY(16) NOT NULL,
+	Display text NOT NULL,
+	Min float NOT NULL,
+	Max float NOT NULL,
+	Digits int NOT NULL,
+	IntervalVariable float NOT NULL,
+	QuestionMathematicId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionMultipleChoiceAnswers;
+CREATE TABLE CreateQuestionMultipleChoiceAnswers(
+	Id BINARY(16) NOT NULL,
+	Answer text NOT NULL,
+	IsRight bit NOT NULL,
+	QuestionMultipleChoiceId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionMultipleChoices;
+CREATE TABLE CreateQuestionMultipleChoices(
+	Id BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionOpenQuestions;
+CREATE TABLE CreateQuestionOpenQuestions(
+	Id BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	Answer text NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionTextFields;
+CREATE TABLE CreateQuestionTextFields(
+	Id BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionTrueFalses;
+CREATE TABLE CreateQuestionTrueFalses(
+	Id BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	Answer bit NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateQuestionWords;
+CREATE TABLE CreateQuestionWords(
+	Id BINARY(16) NOT NULL,
+	LanguageSubjectMain text NOT NULL,
+	LanguageSubjectSecond text NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS CreateSets;
+CREATE TABLE CreateSets(
+	Id BINARY(16) NOT NULL,
+	Name text NOT NULL,
+	Description text NOT NULL,
+	SubjectMain int NOT NULL,
+	SubjectSecond int NULL,
+	Created datetime NOT NULL,
+	CreatedById BINARY(16) NOT NULL,
+	Modified datetime NOT NULL,
+	ModifiedById BINARY(16) NOT NULL,
+	SetPolicy int NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS DrawCanvasStoragePoints;
+CREATE TABLE DrawCanvasStoragePoints(
+	Id BINARY(16) NOT NULL,
+	X float NOT NULL,
+	Y float NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS DrawCanvasStorages;
+CREATE TABLE DrawCanvasStorages(
+	Id BINARY(16) NOT NULL,
+	DrawPageId BINARY(16) NOT NULL,
+	Created datetime NOT NULL,
+	Deleted datetime NULL,
+	Color text NOT NULL,
+	FromPositionId BINARY(16) NOT NULL,
+	ToPositionId BINARY(16) NOT NULL,
+	Text text NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS DrawCollections;
+CREATE TABLE DrawCollections(
+	Id BINARY(16) NOT NULL,
+	Name text NOT NULL,
+	OwnerId BINARY(16) NOT NULL,
+	Changed datetime NOT NULL,
+	ChangedById BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS DrawGroupCollections;
+CREATE TABLE DrawGroupCollections(
+	Id BINARY(16) NOT NULL,
+	DrawCollectionId BINARY(16) NOT NULL,
+	GroupId BINARY(16) NOT NULL,
+	DrawGroupPolicy int NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS DrawPages;
+CREATE TABLE DrawPages(
+	Id BINARY(16) NOT NULL,
+	DrawCollectionId BINARY(16) NOT NULL,
+	OwnerId BINARY(16) NOT NULL,
+	Created datetime NOT NULL,
+	Changed datetime NOT NULL,
+	ChangedById BINARY(16) NOT NULL,
+	DataUrl text NOT NULL,
+	StepperPosition datetime NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS Files;
+CREATE TABLE Files(
+	Id BINARY(16) NOT NULL,
+	ActualVersionId BINARY(16) NOT NULL,
+	ActualVersionFileNameExternal text NOT NULL,
+	ActualVersionPath text NOT NULL,
+	OwnerId BINARY(16) NOT NULL,
+	FilePolicy int NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS FilesAnonymous;
+CREATE TABLE FilesAnonymous(
+	Id BINARY(16) NOT NULL,
+	FileNameInternal text NOT NULL,
+	FileNameExternal text NOT NULL,
+	Path text NOT NULL,
+	Created datetime NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS FileVersions;
+CREATE TABLE FileVersions(
+	Id BINARY(16) NOT NULL,
+	FileId BINARY(16) NOT NULL,
+	FileNameInternal text NOT NULL,
+	FileNameExternal text NOT NULL,
+	Path text NOT NULL,
+	Created datetime NOT NULL,
+	CreatedById BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS GroupFiles;
+CREATE TABLE GroupFiles(
+	Id BINARY(16) NOT NULL,
+	GroupId BINARY(16) NOT NULL,
+	FileId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS GroupMembers;
+CREATE TABLE GroupMembers(
+	Id BINARY(16) NOT NULL,
+	GroupId BINARY(16) NOT NULL,
+	UserId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS GroupMessages;
+CREATE TABLE GroupMessages(
+	Id BINARY(16) NOT NULL,
+	SenderId BINARY(16) NOT NULL,
+	GroupId BINARY(16) NOT NULL,
+	Message text NOT NULL,
+	Date datetime NOT NULL,
+	IsInfoMessage bit NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS `Groups`;
+CREATE TABLE `Groups` (
+	Id BINARY(16) NOT NULL,
+	Name text NOT NULL,
+	Description text NOT NULL,
+	ProfileImageId BINARY(16) NOT NULL,
+	AdminId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS LearnQuestions;
+CREATE TABLE LearnQuestions(
+	Id BINARY(16) NOT NULL,
+	LearnSessionId BINARY(16) NOT NULL,
+	QuestionId BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	Description text NULL,
+	QuestionType int NOT NULL,
+	PossibleAnswers text NULL,
+	RightAnswer text NOT NULL,
+	AnswerByUser text NULL,
+	AnsweredCorrect bit NULL,
+	MarkedAsHard bit NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS LearnSessions;
+CREATE TABLE LearnSessions(
+	Id BINARY(16) NOT NULL,
+	UserId BINARY(16) NOT NULL,
+	Created datetime NOT NULL,
+	Ended datetime NULL,
+	SetId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TestGroups;
+CREATE TABLE TestGroups(
+	Id BINARY(16) NOT NULL,
+	TestId BINARY(16) NOT NULL,
+	GroupId BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TestOfUsers;
+CREATE TABLE TestOfUsers(
+	Id BINARY(16) NOT NULL,
+	UserId BINARY(16) NOT NULL,
+	TestId BINARY(16) NOT NULL,
+	Started datetime NOT NULL,
+	Ended datetime NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TestQuestionOfUsers;
+CREATE TABLE TestQuestionOfUsers(
+	Id BINARY(16) NOT NULL,
+	TestOfUserId BINARY(16) NOT NULL,
+	TestQuestionId BINARY(16) NOT NULL,
+	AnswerByUser text NULL,
+	AnsweredCorrect bit NULL,
+	PointsScored int NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TestQuestions;
+CREATE TABLE TestQuestions(
+	Id BINARY(16) NOT NULL,
+	TestId BINARY(16) NOT NULL,
+	QuestionId BINARY(16) NOT NULL,
+	Question text NOT NULL,
+	Description text NULL,
+	QuestionType int NOT NULL,
+	PossibleAnswers text NULL,
+	RightAnswer text NOT NULL,
+	PointsPossible int NOT NULL,
+	Visible bit NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS Tests;
+CREATE TABLE Tests(
+	Id BINARY(16) NOT NULL,
+	Name text NOT NULL,
+	SetId BINARY(16) NOT NULL,
+	OwnerId BINARY(16) NOT NULL,
+	Created datetime NOT NULL,
+	MaxTime int NOT NULL,
+	Visible bit NOT NULL,
+	Active bit NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TogetherAsks;
+CREATE TABLE TogetherAsks(
+	Id BINARY(16) NOT NULL,
+	InterestedUserId BINARY(16) NOT NULL,
+	AskedUserId BINARY(16) NOT NULL,
+	Answer bit NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TogetherConnections;
+CREATE TABLE TogetherConnections(
+	Id BINARY(16) NOT NULL,
+	UserId1 BINARY(16) NOT NULL,
+	UserId2 BINARY(16) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TogetherMessages;
+CREATE TABLE TogetherMessages(
+	Id BINARY(16) NOT NULL,
+	SenderId BINARY(16) NOT NULL,
+	ReceiverId BINARY(16) NOT NULL,
+	Message text NOT NULL,
+	Date datetime NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS TogetherSwipes;
+CREATE TABLE TogetherSwipes(
+	Id BINARY(16) NOT NULL,
+	SwiperUserId BINARY(16) NOT NULL,
+	AskedUserId BINARY(16) NOT NULL,
+	Choice bit NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+ALTER TABLE ChallengeQuestionAnswers ADD CONSTRAINT FK_ChallengeQuestionAnswers_ChallengeQuestiosnPosed_PosedId FOREIGN KEY(ChallengeQuestionPosedId)
+REFERENCES ChallengeQuestiosnPosed (Id);
+
+ALTER TABLE ChallengeQuestionAnswers ADD CONSTRAINT FK_ChallengeQuestionAnswers_Challenges_ChallengeId FOREIGN KEY(ChallengeId)
+REFERENCES Challenges (Id);
+
+ALTER TABLE ChallengeQuestionAnswers ADD CONSTRAINT FK_ChallengeQuestionAnswers_Users_UserId FOREIGN KEY(UserId)
+REFERENCES user (id);
+
+ALTER TABLE ChallengeQuestionsMathematicResolved ADD CONSTRAINT FK_ChallengeQuestionsMathematicResolved_Challenges_ChallengeId FOREIGN KEY(ChallengeId)
+REFERENCES Challenges (Id);
+
+ALTER TABLE ChallengeQuestiosnPosed ADD CONSTRAINT FK_ChallengeQuestiosnPosed_Challenges_ChallengeId FOREIGN KEY(ChallengeId)
+REFERENCES Challenges (Id);
+
+ALTER TABLE Challenges ADD CONSTRAINT FK_Challenges_CreateSets_CreateSetId FOREIGN KEY(CreateSetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE Challenges ADD CONSTRAINT FK_Challenges_Users_OwnerId FOREIGN KEY(OwnerId)
+REFERENCES user (id);
+
+ALTER TABLE ChallengeUsers ADD CONSTRAINT FK_ChallengeUsers_Challenges_ChallengeId FOREIGN KEY(ChallengeId)
+REFERENCES Challenges (Id);
+
+ALTER TABLE ChallengeUsers ADD CONSTRAINT FK_ChallengeUsers_Users_UserId FOREIGN KEY(UserId)
+REFERENCES user (id);
+
+ALTER TABLE CreateQuestionDistributeAnswers ADD CONSTRAINT FK_CreateQuestionDistributeAnswers_Distributes_DistributeId FOREIGN KEY(QuestionDistributeId)
+REFERENCES CreateQuestionDistributes (Id);
+
+ALTER TABLE CreateQuestionDistributes ADD CONSTRAINT FK_CreateQuestionDistributes_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE CreateQuestionMathematics ADD CONSTRAINT FK_CreateQuestionMathematics_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE CreateQuestionMathematicVariables ADD CONSTRAINT FK_CreateQuestionMathematicVariables_Mathematics_MathematicId FOREIGN KEY(QuestionMathematicId)
+REFERENCES CreateQuestionMathematics (Id);
+
+ALTER TABLE CreateQuestionMultipleChoiceAnswers ADD CONSTRAINT FK_CreateQuestionMultipleChoiceAnswers_MC_MultipleChoiceId FOREIGN KEY(QuestionMultipleChoiceId)
+REFERENCES CreateQuestionMultipleChoices (Id);
+
+ALTER TABLE CreateQuestionMultipleChoices ADD CONSTRAINT FK_CreateQuestionMultipleChoices_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE CreateQuestionOpenQuestions ADD CONSTRAINT FK_CreateQuestionOpenQuestions_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE CreateQuestionTextFields ADD CONSTRAINT FK_CreateQuestionTextFields_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE CreateQuestionTrueFalses ADD CONSTRAINT FK_CreateQuestionTrueFalses_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE CreateQuestionWords ADD CONSTRAINT FK_CreateQuestionWords_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE CreateSets ADD CONSTRAINT FK_CreateSets_Users_CreatedById FOREIGN KEY(CreatedById)
+REFERENCES user (id);
+
+ALTER TABLE CreateSets ADD CONSTRAINT FK_CreateSets_Users_ModifiedById FOREIGN KEY(ModifiedById)
+REFERENCES user (id);
+
+ALTER TABLE DrawCanvasStorages ADD CONSTRAINT FK_DrawCanvasStorages_DrawCanvasStoragePoints_FromPositionId FOREIGN KEY(FromPositionId)
+REFERENCES DrawCanvasStoragePoints (Id);
+
+ALTER TABLE DrawCanvasStorages ADD CONSTRAINT FK_DrawCanvasStorages_DrawCanvasStoragePoints_ToPositionId FOREIGN KEY(ToPositionId)
+REFERENCES DrawCanvasStoragePoints (Id);
+
+ALTER TABLE DrawCanvasStorages ADD CONSTRAINT FK_DrawCanvasStorages_DrawPages_DrawPageId FOREIGN KEY(DrawPageId)
+REFERENCES DrawPages (Id);
+
+ALTER TABLE DrawCollections ADD CONSTRAINT FK_DrawCollections_Users_ChangedById FOREIGN KEY(ChangedById)
+REFERENCES user (id);
+
+ALTER TABLE DrawCollections ADD CONSTRAINT FK_DrawCollections_Users_OwnerId FOREIGN KEY(OwnerId)
+REFERENCES user (id);
+
+ALTER TABLE DrawGroupCollections ADD CONSTRAINT FK_DrawGroupCollections_DrawCollections_DrawCollectionId FOREIGN KEY(DrawCollectionId)
+REFERENCES DrawCollections (Id);
+
+ALTER TABLE DrawGroupCollections ADD CONSTRAINT FK_DrawGroupCollections_Groups_GroupId FOREIGN KEY(GroupId)
+REFERENCES `Groups` (Id);
+
+ALTER TABLE DrawPages ADD CONSTRAINT FK_DrawPages_DrawCollections_DrawCollectionId FOREIGN KEY(DrawCollectionId)
+REFERENCES DrawCollections (Id);
+
+ALTER TABLE DrawPages ADD CONSTRAINT FK_DrawPages_Users_ChangedById FOREIGN KEY(ChangedById)
+REFERENCES user (id);
+
+ALTER TABLE DrawPages ADD CONSTRAINT FK_DrawPages_Users_OwnerId FOREIGN KEY(OwnerId)
+REFERENCES user (id);
+
+ALTER TABLE Files ADD CONSTRAINT FK_Files_Users_OwnerId FOREIGN KEY(OwnerId)
+REFERENCES user (id);
+
+ALTER TABLE FileVersions ADD CONSTRAINT FK_FileVersions_Files_FileId FOREIGN KEY(FileId)
+REFERENCES Files (Id);
+
+ALTER TABLE FileVersions ADD CONSTRAINT FK_FileVersions_Users_CreatedById FOREIGN KEY(CreatedById)
+REFERENCES user (id)
+ON DELETE CASCADE;
+
+ALTER TABLE GroupFiles ADD CONSTRAINT FK_GroupFiles_Files_FileId FOREIGN KEY(FileId)
+REFERENCES Files (Id)
+ON DELETE CASCADE;
+
+ALTER TABLE GroupFiles ADD CONSTRAINT FK_GroupFiles_Groups_GroupId FOREIGN KEY(GroupId)
+REFERENCES `Groups` (Id);
+
+ALTER TABLE GroupMembers ADD CONSTRAINT FK_GroupMembers_Groups_GroupId FOREIGN KEY(GroupId)
+REFERENCES `Groups` (Id);
+
+ALTER TABLE GroupMembers ADD CONSTRAINT FK_GroupMembers_Users_UserId FOREIGN KEY(UserId)
+REFERENCES user (id);
+
+ALTER TABLE GroupMessages ADD CONSTRAINT FK_GroupMessages_Groups_GroupId FOREIGN KEY(GroupId)
+REFERENCES `Groups` (Id);
+
+ALTER TABLE GroupMessages ADD CONSTRAINT FK_GroupMessages_Users_SenderId FOREIGN KEY(SenderId)
+REFERENCES user (id);
+
+ALTER TABLE `Groups` ADD CONSTRAINT FK_Groups_Files_ProfileImageId FOREIGN KEY(ProfileImageId)
+REFERENCES Files (Id);
+
+ALTER TABLE `Groups` ADD CONSTRAINT FK_Groups_Users_AdminId FOREIGN KEY(AdminId)
+REFERENCES user (id);
+
+ALTER TABLE LearnQuestions ADD CONSTRAINT FK_LearnQuestions_LearnSessions_LearnSessionId FOREIGN KEY(LearnSessionId)
+REFERENCES LearnSessions (Id);
+
+ALTER TABLE LearnSessions ADD CONSTRAINT FK_LearnSessions_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE LearnSessions ADD CONSTRAINT FK_LearnSessions_Users_UserId FOREIGN KEY(UserId)
+REFERENCES user (id);
+
+ALTER TABLE TestGroups ADD CONSTRAINT FK_TestGroups_Groups_GroupId FOREIGN KEY(GroupId)
+REFERENCES `Groups` (Id);
+
+ALTER TABLE TestGroups ADD CONSTRAINT FK_TestGroups_Tests_TestId FOREIGN KEY(TestId)
+REFERENCES Tests (Id);
+
+ALTER TABLE TestOfUsers ADD CONSTRAINT FK_TestOfUsers_Tests_TestId FOREIGN KEY(TestId)
+REFERENCES Tests (Id);
+
+ALTER TABLE TestOfUsers ADD CONSTRAINT FK_TestOfUsers_Users_UserId FOREIGN KEY(UserId)
+REFERENCES user (id);
+
+ALTER TABLE TestQuestionOfUsers ADD CONSTRAINT FK_TestQuestionOfUsers_TestOfUsers_TestOfUserId FOREIGN KEY(TestOfUserId)
+REFERENCES TestOfUsers (id);
+
+ALTER TABLE TestQuestionOfUsers ADD CONSTRAINT FK_TestQuestionOfUsers_TestQuestions_TestQuestionId FOREIGN KEY(TestQuestionId)
+REFERENCES TestQuestions (Id);
+
+ALTER TABLE TestQuestions ADD CONSTRAINT FK_TestQuestions_Tests_TestId FOREIGN KEY(TestId)
+REFERENCES Tests (Id);
+
+ALTER TABLE Tests ADD CONSTRAINT FK_Tests_CreateSets_SetId FOREIGN KEY(SetId)
+REFERENCES CreateSets (Id);
+
+ALTER TABLE Tests ADD CONSTRAINT FK_Tests_Users_OwnerId FOREIGN KEY(OwnerId)
+REFERENCES user (id);
+
+ALTER TABLE TogetherAsks ADD CONSTRAINT FK_TogetherAsks_Users_AskedUserId FOREIGN KEY(AskedUserId)
+REFERENCES user (id);
+
+ALTER TABLE TogetherAsks ADD CONSTRAINT FK_TogetherAsks_Users_InterestedUserId FOREIGN KEY(InterestedUserId)
+REFERENCES user (id);
+
+ALTER TABLE TogetherConnections ADD CONSTRAINT FK_TogetherConnections_Users_UserId1 FOREIGN KEY(UserId1)
+REFERENCES user (id);
+
+ALTER TABLE TogetherConnections ADD CONSTRAINT FK_TogetherConnections_Users_UserId2 FOREIGN KEY(UserId2)
+REFERENCES user (id);
+
+ALTER TABLE TogetherMessages ADD CONSTRAINT FK_TogetherMessages_Users_ReceiverId FOREIGN KEY(ReceiverId)
+REFERENCES user (id);
+
+ALTER TABLE TogetherMessages ADD CONSTRAINT FK_TogetherMessages_Users_SenderId FOREIGN KEY(SenderId)
+REFERENCES user (id);
+
+ALTER TABLE TogetherSwipes ADD CONSTRAINT FK_TogetherSwipes_Users_AskedUserId FOREIGN KEY(AskedUserId)
+REFERENCES user (id);
+
+ALTER TABLE TogetherSwipes ADD CONSTRAINT FK_TogetherSwipes_Users_SwiperUserId FOREIGN KEY(SwiperUserId)
+REFERENCES user (id);
