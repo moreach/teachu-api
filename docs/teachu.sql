@@ -9,7 +9,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'dev'@'%' WITH GRANT OPTION;
 -- tables
 DROP TABLE IF EXISTS user;
 CREATE TABLE user(
-	id			     BINARY(16) NOT NULL,
+	id			     char(36) NOT NULL,
     email            VARCHAR(255),
     password         VARCHAR(255),
     role             VARCHAR(255),
@@ -23,7 +23,7 @@ CREATE TABLE user(
     postal_code      VARCHAR(255),
     street           VARCHAR(255),
     phone            VARCHAR(255),
-    img              BINARY(16),
+    img              char(36),
     last_login       TIMESTAMP,
     creation_date    DATE,
     termination_date DATE,
@@ -42,7 +42,7 @@ CREATE TABLE user(
 DROP TABLE IF EXISTS token;
 CREATE TABLE token
 (
-    user_id         BINARY(16),
+    user_id         char(36),
     access          VARCHAR(255) PRIMARY KEY,
     refresh         VARCHAR(255),
     access_expires  TIMESTAMP,
@@ -52,22 +52,22 @@ CREATE TABLE token
 DROP TABLE IF EXISTS school_class;
 CREATE TABLE school_class
 (
-    id         BINARY(16) PRIMARY KEY,
+    id         char(36) PRIMARY KEY,
     name       VARCHAR(255),
-    teacher_id BINARY(16)
+    teacher_id char(36)
 );
 
 DROP TABLE IF EXISTS school_class_user;
 CREATE TABLE school_class_user
 (
-    school_class_id BINARY(16),
-    user_id         BINARY(16)
+    school_class_id char(36),
+    user_id         char(36)
 );
 
 DROP TABLE IF EXISTS subject;
 CREATE TABLE subject
 (
-    id     BINARY(16) PRIMARY KEY,
+    id     char(36) PRIMARY KEY,
     name   VARCHAR(255),
     weight FLOAT
 );
@@ -75,10 +75,10 @@ CREATE TABLE subject
 DROP TABLE IF EXISTS school_class_subject;
 CREATE TABLE school_class_subject
 (
-    id              BINARY(16) PRIMARY KEY,
-    school_class_id BINARY(16),
-    subject_id      BINARY(16),
-    teacher_id      BINARY(16),
+    id              char(36) PRIMARY KEY,
+    school_class_id char(36),
+    subject_id      char(36),
+    teacher_id      char(36),
     start_date      DATE,
     end_date        DATE,
     note            VARCHAR(4096)
@@ -87,7 +87,7 @@ CREATE TABLE school_class_subject
 DROP TABLE IF EXISTS timetable;
 CREATE TABLE timetable
 (
-    id         BINARY(16) PRIMARY KEY,
+    id         char(36) PRIMARY KEY,
     start_time TIME,
     end_time   TIME
 );
@@ -95,17 +95,17 @@ CREATE TABLE timetable
 DROP TABLE IF EXISTS lesson;
 CREATE TABLE lesson
 (
-    id                      BINARY(16) PRIMARY KEY,
-    school_class_subject_id BINARY(16),
-    timetable_id            BINARY(16),
+    id                      char(36) PRIMARY KEY,
+    school_class_subject_id char(36),
+    timetable_id            char(36),
     weekday                 VARCHAR(255),
-    room_id                 BINARY(16)
+    room_id                 char(36)
 );
 
 DROP TABLE IF EXISTS room;
 CREATE TABLE room
 (
-    id   BINARY(16) PRIMARY KEY,
+    id   char(36) PRIMARY KEY,
     name VARCHAR(255),
     note VARCHAR(4096)
 );
@@ -113,8 +113,8 @@ CREATE TABLE room
 DROP TABLE IF EXISTS exam;
 CREATE TABLE exam
 (
-    id                      BINARY(16) PRIMARY KEY,
-    school_class_subject_id BINARY(16),
+    id                      char(36) PRIMARY KEY,
+    school_class_subject_id char(36),
     name                    VARCHAR(100),
     description             VARCHAR(250),
     weight                  FLOAT,
@@ -125,9 +125,9 @@ CREATE TABLE exam
 DROP TABLE IF EXISTS grade;
 CREATE TABLE grade
 (
-    id         BINARY(16) PRIMARY KEY,
-    student_id BINARY(16),
-    exam_id    BINARY(16),
+    id         char(36) PRIMARY KEY,
+    student_id char(36),
+    exam_id    char(36),
     mark       FLOAT,
     note       VARCHAR(4096)
 );
@@ -135,8 +135,8 @@ CREATE TABLE grade
 DROP TABLE IF EXISTS user_event;
 CREATE TABLE user_event
 (
-    id               BINARY(16) PRIMARY KEY,
-    user_id          BINARY(16),
+    id               char(36) PRIMARY KEY,
+    user_id          char(36),
     date_from        TIMESTAMP,
     date_to          TIMESTAMP,
     title            VARCHAR(255),
@@ -148,8 +148,8 @@ CREATE TABLE user_event
 DROP TABLE IF EXISTS lesson_event;
 CREATE TABLE lesson_event
 (
-    id                BINARY(16) PRIMARY KEY,
-    lesson_id         BINARY(16),
+    id                char(36) PRIMARY KEY,
+    lesson_id         char(36),
     date              DATE,
     title             VARCHAR(255),
     description       VARCHAR(4096),
@@ -159,8 +159,8 @@ CREATE TABLE lesson_event
 DROP TABLE IF EXISTS school_class_event;
 CREATE TABLE school_class_event
 (
-    id                      BINARY(16) PRIMARY KEY,
-    school_class_id         BINARY(16),
+    id                      char(36) PRIMARY KEY,
+    school_class_id         char(36),
     date_from               DATE,
     date_to                 DATE,
     title                   VARCHAR(255),
@@ -171,7 +171,7 @@ CREATE TABLE school_class_event
 DROP TABLE IF EXISTS school_event;
 CREATE TABLE school_event
 (
-    id                BINARY(16) PRIMARY KEY,
+    id                char(36) PRIMARY KEY,
     date_from         DATE,
     date_to           DATE,
     title             VARCHAR(255),
@@ -182,25 +182,25 @@ CREATE TABLE school_event
 DROP TABLE IF EXISTS parent_student;
 CREATE TABLE parent_student
 (
-    parent_id  BINARY(16),
-    student_id BINARY(16)
+    parent_id  char(36),
+    student_id char(36)
 );
 
 DROP TABLE IF EXISTS chat;
 CREATE TABLE chat
 (
-    id          BINARY(16) PRIMARY KEY,
+    id          char(36) PRIMARY KEY,
     title       VARCHAR(255),
     description VARCHAR(255),
-    creator_id  BINARY(16)
+    creator_id  char(36)
 );
 
 DROP TABLE IF EXISTS chat_message;
 CREATE TABLE chat_message
 (
-    id         BINARY(16) PRIMARY KEY,
-    chat_id    BINARY(16),
-    user_id    BINARY(16),
+    id         char(36) PRIMARY KEY,
+    chat_id    char(36),
+    user_id    char(36),
     message    VARCHAR(4096),
     timestamp  TIMESTAMP,
     chat_state VARCHAR(255)
@@ -209,19 +209,19 @@ CREATE TABLE chat_message
 DROP TABLE IF EXISTS chat_user;
 CREATE TABLE chat_user
 (
-    chat_id BINARY(16),
-    user_id BINARY(16)
+    chat_id char(36),
+    user_id char(36)
 );
 
 DROP TABLE IF EXISTS school_info;
 CREATE TABLE school_info
 (
-    id        BINARY(16) PRIMARY KEY,
+    id        char(36) PRIMARY KEY,
     title     VARCHAR(255),
     message   VARCHAR(4096),
     date      DATE,
-    img       BINARY(16),
-    user_id   BINARY(16),
+    img       char(36),
+    user_id   char(36),
     important BOOLEAN,
     pinned    BOOLEAN,
     active    BOOLEAN
@@ -230,7 +230,7 @@ CREATE TABLE school_info
 DROP TABLE IF EXISTS semester;
 CREATE TABLE semester
 (
-    id        BINARY(16) PRIMARY KEY,
+    id        char(36) PRIMARY KEY,
     name      VARCHAR(250),
     date_from TIMESTAMP,
     date_to   TIMESTAMP
@@ -239,8 +239,8 @@ CREATE TABLE semester
 DROP TABLE IF EXISTS school_class_semester;
 CREATE TABLE school_class_semester
 (
-    school_class_id BINARY(16),
-    semester_id     BINARY(16)
+    school_class_id char(36),
+    semester_id     char(36)
 );
 
 DROP TABLE IF EXISTS school_config;
@@ -254,16 +254,16 @@ CREATE TABLE school_config
 DROP TABLE IF EXISTS image;
 CREATE TABLE image
 (
-    id    BINARY(16) PRIMARY KEY,
+    id    char(36) PRIMARY KEY,
     image MEDIUMBLOB
 );
 
 DROP TABLE IF EXISTS ChallengeQuestionAnswers;
 CREATE TABLE ChallengeQuestionAnswers(
-	Id BINARY(16) NOT NULL,
-	ChallengeId BINARY(16) NOT NULL,
-	ChallengeQuestionPosedId BINARY(16) NOT NULL,
-	UserId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	ChallengeId char(36) NOT NULL,
+	ChallengeQuestionPosedId char(36) NOT NULL,
+	UserId char(36) NOT NULL,
 	Answer text NOT NULL,
 	IsRight bit NOT NULL,
 	Points int NOT NULL,
@@ -272,20 +272,20 @@ CREATE TABLE ChallengeQuestionAnswers(
 
 DROP TABLE IF EXISTS ChallengeQuestionsMathematicResolved;
 CREATE TABLE ChallengeQuestionsMathematicResolved(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Question text NOT NULL,
 	Answer float NOT NULL,
 	Digits int NOT NULL,
-	ChallengeId BINARY(16) NOT NULL,
-	QuestionMathematicId BINARY(16) NOT NULL,
+	ChallengeId char(36) NOT NULL,
+	QuestionMathematicId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS ChallengeQuestiosnPosed;
 CREATE TABLE ChallengeQuestiosnPosed(
-	Id BINARY(16) NOT NULL,
-	ChallengeId BINARY(16) NOT NULL,
-	QuestionId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	ChallengeId char(36) NOT NULL,
+	QuestionId char(36) NOT NULL,
 	Answer text NOT NULL,
 	Created datetime NOT NULL,
 	Expires datetime NOT NULL,
@@ -295,133 +295,133 @@ CREATE TABLE ChallengeQuestiosnPosed(
 
 DROP TABLE IF EXISTS Challenges;
 CREATE TABLE Challenges(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Name text NOT NULL,
-	CreateSetId BINARY(16) NOT NULL,
+	CreateSetId char(36) NOT NULL,
 	State int NOT NULL,
-	OwnerId BINARY(16) NOT NULL,
+	OwnerId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS ChallengeUsers;
 CREATE TABLE ChallengeUsers(
-	Id BINARY(16) NOT NULL,
-	UserId BINARY(16) NOT NULL,
-	ChallengeId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	UserId char(36) NOT NULL,
+	ChallengeId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionDistributeAnswers;
 CREATE TABLE CreateQuestionDistributeAnswers(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	LeftSide text NOT NULL,
-	LeftSideId BINARY(16) NOT NULL,
+	LeftSideId char(36) NOT NULL,
 	RightSide text NOT NULL,
-	RightSideId BINARY(16) NOT NULL,
-	QuestionDistributeId BINARY(16) NOT NULL,
+	RightSideId char(36) NOT NULL,
+	QuestionDistributeId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionDistributes;
 CREATE TABLE CreateQuestionDistributes(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Question text NOT NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionMathematics;
 CREATE TABLE CreateQuestionMathematics(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Question text NOT NULL,
 	Answer text NOT NULL,
 	Digits int NOT NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionMathematicVariables;
 CREATE TABLE CreateQuestionMathematicVariables(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Display text NOT NULL,
 	Min float NOT NULL,
 	Max float NOT NULL,
 	Digits int NOT NULL,
 	IntervalVariable float NOT NULL,
-	QuestionMathematicId BINARY(16) NOT NULL,
+	QuestionMathematicId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionMultipleChoiceAnswers;
 CREATE TABLE CreateQuestionMultipleChoiceAnswers(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Answer text NOT NULL,
 	IsRight bit NOT NULL,
-	QuestionMultipleChoiceId BINARY(16) NOT NULL,
+	QuestionMultipleChoiceId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionMultipleChoices;
 CREATE TABLE CreateQuestionMultipleChoices(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Question text NOT NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionOpenQuestions;
 CREATE TABLE CreateQuestionOpenQuestions(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Question text NOT NULL,
 	Answer text NOT NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionTextFields;
 CREATE TABLE CreateQuestionTextFields(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Question text NOT NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionTrueFalses;
 CREATE TABLE CreateQuestionTrueFalses(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Question text NOT NULL,
 	Answer bit NOT NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateQuestionWords;
 CREATE TABLE CreateQuestionWords(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	LanguageSubjectMain text NOT NULL,
 	LanguageSubjectSecond text NOT NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS CreateSets;
 CREATE TABLE CreateSets(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Name text NOT NULL,
 	Description text NOT NULL,
 	SubjectMain int NOT NULL,
 	SubjectSecond int NULL,
 	Created datetime NOT NULL,
-	CreatedById BINARY(16) NOT NULL,
+	CreatedById char(36) NOT NULL,
 	Modified datetime NOT NULL,
-	ModifiedById BINARY(16) NOT NULL,
+	ModifiedById char(36) NOT NULL,
 	SetPolicy int NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS DrawCanvasStoragePoints;
 CREATE TABLE DrawCanvasStoragePoints(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	X float NOT NULL,
 	Y float NOT NULL,
 	PRIMARY KEY(Id)
@@ -429,44 +429,44 @@ CREATE TABLE DrawCanvasStoragePoints(
 
 DROP TABLE IF EXISTS DrawCanvasStorages;
 CREATE TABLE DrawCanvasStorages(
-	Id BINARY(16) NOT NULL,
-	DrawPageId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	DrawPageId char(36) NOT NULL,
 	Created datetime NOT NULL,
 	Deleted datetime NULL,
 	Color text NOT NULL,
-	FromPositionId BINARY(16) NOT NULL,
-	ToPositionId BINARY(16) NOT NULL,
+	FromPositionId char(36) NOT NULL,
+	ToPositionId char(36) NOT NULL,
 	Text text NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS DrawCollections;
 CREATE TABLE DrawCollections(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Name text NOT NULL,
-	OwnerId BINARY(16) NOT NULL,
+	OwnerId char(36) NOT NULL,
 	Changed datetime NOT NULL,
-	ChangedById BINARY(16) NOT NULL,
+	ChangedById char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS DrawGroupCollections;
 CREATE TABLE DrawGroupCollections(
-	Id BINARY(16) NOT NULL,
-	DrawCollectionId BINARY(16) NOT NULL,
-	GroupId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	DrawCollectionId char(36) NOT NULL,
+	GroupId char(36) NOT NULL,
 	DrawGroupPolicy int NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS DrawPages;
 CREATE TABLE DrawPages(
-	Id BINARY(16) NOT NULL,
-	DrawCollectionId BINARY(16) NOT NULL,
-	OwnerId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	DrawCollectionId char(36) NOT NULL,
+	OwnerId char(36) NOT NULL,
 	Created datetime NOT NULL,
 	Changed datetime NOT NULL,
-	ChangedById BINARY(16) NOT NULL,
+	ChangedById char(36) NOT NULL,
 	DataUrl text NOT NULL,
 	StepperPosition datetime NOT NULL,
 	PRIMARY KEY(Id)
@@ -474,18 +474,18 @@ CREATE TABLE DrawPages(
 
 DROP TABLE IF EXISTS Files;
 CREATE TABLE Files(
-	Id BINARY(16) NOT NULL,
-	ActualVersionId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	ActualVersionId char(36) NOT NULL,
 	ActualVersionFileNameExternal text NOT NULL,
 	ActualVersionPath text NOT NULL,
-	OwnerId BINARY(16) NOT NULL,
+	OwnerId char(36) NOT NULL,
 	FilePolicy int NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS FilesAnonymous;
 CREATE TABLE FilesAnonymous(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	FileNameInternal text NOT NULL,
 	FileNameExternal text NOT NULL,
 	Path text NOT NULL,
@@ -495,37 +495,37 @@ CREATE TABLE FilesAnonymous(
 
 DROP TABLE IF EXISTS FileVersions;
 CREATE TABLE FileVersions(
-	Id BINARY(16) NOT NULL,
-	FileId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	FileId char(36) NOT NULL,
 	FileNameInternal text NOT NULL,
 	FileNameExternal text NOT NULL,
 	Path text NOT NULL,
 	Created datetime NOT NULL,
-	CreatedById BINARY(16) NOT NULL,
+	CreatedById char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS GroupFiles;
 CREATE TABLE GroupFiles(
-	Id BINARY(16) NOT NULL,
-	GroupId BINARY(16) NOT NULL,
-	FileId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	GroupId char(36) NOT NULL,
+	FileId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS GroupMembers;
 CREATE TABLE GroupMembers(
-	Id BINARY(16) NOT NULL,
-	GroupId BINARY(16) NOT NULL,
-	UserId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	GroupId char(36) NOT NULL,
+	UserId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS GroupMessages;
 CREATE TABLE GroupMessages(
-	Id BINARY(16) NOT NULL,
-	SenderId BINARY(16) NOT NULL,
-	GroupId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	SenderId char(36) NOT NULL,
+	GroupId char(36) NOT NULL,
 	Message text NOT NULL,
 	Date datetime NOT NULL,
 	IsInfoMessage bit NOT NULL,
@@ -534,19 +534,19 @@ CREATE TABLE GroupMessages(
 
 DROP TABLE IF EXISTS `Groups`;
 CREATE TABLE `Groups` (
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Name text NOT NULL,
 	Description text NOT NULL,
-	ProfileImageId BINARY(16) NOT NULL,
-	AdminId BINARY(16) NOT NULL,
+	ProfileImageId char(36) NOT NULL,
+	AdminId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS LearnQuestions;
 CREATE TABLE LearnQuestions(
-	Id BINARY(16) NOT NULL,
-	LearnSessionId BINARY(16) NOT NULL,
-	QuestionId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	LearnSessionId char(36) NOT NULL,
+	QuestionId char(36) NOT NULL,
 	Question text NOT NULL,
 	Description text NULL,
 	QuestionType int NOT NULL,
@@ -560,27 +560,27 @@ CREATE TABLE LearnQuestions(
 
 DROP TABLE IF EXISTS LearnSessions;
 CREATE TABLE LearnSessions(
-	Id BINARY(16) NOT NULL,
-	UserId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	UserId char(36) NOT NULL,
 	Created datetime NOT NULL,
 	Ended datetime NULL,
-	SetId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS TestGroups;
 CREATE TABLE TestGroups(
-	Id BINARY(16) NOT NULL,
-	TestId BINARY(16) NOT NULL,
-	GroupId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	TestId char(36) NOT NULL,
+	GroupId char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS TestOfUsers;
 CREATE TABLE TestOfUsers(
-	Id BINARY(16) NOT NULL,
-	UserId BINARY(16) NOT NULL,
-	TestId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	UserId char(36) NOT NULL,
+	TestId char(36) NOT NULL,
 	Started datetime NOT NULL,
 	Ended datetime NULL,
 	PRIMARY KEY(Id)
@@ -588,9 +588,9 @@ CREATE TABLE TestOfUsers(
 
 DROP TABLE IF EXISTS TestQuestionOfUsers;
 CREATE TABLE TestQuestionOfUsers(
-	Id BINARY(16) NOT NULL,
-	TestOfUserId BINARY(16) NOT NULL,
-	TestQuestionId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	TestOfUserId char(36) NOT NULL,
+	TestQuestionId char(36) NOT NULL,
 	AnswerByUser text NULL,
 	AnsweredCorrect bit NULL,
 	PointsScored int NULL,
@@ -599,9 +599,9 @@ CREATE TABLE TestQuestionOfUsers(
 
 DROP TABLE IF EXISTS TestQuestions;
 CREATE TABLE TestQuestions(
-	Id BINARY(16) NOT NULL,
-	TestId BINARY(16) NOT NULL,
-	QuestionId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	TestId char(36) NOT NULL,
+	QuestionId char(36) NOT NULL,
 	Question text NOT NULL,
 	Description text NULL,
 	QuestionType int NOT NULL,
@@ -614,10 +614,10 @@ CREATE TABLE TestQuestions(
 
 DROP TABLE IF EXISTS Tests;
 CREATE TABLE Tests(
-	Id BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
 	Name text NOT NULL,
-	SetId BINARY(16) NOT NULL,
-	OwnerId BINARY(16) NOT NULL,
+	SetId char(36) NOT NULL,
+	OwnerId char(36) NOT NULL,
 	Created datetime NOT NULL,
 	MaxTime int NOT NULL,
 	Visible bit NOT NULL,
@@ -627,26 +627,26 @@ CREATE TABLE Tests(
 
 DROP TABLE IF EXISTS TogetherAsks;
 CREATE TABLE TogetherAsks(
-	Id BINARY(16) NOT NULL,
-	InterestedUserId BINARY(16) NOT NULL,
-	AskedUserId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	InterestedUserId char(36) NOT NULL,
+	AskedUserId char(36) NOT NULL,
 	Answer bit NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS TogetherConnections;
 CREATE TABLE TogetherConnections(
-	Id BINARY(16) NOT NULL,
-	UserId1 BINARY(16) NOT NULL,
-	UserId2 BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	UserId1 char(36) NOT NULL,
+	UserId2 char(36) NOT NULL,
 	PRIMARY KEY(Id)
 );
 
 DROP TABLE IF EXISTS TogetherMessages;
 CREATE TABLE TogetherMessages(
-	Id BINARY(16) NOT NULL,
-	SenderId BINARY(16) NOT NULL,
-	ReceiverId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	SenderId char(36) NOT NULL,
+	ReceiverId char(36) NOT NULL,
 	Message text NOT NULL,
 	Date datetime NOT NULL,
 	PRIMARY KEY(Id)
@@ -654,9 +654,9 @@ CREATE TABLE TogetherMessages(
 
 DROP TABLE IF EXISTS TogetherSwipes;
 CREATE TABLE TogetherSwipes(
-	Id BINARY(16) NOT NULL,
-	SwiperUserId BINARY(16) NOT NULL,
-	AskedUserId BINARY(16) NOT NULL,
+	Id char(36) NOT NULL,
+	SwiperUserId char(36) NOT NULL,
+	AskedUserId char(36) NOT NULL,
 	Choice bit NOT NULL,
 	PRIMARY KEY(Id)
 );
