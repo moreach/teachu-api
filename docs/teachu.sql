@@ -848,3 +848,6 @@ REFERENCES user (id);
 
 ALTER TABLE TogetherSwipes ADD CONSTRAINT FK_TogetherSwipes_Users_SwiperUserId FOREIGN KEY(SwiperUserId)
 REFERENCES user (id);
+
+ALTER TABLE token ADD CONSTRAINT FK_Token_User_UserId FOREIGN KEY(user_id)
+REFERENCES user (id);
