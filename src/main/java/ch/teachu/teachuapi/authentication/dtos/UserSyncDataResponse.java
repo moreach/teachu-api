@@ -5,15 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
+public class UserSyncDataResponse {
     private String userId;
-    private String access;
-    private String refresh;
-    private Date accessExpires;
+    private String firstname;
+    private String lastname;
+    private String birthdate; // format dd-MM-yyyy
+    private String profileImageId;
 }

@@ -83,6 +83,7 @@ public class AuthService {
         }
 
         return new LoginResponse(
+                userDAO.getId(),
                 userDAO.getAccess(),
                 userDAO.getRefresh(),
                 userDAO.getAccessExpires()
@@ -182,6 +183,14 @@ public class AuthService {
         }
 
         return new MessageResponse("Successfully logged out");
+    }
+
+    public List<UserSyncDataResponse> syncData() {
+        // todo return data from db
+    }
+
+    public void syncData(List<UserSyncDataResponse> syncDataRequest) {
+        // todo sync data to db
     }
 
     public void deleteExpiredTokens() {

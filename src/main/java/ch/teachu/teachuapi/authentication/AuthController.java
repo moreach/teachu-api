@@ -42,4 +42,17 @@ public class AuthController extends AbstractService {
     private ResponseEntity<MessageResponse> logout(@RequestBody LogoutRequest logoutRequest) {
         return ResponseEntity.ok(authService.logout(logoutRequest));
     }
+
+    // @Operation(summary = "sync data")
+    // @GetMapping("/sync")
+    // private ResponseEntity<List<UserSyncDataResponse>> syncData() {
+    //     return ResponseEntity.ok(authService.syncData());
+    // }
+
+    // @Operation(summary = "sync data")
+    // @PostMapping("/sync")
+    // private ResponseEntity<List<UserSyncDataResponse>> syncData(@RequestBody List<UserSyncDataResponse> syncData) {
+    //     authService.syncData(syncData);
+    //     return ResponseEntity.ok();
+    // }
 }
