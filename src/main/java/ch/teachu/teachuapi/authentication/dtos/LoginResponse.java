@@ -12,7 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponse {
-    private String userId;
     private String access;
     private String refresh;
     private Date accessExpires;

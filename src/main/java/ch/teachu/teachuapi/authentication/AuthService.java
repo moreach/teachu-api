@@ -83,7 +83,6 @@ public class AuthService {
         }
 
         return new LoginResponse(
-                userDAO.getId(),
                 userDAO.getAccess(),
                 userDAO.getRefresh(),
                 userDAO.getAccessExpires()
