@@ -23,6 +23,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -34,6 +36,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService extends AbstractService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private final ImageService imageService;
     private final SyncProperties syncProperties;
@@ -242,7 +246,7 @@ public class UserService extends AbstractService {
         List<UserDAO> userDAOs = new ArrayList<>();
 
         SQL.select("" +
-                "SELECT BIN_TO_UUID(id)" +
+                "SELECT BIN_TO_UUID(id), " +
                 "       first_name, " +
                 "       last_name, " +
                 "       birthday, " +
@@ -280,15 +284,19 @@ public class UserService extends AbstractService {
             httpHeaders
         );
 
-        ResponseEntity<Void> responseEntity = restTemplate.exchange(
-            "http://localhost:7039/api/UserSynchronization",
-            HttpMethod.POST,
-            httpEntity,
-            Void.class);
+        try {
 
+            ResponseEntity<Void> responseEntity = restTemplate.exchange(
+                "http://localhost:7039/api/UserSynchronization",
+                HttpMethod.POST,
+                httpEntity,
+                Void.class);
 
-        if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Failed to sync systems");
+            if (!responseEntity.getStatusCode().is2xxSuccessful()) {
+                throw new RuntimeException("Failed to sync systems");
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to update learnz: " + e.getMessage());
         }
     }
 }
