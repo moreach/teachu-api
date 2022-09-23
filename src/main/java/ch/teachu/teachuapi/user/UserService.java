@@ -9,21 +9,38 @@ import ch.teachu.teachuapi.shared.enums.UserLanguage;
 import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.shared.enums.UserSex;
 import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
+import ch.teachu.teachuapi.shared.errorhandlig.UnauthorizedException;
+import ch.teachu.teachuapi.shared.properties.SyncProperties;
 import ch.teachu.teachuapi.sql.SQL;
 import ch.teachu.teachuapi.user.dtos.ChangeProfileRequest;
 import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import ch.teachu.teachuapi.user.dtos.InternalUserResponse;
 import ch.teachu.teachuapi.user.dtos.UserDAO;
+import ch.teachu.teachuapi.user.dtos.UserSyncDataRequest;
+import ch.teachu.teachuapi.user.dtos.UserSyncDataResponse;
+import ch.teachu.teachuapi.user.dtos.UserSyncTokenRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService extends AbstractService {
 
     private final ImageService imageService;
+    private final SyncProperties syncProperties;
 
-    public UserService(ImageService imageService) {
+    public UserService(ImageService imageService, SyncProperties syncProperties) {
         this.imageService = imageService;
+        this.syncProperties = syncProperties;
     }
 
     public InternalUserResponse getInternalUser(String access) {
@@ -148,6 +165,8 @@ public class UserService extends AbstractService {
             throw new RuntimeException("Failed to update user");
         }
 
+        sendSyncDataToLearnz();
+
         return new MessageResponse("Successfully changed profile");
     }
 
@@ -170,6 +189,106 @@ public class UserService extends AbstractService {
             throw new RuntimeException("Failed to upload profile image");
         }
 
+        sendSyncDataToLearnz();
+
         return new MessageResponse("Successfully uploaded profile image");
+    }
+
+    public UserSyncDataResponse systemSyncToken(String apikey, UserSyncTokenRequest userSyncTokenRequest) {
+        if (!syncProperties.getApiKey().equals(apikey)) {
+            throw new UnauthorizedException("api key mismatch");
+        }
+
+        SharedDAO sharedDAO = authMinRole(userSyncTokenRequest.getAccessToken(), UserRole.parent);
+
+        return new UserSyncDataResponse(sharedDAO.getUserId());
+    }
+
+    public MessageResponse systemSyncUsers(String apikey, List<UserSyncDataRequest> userSyncDataRequests) {
+        if (!syncProperties.getApiKey().equals(apikey)) {
+            throw new UnauthorizedException("api key mismatch");
+        }
+
+        for (UserSyncDataRequest userSyncDataRequest : userSyncDataRequests) {
+            try {
+                UserDAO userDAO = new UserDAO();
+                userDAO.setUserId(userSyncDataRequest.getUserId());
+                userDAO.setFirstName(userSyncDataRequest.getFirstname());
+                userDAO.setLastName(userSyncDataRequest.getLastname());
+                userDAO.setBirthday(new SimpleDateFormat("dd-MM-yyyy").parse(userSyncDataRequest.getBirthdate()));
+                userDAO.setImageId(userSyncDataRequest.getProfileImageId());
+
+                int count = SQL.update("" +
+                        "UPDATE user " +
+                        "SET    first_name = -firstName " +
+                        "       last_name = -lastName " +
+                        "       birthday = -birthday " +
+                        "       img = UUID_TO_BIN(-imageId) " +
+                        "WHERE  id = UUID_TO_BIN(-userId)",
+                    userDAO);
+
+                if (count == 0) {
+                    throw new RuntimeException("Failed to update user " + userSyncDataRequest.getUserId());
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException("Failed to parse date form user " + userSyncDataRequest.getUserId());
+            }
+        }
+
+        return new MessageResponse("Successfully updated users");
+    }
+
+    private void sendSyncDataToLearnz() {
+        List<UserDAO> userDAOs = new ArrayList<>();
+
+        SQL.select("" +
+                "SELECT BIN_TO_UUID(id)" +
+                "       first_name, " +
+                "       last_name, " +
+                "       birthday, " +
+                "       BIN_TO_UUID(img)" +
+                "FROM   user " +
+                "WHERE  active IS TRUE " +
+                "INTO   :userId, " +
+                "       :firstName, " +
+                "       :lastName, " +
+                "       :birthday, " +
+                "       :imageId ",
+            userDAOs,
+            UserDAO.class);
+
+        List<UserSyncDataRequest> userSyncDataRequests = new ArrayList<>();
+
+        for (UserDAO userDAO : userDAOs) {
+            UserSyncDataRequest userSyncDataRequest = new UserSyncDataRequest();
+            userSyncDataRequest.setUserId(userDAO.getUserId());
+            userSyncDataRequest.setFirstname(userDAO.getFirstName());
+            userSyncDataRequest.setLastname(userDAO.getLastName());
+            userSyncDataRequest.setBirthdate(new SimpleDateFormat("dd-MM-yyyy").format(userDAO.getBirthday()));
+            userSyncDataRequest.setProfileImageId(userDAO.getImageId());
+
+            userSyncDataRequests.add(userSyncDataRequest);
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<List<UserSyncDataRequest>> httpEntity = new HttpEntity(
+            userSyncDataRequests,
+            httpHeaders
+        );
+
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(
+            "http://localhost:7039/api/UserSynchronization",
+            HttpMethod.POST,
+            httpEntity,
+            Void.class);
+
+
+        if (!responseEntity.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Failed to sync systems");
+        }
     }
 }
