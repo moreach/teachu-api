@@ -275,7 +275,7 @@ public class UserService extends AbstractService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<List<UserSyncDataRequest>> httpEntity = new HttpEntity(
+        HttpEntity<List<UserSyncDataRequest>> httpEntity = new HttpEntity<>(
             userSyncDataRequests,
             httpHeaders
         );
