@@ -70,7 +70,7 @@ public class UserService extends AbstractService {
                 userDAO.getFirstName(),
                 userDAO.getLastName(),
                 userDAO.getBirthday(),
-                UserSex.valueOf(userDAO.getSex()),
+                userDAO.getSex() == null ? null : UserSex.valueOf(userDAO.getSex()),
                 UserLanguage.valueOf(userDAO.getLanguage()),
                 userDAO.getDarkTheme(),
                 userDAO.getCity(),
