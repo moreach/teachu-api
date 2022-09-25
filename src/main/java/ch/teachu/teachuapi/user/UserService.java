@@ -12,27 +12,15 @@ import ch.teachu.teachuapi.shared.errorhandlig.NotFoundException;
 import ch.teachu.teachuapi.shared.errorhandlig.UnauthorizedException;
 import ch.teachu.teachuapi.shared.properties.SyncProperties;
 import ch.teachu.teachuapi.sql.SQL;
-import ch.teachu.teachuapi.user.dtos.ChangeProfileRequest;
-import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
-import ch.teachu.teachuapi.user.dtos.InternalUserResponse;
-import ch.teachu.teachuapi.user.dtos.UserDAO;
-import ch.teachu.teachuapi.user.dtos.UserSyncDataRequest;
-import ch.teachu.teachuapi.user.dtos.UserSyncDataResponse;
-import ch.teachu.teachuapi.user.dtos.UserSyncTokenRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import ch.teachu.teachuapi.user.dtos.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Service
 public class UserService extends AbstractService {
@@ -169,8 +157,6 @@ public class UserService extends AbstractService {
             throw new RuntimeException("Failed to update user");
         }
 
-        sendSyncDataToLearnz();
-
         return new MessageResponse("Successfully changed profile");
     }
 
@@ -192,8 +178,6 @@ public class UserService extends AbstractService {
         if (count == 0) {
             throw new RuntimeException("Failed to upload profile image");
         }
-
-        sendSyncDataToLearnz();
 
         return new MessageResponse("Successfully uploaded profile image");
     }
@@ -240,63 +224,5 @@ public class UserService extends AbstractService {
         }
 
         return new MessageResponse("Successfully updated users");
-    }
-
-    private void sendSyncDataToLearnz() {
-        List<UserDAO> userDAOs = new ArrayList<>();
-
-        SQL.select("" +
-                "SELECT BIN_TO_UUID(id), " +
-                "       first_name, " +
-                "       last_name, " +
-                "       birthday, " +
-                "       BIN_TO_UUID(img)" +
-                "FROM   user " +
-                "WHERE  active IS TRUE " +
-                "INTO   :userId, " +
-                "       :firstName, " +
-                "       :lastName, " +
-                "       :birthday, " +
-                "       :imageId ",
-            userDAOs,
-            UserDAO.class);
-
-        List<UserSyncDataRequest> userSyncDataRequests = new ArrayList<>();
-
-        for (UserDAO userDAO : userDAOs) {
-            UserSyncDataRequest userSyncDataRequest = new UserSyncDataRequest();
-            userSyncDataRequest.setUserId(userDAO.getUserId());
-            userSyncDataRequest.setFirstname(userDAO.getFirstName());
-            userSyncDataRequest.setLastname(userDAO.getLastName());
-            userSyncDataRequest.setBirthdate(new SimpleDateFormat("dd-MM-yyyy").format(userDAO.getBirthday()));
-            userSyncDataRequest.setProfileImageId(userDAO.getImageId());
-
-            userSyncDataRequests.add(userSyncDataRequest);
-        }
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<List<UserSyncDataRequest>> httpEntity = new HttpEntity<>(
-            userSyncDataRequests,
-            httpHeaders
-        );
-
-        try {
-
-            ResponseEntity<Void> responseEntity = restTemplate.exchange(
-                "http://localhost:7039/api/UserSynchronization",
-                HttpMethod.POST,
-                httpEntity,
-                Void.class);
-
-            if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException("Failed to sync systems");
-            }
-        } catch (Exception e) {
-            LOG.error("Failed to update learnz: " + e.getMessage());
-        }
     }
 }

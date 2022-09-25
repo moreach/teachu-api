@@ -11,5 +11,4 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "sync")
 public class SyncProperties {
   private String apiKey;
-  private String learnzKey;
 }
