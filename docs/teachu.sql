@@ -195,6 +195,7 @@ CREATE TABLE chat_message
     chat_id    BINARY(16),
     user_id    BINARY(16),
     message    VARCHAR(4096),
+    img        BINARY(16),
     timestamp  TIMESTAMP,
     chat_state VARCHAR(255)
 );
