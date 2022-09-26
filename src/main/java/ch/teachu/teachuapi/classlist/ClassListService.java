@@ -10,7 +10,9 @@ import ch.teachu.teachuapi.user.dtos.ExternalUserResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ClassListService extends AbstractService {
@@ -77,7 +79,7 @@ public class ClassListService extends AbstractService {
                     ClassListDAO.class,
                     classListDAO);
 
-            List<ExternalUserResponse> teachers = new ArrayList<>();
+            Set<ExternalUserResponse> teachers = new HashSet<>();
 
             for (ClassListDAO classListTeacherDAO : classListTeacherDAOs) {
                 teachers.add(
@@ -89,7 +91,7 @@ public class ClassListService extends AbstractService {
                             classListDAO.getName(),
                             userService.getExternalUser(access, classListDAO.getTeacherId()),
                             students,
-                            teachers
+                            new ArrayList<>(teachers)
                     )
             );
         }

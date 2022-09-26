@@ -2,15 +2,13 @@ package ch.teachu.teachuapi.user.dtos;
 
 import ch.teachu.teachuapi.shared.enums.UserRole;
 import ch.teachu.teachuapi.shared.enums.UserSex;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExternalUserResponse {
