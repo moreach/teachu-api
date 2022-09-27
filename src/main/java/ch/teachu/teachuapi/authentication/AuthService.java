@@ -37,7 +37,8 @@ public class AuthService {
                         "       password " +
                         "FROM   user " +
                         "WHERE  email = -email " +
-                        "AND    active IS TRUE" +
+                        "AND    active IS TRUE " +
+                        "AND role IN ('parent', 'student') " +
                         "INTO   :id, " +
                         "       :password ",
                 userDAO,
